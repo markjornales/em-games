@@ -1,11 +1,9 @@
 'use client';
-import "@/components/gifler";
-import { Group, Layer, Stage, Text,  } from 'react-konva';
-import { GifComponents, ImageLoad } from './ImageComponents';
-import React from "react";
 import SplashScreen from "@/app/games/SplashScreen";
-import MainGames from "@/app/games/MainGame";
-
+import "@/components/gifler";
+import { Layer, Stage, } from 'react-konva';
+import { CanvasContext, useCanvasContext } from "./CanvasContext";
+import MainGAmes from "@/app/games/MainGame";
 
 export type TCanvas = {
   width: number;
@@ -14,16 +12,19 @@ export type TCanvas = {
 
 function Canvas(props: TCanvas) {
   const { heigth, width } = props;    
-
+  const values = useCanvasContext();
   return (
-    <Stage height={heigth} width={width}>
-      <Layer>
-        {/* <SplashScreen {...props}/> */}
-        <MainGames {...props}/>
-      </Layer>
-    </Stage>
+    <CanvasContext.Provider value={values}> 
+      <Stage height={heigth} width={width}>
+        <Layer>
+          {values.play ?
+            <MainGAmes {...props}/> :
+            <SplashScreen {...props}/>
+          }
+        </Layer>
+      </Stage>
+    </CanvasContext.Provider>
   );
 }
-
-
+ 
 export default Canvas;
