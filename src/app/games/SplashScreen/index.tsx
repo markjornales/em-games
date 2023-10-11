@@ -2,9 +2,8 @@
 import { GifComponents, ImageLoad } from '@/components/ImageComponents';
 import React from "react";
 import { Group, Text } from 'react-konva';
-
-import { Poppins } from 'next/font/google';
 import { TCanvas } from '@/components/Canvas';
+import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
     subsets: ["latin"],
