@@ -8,19 +8,27 @@ type TImageComponents =  {
       y?: number;
       height?: number;
       width?: number;
+      opacity?: number;
     }
   }
   
-  export const ImageLoad = ({src, imageProps}: TImageComponents) => { 
+  export const ImageLoad = React.forwardRef(({src, imageProps}: TImageComponents, ref:any) => { 
     const [isImage, setImage] = React.useState<CanvasImageSource>();
+
     React.useEffect(() => {
       const img = new window.Image()
       img.src = src;
-      setImage(img)
-    },[src]) 
-    return (<Image image={isImage} {...imageProps}/>)
-  }
+      setImage(img);
+    },[src]);
     
+    return (
+      <Image 
+        ref={ref} 
+        image={isImage} 
+        {...imageProps}
+      />
+    );
+  });
   
   type TLoadingScratch = {
     src: string;
@@ -49,8 +57,9 @@ type TImageComponents =  {
     }, [src, canvas]);
   
     return (<Image 
-      image={canvas} ref={imageRef} 
-      width={width}
-      height={height}
+        image={canvas} ref={imageRef} 
+        width={width}
+        height={height}
+        
     />);
   };

@@ -1,11 +1,7 @@
 'use client';
-import "@/components/gifler";
-import { Group, Layer, Stage, Text,  } from 'react-konva';
-import { GifComponents, ImageLoad } from './ImageComponents';
-import React from "react";
 import SplashScreen from "@/app/games/SplashScreen";
-import MainGAmes from "@/app/games/MainGame";
-
+import "@/components/gifler";
+import { Layer, Stage } from 'react-konva';
 
 export type TCanvas = {
   width: number;
@@ -18,8 +14,8 @@ function Canvas(props: TCanvas) {
   return (
     <Stage height={heigth} width={width}>
       <Layer>
-        {/* <SplashScreen {...props}/> */}
-        <MainGAmes/>
+        <SplashScreen {...props}/>
+        {/* <MainGAmes/> */}
       </Layer>
     </Stage>
   );
