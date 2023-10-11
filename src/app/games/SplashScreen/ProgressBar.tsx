@@ -1,4 +1,5 @@
 import { TCanvas } from '@/components/Canvas';
+import { CanvasContext } from '@/components/CanvasContext';
 import { ImageLoad } from '@/components/ImageComponents';
 import Konva from 'konva';
 import { Poppins } from 'next/font/google';
@@ -21,6 +22,8 @@ function ProgressBar({heigth, width}: TCanvas) {
     const refText = React.useRef<any>(); 
     const [isTextProps, setTextProps] = React.useState<TtextProps>({textheight: 0, textwidth: 0});
     const [isProgress, setProgress] = React.useState<number>(0);
+    const { setPlayed } = React.useContext(CanvasContext);
+
     React.useEffect(() => { 
         setTextProps({
             textheight: refText.current.height(),
@@ -48,12 +51,18 @@ function ProgressBar({heigth, width}: TCanvas) {
   const onMouseEnter = (e: any) => { 
     const container = e.target.getStage().container();
         if(!(isProgress < MAX_LOADING)) {
-            container.style.cursor = "pointer";
+            container.style.cursor = "url(/images/hand.png), auto";
         }
   }
   const onMouseLeave = (e: any)=> {
     const container = e.target.getStage().container();
     container.style.cursor = "default";
+  }
+
+  const handleOnClickPlayed = () => {
+    if(!(isProgress < MAX_LOADING)) {
+      setPlayed(true);
+    }
   }
 
   return (
@@ -83,6 +92,7 @@ function ProgressBar({heigth, width}: TCanvas) {
                 ref={refText}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                onClick={handleOnClickPlayed}
                 fill="white"
                 fontSize={24} 
                 fontFamily={poppins.style.fontFamily}

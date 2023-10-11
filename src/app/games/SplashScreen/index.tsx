@@ -16,8 +16,7 @@ function SplashScreen(props: TCanvas) {
       <Group y={20}>
         <Spring
           from={{x: width*1.2}}
-          to={{x:  (width-(width*.18))/2}}
-        >
+          to={{x:  (width-(width*.18))/2}}>
           {(props) => (
             <GroupImages x={props.x}>
               <ImageLoad
