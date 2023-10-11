@@ -4,7 +4,7 @@ import { Group, Layer, Stage, Text,  } from 'react-konva';
 import { GifComponents, ImageLoad } from './ImageComponents';
 import React from "react";
 import SplashScreen from "@/app/games/SplashScreen";
-import MainGAmes from "@/app/games/MainGame";
+import MainGames from "@/app/games/MainGame";
 
 
 export type TCanvas = {
@@ -19,7 +19,7 @@ function Canvas(props: TCanvas) {
     <Stage height={heigth} width={width}>
       <Layer>
         {/* <SplashScreen {...props}/> */}
-        <MainGAmes/>
+        <MainGames {...props}/>
       </Layer>
     </Stage>
   );
