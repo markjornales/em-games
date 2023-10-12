@@ -1,20 +1,16 @@
 import React from "react";
 import { Image } from "react-konva";
 
+
+type PickedImage = "width" | "height" | "opacity" | "x" | "y" | "onPointerDown"| "onPointerUp" | "cornerRadius";
+type PickOtherImage = "scale" | "scaleX" | "scaleY" | "offsetX" | "offsetY" | "visible" | "rotation"
 type TImageComponents =  {
     src: string;
-    imageProps: {
-      x?: number;
-      y?: number;
-      height?: number;
-      width?: number;
-      opacity?: number;
-    }
-  }
-  
-  export const ImageLoad = React.forwardRef(({src, imageProps}: TImageComponents, ref:any) => { 
-    const [isImage, setImage] = React.useState<CanvasImageSource>();
+    imageProps: Pick<React.ComponentProps<typeof Image>, PickedImage | PickOtherImage>
+}
 
+export const ImageLoad = React.forwardRef(({src, imageProps}: TImageComponents, ref:any) => { 
+    const [isImage, setImage] = React.useState<CanvasImageSource>();
     React.useEffect(() => {
       const img = new window.Image()
       img.src = src;
@@ -22,11 +18,7 @@ type TImageComponents =  {
     },[src]);
     
     return (
-      <Image 
-        ref={ref} 
-        image={isImage} 
-        {...imageProps}
-      />
+      <Image ref={ref} image={isImage} {...imageProps}/>
     );
   });
   
@@ -37,7 +29,7 @@ type TImageComponents =  {
   }
   
   export const GifComponents = ({ src, height, width }: TLoadingScratch) => {
-    const imageRef = React.useRef<any>(null);
+    const imageRef = React.useRef<React.ComponentRef<typeof Image>>(null);
     const canvas = React.useMemo(() => {
       const node = document.createElement("canvas");
       return node;
@@ -50,7 +42,7 @@ type TImageComponents =  {
         anim.animateInCanvas(canvas);
         anim.onDrawFrame = (ctx: any, frame: any) => {
           ctx.drawImage(frame.buffer, frame.x, frame.y);
-          imageRef.current?.getLayer().draw();
+          imageRef.current?.getLayer()?.draw();
         };
       });
      

@@ -1,4 +1,9 @@
-import React from "react";
+import React from "react"; 
+
+export type TCanvas = {
+    width: number;
+    height: number;
+} 
 
 type TCanvasContext = {
     play: boolean;
@@ -11,10 +16,18 @@ export const CanvasContext = React.createContext<TCanvasContext>({
 });
 
 export const useCanvasContext = () => {
-    const [play, setPlayed] = React.useState<boolean>(false);
-    
+    const [play, setPlayed] = React.useState<boolean>(false); 
     return {
         play, 
         setPlayed
     }
-}
+};
+
+type TCanvasProviderProp = {
+    isCanvasSize: TCanvas,
+    setCanvasSize?: React.Dispatch<React.SetStateAction<TCanvas>>
+};
+
+export const CanvasProvider = React.createContext<TCanvasProviderProp>({
+    isCanvasSize: {height: 0, width: 0},
+});

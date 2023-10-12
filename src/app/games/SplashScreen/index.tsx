@@ -1,16 +1,18 @@
  
-import { TCanvas } from '@/components/Canvas';
+import { CanvasProvider } from '@/components/CanvasContext';
 import { GifComponents, ImageLoad } from '@/components/ImageComponents';
+import { Spring, animated } from "@react-spring/konva";
+import React from 'react';
 import { Group } from 'react-konva';
 import ProgressBar from './ProgressBar';
-import React from 'react'; 
 import AnimateEmperor from './animated/emperor';
-import {Spring, animated} from "@react-spring/konva"; 
 
 const GroupImages:any = animated(Group);
 
-function SplashScreen(props: TCanvas) {
-  const { heigth, width } = props; 
+function SplashScreen() { 
+  const { isCanvasSize } = React.useContext(CanvasProvider);
+  const { height, width } = isCanvasSize;
+
   return (
     <Group>
       <Group y={20}>
@@ -45,18 +47,18 @@ function SplashScreen(props: TCanvas) {
             </GroupImages>
           )}
         </Spring> 
-        <AnimateEmperor width={width} height={heigth}/>
+        <AnimateEmperor width={width} height={height}/>
       </Group>
-      <Group  x={(width-(width *.28))/2} y={(heigth-(width*.2))/2}>
+      <Group  x={(width-(width *.28))/2} y={(height-(width*.2))/2}>
         <GifComponents 
           src="/images/grayloaderedit.gif"
           width={width*.35}
           height={width*.35}
         />
       </Group>
-      <ProgressBar {...props}/>
+      <ProgressBar />
     </Group>
-  )
+  );
 }
 
 export default SplashScreen

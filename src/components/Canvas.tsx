@@ -2,25 +2,19 @@
 import SplashScreen from "@/app/games/SplashScreen";
 import "@/components/gifler";
 import { Layer, Stage, } from 'react-konva';
-import { CanvasContext, useCanvasContext } from "./CanvasContext";
+import { CanvasContext, CanvasProvider, useCanvasContext } from "./CanvasContext";
 import MainGAmes from "@/app/games/MainGame";
+import React from "react";
 
-export type TCanvas = {
-  width: number;
-  heigth: number;
-} 
-
-function Canvas(props: TCanvas) {
-  const { heigth, width } = props;    
+function Canvas() { 
+  const { isCanvasSize } = React.useContext(CanvasProvider); 
   const values = useCanvasContext();
   return (
     <CanvasContext.Provider value={values}> 
-      <Stage height={heigth} width={width}>
+      <Stage {...isCanvasSize}>
         <Layer>
-          {values.play ?
-            <MainGAmes {...props}/> :
-            <SplashScreen {...props}/>
-          }
+          {/* <MainGAmes/> */}
+            {values.play ? <MainGAmes /> : <SplashScreen />}
         </Layer>
       </Stage>
     </CanvasContext.Provider>
