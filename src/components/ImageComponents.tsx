@@ -3,7 +3,7 @@ import { Image } from "react-konva";
 
 
 type PickedImage = "width" | "height" | "opacity" | "x" | "y" | "onPointerDown"| "onPointerUp" | "cornerRadius";
-type PickOtherImage = "scale" | "scaleX" | "scaleY" | "offsetX" | "offsetY" | "visible" | "rotation"
+type PickOtherImage = "scale" | "scaleX" | "scaleY" | "offsetX" | "offsetY" | "visible" | "rotation" | "ref"
 type TImageComponents =  {
     src: string;
     imageProps: Pick<React.ComponentProps<typeof Image>, PickedImage | PickOtherImage>

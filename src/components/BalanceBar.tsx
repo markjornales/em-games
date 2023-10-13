@@ -1,8 +1,7 @@
-import { TCanvas } from '@/components/Canvas';
 import { ImageLoad } from '@/components/ImageComponents';
 import { Outfit } from 'next/font/google';
 import React from 'react';
-import { Group, Rect, Text } from 'react-konva';
+import { Group, Text } from 'react-konva';
 import { CanvasProvider } from './CanvasContext';
 
 const poppins = Outfit({

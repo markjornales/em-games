@@ -3,7 +3,7 @@ import SplashScreen from "@/app/games/SplashScreen";
 import "@/components/gifler";
 import { Layer, Stage, } from 'react-konva';
 import { CanvasContext, CanvasProvider, useCanvasContext } from "./CanvasContext";
-import MainGAmes from "@/app/games/MainGame";
+import MainGames from "@/app/games/MainGame";
 import React from "react";
 
 function Canvas() { 
@@ -13,8 +13,8 @@ function Canvas() {
     <CanvasContext.Provider value={values}> 
       <Stage {...isCanvasSize}>
         <Layer>
-          {/* <MainGAmes/> */}
-            {values.play ? <MainGAmes /> : <SplashScreen />}
+          {/* <MainGames/> */}
+            {values.play ? <MainGames /> : <SplashScreen />}
         </Layer>
       </Stage>
     </CanvasContext.Provider>

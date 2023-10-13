@@ -1,9 +1,8 @@
 
 "use client"
-import React from "react";   
+import { CanvasProvider, TCanvas } from "@/components/CanvasContext";
 import dynamic from 'next/dynamic';
-import { TCanvas } from "@/components/Canvas"; 
-import { CanvasProvider } from "@/components/CanvasContext";
+import React from "react";
 
 const Canvas = dynamic(() => import("@/components/Canvas"), {
     ssr: false,

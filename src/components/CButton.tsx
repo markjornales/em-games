@@ -6,16 +6,27 @@ import { CanvasProvider } from './CanvasContext';
 
 const outfit = Outfit({
     subsets: ["latin"],
-    weight: "800"
+    weight: "800",
+    display: "swap"
   });
+type TCButton = {
+  onclickStart: () => void
+  label: string;
+}
 
-function CButton() {
+function CButton(props: TCButton) {
+    const { onclickStart, label} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isClicked, setClicked] = React.useState<boolean>(false);
     const [isClickBack, setClickBack] = React.useState<boolean>(false);
     const fontSizeDefault = width*.04;
 
+    const onClickStart = () => {
+      setClicked(false);
+      onclickStart();
+    }
+    
   return (
     <Group x={(width-((width*.35) + (width*.12)))/2} y={height*.925}>
           <Group 
@@ -34,7 +45,7 @@ function CButton() {
             x={(width*.12) * 1.3} 
             opacity={isClicked? 0.6: 1}
             onPointerDown={() => setClicked(true)}
-            onPointerUp={() => setClicked(false)}> 
+            onPointerUp={onClickStart}> 
             <ImageLoad
               src="/images/start.png"
               imageProps={{
@@ -44,7 +55,7 @@ function CButton() {
             />
             <Text
               fill="#5E1700"
-              text="START"
+              text={label || "START"}
               align="center"
               verticalAlign="middle"
               width={width*.35}
