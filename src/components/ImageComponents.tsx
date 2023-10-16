@@ -9,7 +9,7 @@ type TImageComponents =  {
     imageProps: Pick<React.ComponentProps<typeof Image>, PickedImage | PickOtherImage>
 }
 
-export const ImageLoad = React.forwardRef(({src, imageProps}: TImageComponents, ref:any) => { 
+export const ImageLoad = ({src, imageProps}: TImageComponents) => { 
     const [isImage, setImage] = React.useState<CanvasImageSource>();
     React.useEffect(() => {
       const img = new window.Image()
@@ -18,9 +18,9 @@ export const ImageLoad = React.forwardRef(({src, imageProps}: TImageComponents, 
     },[src]);
     
     return (
-      <Image ref={ref} image={isImage} {...imageProps}/>
+      <Image image={isImage} {...imageProps}/>
     );
-  });
+  };
   
   type TLoadingScratch = {
     src: string;

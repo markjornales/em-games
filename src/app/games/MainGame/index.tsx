@@ -7,21 +7,32 @@ import { Group } from 'react-konva';
 import ScratchGames from './ScratchGames';
 import WarningModal from '@/components/WarningModal';
 
+
 function MainGames() {
   const { isCanvasSize } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize;
   const [isScratch, setScratch] = React.useState<boolean>(false);
+  const scratchCardRef = React.useRef<any>()
 
   const onclickStarts = () => {
+    if(isScratch) {
+      if(!scratchCardRef.current.isScratchDone) {
+        alert('please Scratch first')
+      } else {
+        scratchCardRef.current.reset() 
+      }
+      return;
+    }
     setScratch(true);
   }
 
     return (
       <Group>
         <BalanceBar balance_amount={12525222} time_played={152} />
-        {isScratch? <ScratchGames/>: <ImageFlip />}
+        {/* {isScratch? <ScratchGames ref={scratchCardRef}/>: <ImageFlip />} */}
+        <ScratchGames/>
         <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
-        <WarningModal/>
+        {/* <WarningModal/> */}
       </Group>
     );
 }

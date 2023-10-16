@@ -1,10 +1,9 @@
-import { TCanvas } from '@/components/Canvas';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
 import { ImageLoad } from '@/components/ImageComponents';
 import Konva from 'konva';
 import { Poppins } from 'next/font/google';
 import React from 'react';
-import { Group, Text, Rect } from 'react-konva';
+import { Group, Text } from 'react-konva';
 
 const poppins = Poppins({
     subsets: ["latin"],

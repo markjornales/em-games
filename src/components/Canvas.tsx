@@ -13,8 +13,8 @@ function Canvas() {
     <CanvasContext.Provider value={values}> 
       <Stage {...isCanvasSize}>
         <Layer>
-          {/* <MainGames/> */}
-            {values.play ? <MainGames /> : <SplashScreen />}
+          <MainGames/>
+            {/* {values.play ? <MainGames /> : <SplashScreen />} */}
         </Layer>
       </Stage>
     </CanvasContext.Provider>
