@@ -1,12 +1,16 @@
-import BalanceBar from '@/components/BalanceBar';
 import CButton from '@/components/CButton';
 import { CanvasProvider } from '@/components/CanvasContext';
-import ImageFlip from '@/components/ImageFlip'; 
+import ImageFlip from '@/components/ImageFlip';
 import React from 'react';
 import { Group } from 'react-konva';
-import ScratchGames from './ScratchGames';
-import WarningModal from '@/components/WarningModal';
+import ScratchGame, { TgameCombination } from './ScratchGames';
 
+const gameCombination: TgameCombination= [
+  [false, false, false, false, false],
+  [false, false, false, false, false],
+  [false, false, false, true, false],
+  [false, false, false, false, false],
+];
 
 function MainGames() {
   const { isCanvasSize } = React.useContext(CanvasProvider);
@@ -28,11 +32,8 @@ function MainGames() {
 
     return (
       <Group>
-        <BalanceBar balance_amount={12525222} time_played={152} />
-        {/* {isScratch? <ScratchGames ref={scratchCardRef}/>: <ImageFlip />} */}
-        <ScratchGames/>
+        {isScratch? <ScratchGame gameCombination={gameCombination} ref={scratchCardRef}/>: <ImageFlip />} 
         <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
-        {/* <WarningModal/> */}
       </Group>
     );
 }
