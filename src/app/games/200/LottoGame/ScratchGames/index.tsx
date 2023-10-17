@@ -5,6 +5,8 @@ import { Poppins } from 'next/font/google';
 import useImage from 'use-image';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
+import { GifComponents } from '@/components/ImageComponents';
+import { animated, Spring } from 'react-spring';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -32,8 +34,10 @@ export type TLottoGamesRef = {
     isScratchDone: boolean;
     reset: () => void
 }
+
+const GroupAnimation:any = animated(Group);
  
-const LottoGame200 = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) => {
+const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) => {
     const {gameCombination = []} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;   
@@ -71,32 +75,33 @@ const LottoGame200 = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     }));
 
   return (
-     <Group y={(height-(height*.78))/2} x={(width-width*.86)/2}>  
+    <Group>
+     <Group y={(height-(height*.78))/2} x={(width-width*.86)/2} >  
         <Rect fill="white" width={width*.86} height={height*.8} cornerRadius={10}/>
-            {gameCombination.map((data, index) => {
-                const ypos = .097 * index; 
-                return data.map((value, indexValue) => {   
-                    const xpos= .17 * indexValue;
-                    return (
-                        <WinnerLoseImage {...value? {
-                                y: 0.545 + ypos,
-                                x: 0.11 + xpos,
-                                imgWidth: 0.06,
-                                imgHeight: 1.218,
-                            }:{
-                                y: 0.545 + ypos,
-                                x: (0.28 + xpos)-0.17,
-                                imgWidth: 0.174,
-                                imgHeight: 1.532,
-                                opacity: 0.6
-                            }}
-                            height={HEIGHT} 
-                            width={WIDTH} 
-                            src="/images/CardFlip.png" 
-                        />
-                    );
-                })
-            })}
+        {gameCombination.map((data, index) => {
+            const ypos = .097 * index; 
+            return data.map((value, indexValue) => {   
+                const xpos= .17 * indexValue;
+                return (
+                    <WinnerLoseImage key={index + indexValue} {...value? {
+                            y: 0.545 + ypos,
+                            x: 0.11 + xpos,
+                            imgWidth: 0.06,
+                            imgHeight: 1.218,
+                        }:{
+                            y: 0.545 + ypos,
+                            x: (0.28 + xpos)-0.17,
+                            imgWidth: 0.174,
+                            imgHeight: 1.532,
+                            opacity: 0.6
+                        }}
+                        height={HEIGHT} 
+                        width={WIDTH} 
+                        src="/images/CardFlip.png" 
+                    />
+                );
+            })
+        })}
         <Image
             cornerRadius={10} 
             ref={imageRef}
@@ -106,6 +111,7 @@ const LottoGame200 = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             onPointerMove={handleMouseMove}
             onPointerLeave={handleOnPointerLeave}
         /> 
+       
         <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
             <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
             <Text
@@ -120,6 +126,29 @@ const LottoGame200 = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             />
         </Group>
      </Group>
+     <Spring
+        from={{onstart: true}}
+        to={{onstart: false}}
+        delay={3000}
+     >
+        {(props) => 
+        <GroupAnimation visible={props.onstart}>
+            <Rect 
+                width={width} 
+                height={height}
+                fill="black"
+                opacity={0.3}
+            />
+            <Group x={(width-width*.6)/2} y={(height-height*.2)*.73}>
+                <GifComponents
+                    src="/images/ScratchhereGRay.gif"
+                    height={height*.2}
+                    width={width*.6}
+                />
+            </Group>
+        </GroupAnimation>}
+     </Spring>
+    </Group>
   );
 });
 
@@ -162,4 +191,4 @@ const WinnerLoseImage = (props: TWinnerLoseImage) => {
     );
 } 
 
-export default LottoGame200
+export default ScratchGames

@@ -16,15 +16,16 @@ type THomePageParams = {
 
 export default function Home({params}:{params: THomePageParams} ) {   
   const router = useRouter();
+  
   if(!(params.category == "200" && params.name == "lottogame")) {
       router.push('/games/not-found');
   }
   
   return (
-        <PageCanvas>
-           <BalanceBar balance_amount={12525222} time_played={152} />
-            {params.category == "200" && params.name == "lottogame" && <LottoGame/>}
-          <WarningModal/>
-        </PageCanvas>
-      )
+      <PageCanvas>
+          <BalanceBar balance_amount={12525222} time_played={152} />
+          {params.category == "200" && params.name == "lottogame" && <LottoGame/>}
+        <WarningModal/>
+      </PageCanvas>
+    );
 }

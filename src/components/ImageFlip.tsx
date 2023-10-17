@@ -5,7 +5,14 @@ import { Group } from 'react-konva';
 import { CanvasProvider } from './CanvasContext';
 
 const AnimatedGroup:any = animated(Group);
-function ImageFlip() {
+
+type ImageFlip = {
+    imageFrontSrc: string;
+    imageBackSrc: string;
+}
+
+function ImageFlip(props: ImageFlip) {
+    const {imageBackSrc, imageFrontSrc} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const groupReference = React.useRef<React.ComponentRef<typeof Group>>(null);
@@ -40,7 +47,7 @@ function ImageFlip() {
                 offsetX={width*.86/2}
                 onPointerUp={handleAnimationClickGroup}>
                 <ImageLoad
-                    src={`/images/${isClicked? 'backflip':'CardFlip'}.png`}
+                    src={isClicked? imageBackSrc: imageFrontSrc}
                     imageProps={{
                     width: width*.86,
                     height: height*.8,

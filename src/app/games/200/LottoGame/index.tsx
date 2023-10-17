@@ -32,7 +32,15 @@ function MainGames() {
 
     return (
       <Group>
-        {isScratch? <ScratchGame gameCombination={gameCombination} ref={scratchCardRef}/>: <ImageFlip />} 
+        {isScratch? 
+          <ScratchGame 
+            gameCombination={gameCombination} 
+            ref={scratchCardRef}
+          />: 
+          <ImageFlip 
+            imageBackSrc="/images/backflip.png" 
+            imageFrontSrc="/images/CardFlip.png"
+          />} 
         <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
       </Group>
     );

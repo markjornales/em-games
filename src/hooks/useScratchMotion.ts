@@ -1,7 +1,7 @@
-import { TStagePos } from '@/app/games/MainGame/ScratchGames/LottoGame200';
-import React from 'react'
+ import React from 'react'
 import { Image } from 'react-konva';
 import { TStageMoveProps } from './useScratchMethod';
+import { TStagePos } from '@/app/games/200/LottoGame/ScratchGames';
 export type TScratchMotion = {
     x1: number;
     x2: number;
@@ -12,7 +12,7 @@ export type TScratchMotion = {
 }
 
 function useScratchMotion(props: TScratchMotion) {
-    const {x1, x2, y1, y2, setStagePointerPos, isScratchDone,} = props; 
+    const {x1, x2, y1, y2, setStagePointerPos, isScratchDone} = props; 
     const isPaint = React.useRef<boolean>(false);
     const imageRef = React.useRef<React.ComponentRef<typeof Image>>(null);
 
@@ -34,6 +34,7 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseMove = React.useCallback(() => {
         if(isPaint.current){ 
             const position = imageRef.current?.getRelativePointerPosition()!;
+            console.log(position)
             if(scratchScope(position) && !isScratchDone){
                 setStagePointerPos((initstage) => {
                     initstage[initstage.length - 1].lineTo.push({x: Math.ceil(position.x), y: Math.ceil(position.y)})
