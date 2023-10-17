@@ -7,9 +7,9 @@ import ScratchGame, { TgameCombination } from './ScratchGames';
 
 const gameCombination: TgameCombination= [
   [false, false, false, false, false],
+  [false, false, true, false, false],
   [false, false, false, false, false],
-  [false, false, false, true, false],
-  [false, false, false, false, false],
+  [false, true, false, false, false],
 ];
 
 function MainGames() {
@@ -32,16 +32,16 @@ function MainGames() {
 
     return (
       <Group>
+        <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
         {isScratch? 
           <ScratchGame 
             gameCombination={gameCombination} 
             ref={scratchCardRef}
           />: 
           <ImageFlip 
-            imageBackSrc="/images/backflip.png" 
-            imageFrontSrc="/images/CardFlip.png"
+            imageBackSrc="/images/200/LottoGame/lottogamesbackflip.png" 
+            imageFrontSrc="/images/200/LottoGame/lottogamesfront.png"
           />} 
-        <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
       </Group>
     );
 }
