@@ -11,10 +11,13 @@ export type TScratchMethod = {
     x1: number;
     y1: number;
     imageSrc: string;
-    
+    scratchArea: {
+        width: number;
+        height:number;
+    }   
 }
 
-function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, }: TScratchMethod) {
+function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScratchMethod) {
     
     const [image] = useImage(imageSrc);
     const [stagePointerPos, setStagePointerPos] = React.useState<TStageMoveProps[]>([]); 
@@ -30,6 +33,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, }: TScratchMethod) {
                 context.current = canvasElement.current.getContext("2d");
                 canvasElement.current.width = WIDTH;
                 canvasElement.current.height = HEIGHT; 
+                image.alt = "image resorce"
                 context.current?.drawImage(image, 0, 0, canvasElement.current.width, canvasElement.current.height); 
                 if(context.current!=undefined) {
                 context.current.lineJoin = "round";
@@ -47,10 +51,10 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, }: TScratchMethod) {
                     }
                 }
                 context.current.stroke();
-                const imageData = context.current.getImageData(x1, y1, WIDTH*.8, HEIGHT*.35);  
+                const imageData = context.current.getImageData(x1, y1, scratchArea.width, scratchArea.height); 
                 const arraydata = imageData.data.filter((value, index) => index % 4 === (4 - 1) && value === 0);
-                const maxPixels = (WIDTH*.8 )*(HEIGHT*.35);
-                const percentage = (arraydata.length / maxPixels) * 100; 
+                const maxPixels = scratchArea.width * scratchArea.height;
+                const percentage = (arraydata.length / maxPixels) * 100;  
                 if(percentage > 99) { 
                     setScratchDone(true);
                 }

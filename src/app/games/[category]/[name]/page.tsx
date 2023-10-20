@@ -8,6 +8,8 @@ const PageCanvas = dynamic(() => import("@/components/PageCanvas"), {
 const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 const WarningModal = dynamic(() => import("@/components/WarningModal"))
 const LottoGame = dynamic(() => import("@/app/games/200/LottoGame")); 
+const BingoGame = dynamic(() => import("@/app/games/200/BingoGame"))
+const GoldenCapricorn =dynamic(() => import("@/app/games/200/GoldenCapricorn"));
 
 type THomePageParams = {
   category: string;
@@ -15,17 +17,37 @@ type THomePageParams = {
 }
 
 export default function Home({params}:{params: THomePageParams} ) {   
-  const router = useRouter();
-  
-  if(!(params.category == "200" && params.name == "lottogame")) {
-      router.push('/games/not-found');
-  }
-  
-  return (
-      <PageCanvas>
+  const router = useRouter(); 
+
+  switch(`${params.category}-${params.name}`){
+    case "200-lottogame": 
+      return (
+        <PageCanvas>
           <BalanceBar balance_amount={12525222} time_played={152} />
-          {params.category == "200" && params.name == "lottogame" && <LottoGame/>}
-        <WarningModal/>
-      </PageCanvas>
-    );
+          <LottoGame />
+          <WarningModal />
+        </PageCanvas>
+      );
+      case "200-bingo":
+        return (
+          <PageCanvas>
+            <BalanceBar balance_amount={12525222} time_played={152} />
+            <BingoGame />
+            <WarningModal />
+          </PageCanvas>
+        );
+      case "200-goldencapricorn":
+        return (
+          <PageCanvas>
+            <BalanceBar balance_amount={12525222} time_played={152} />
+            <GoldenCapricorn/>
+            <WarningModal />
+          </PageCanvas>
+        )
+      default:
+        router.push('/games/not-found');
+        return null;
+  }
+
+  
 }

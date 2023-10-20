@@ -1,10 +1,10 @@
-'use client';
-import SplashScreen from "@/app/games/SplashScreen";
+'use client'; 
 import "@/components/gifler";
 import { Layer, Stage, } from 'react-konva';
 import { CanvasContext, CanvasProvider, useCanvasContext } from "./CanvasContext";
-import MainGames from "@/app/games/MainGame";
 import React from "react";
+import MainGames from "@/app/games/200/LottoGame";
+import SplashScreen from "./SplashScreen";
 
 function Canvas() { 
   const { isCanvasSize } = React.useContext(CanvasProvider); 

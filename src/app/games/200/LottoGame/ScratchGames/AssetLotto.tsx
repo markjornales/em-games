@@ -18,18 +18,13 @@ type TWinnerLoseImage = {
     isScratchDone: boolean
 } & TStagePos;
 
-export const WinnerLoseImage = React.memo((props: TWinnerLoseImage) => {
+ const WinnerLoseImage = React.memo((props: TWinnerLoseImage) => {
     const {src, height, width, imgHeight, imgWidth, x, y, opacity = 1, value, isScratchDone} = props;
     const [isCanvasImage, setCanvasImage] = React.useState<HTMLCanvasElement>();
     const [imageElement] = useImage(src);
     const {scale} = useSpring({
-        from: {  
-            scale: 0
-        },
-        to: { 
-            scale: isScratchDone? 1: 0, 
-            
-        }, 
+        from: { scale: 0 },
+        to: { scale: isScratchDone? 1: 0 }, 
         config: {duration: 1000},
         loop: true,
     });
@@ -73,3 +68,8 @@ export const WinnerLoseImage = React.memo((props: TWinnerLoseImage) => {
             /> 
     );
 })
+
+WinnerLoseImage.displayName = "WinnerLoseImage"
+
+
+export {WinnerLoseImage}; 

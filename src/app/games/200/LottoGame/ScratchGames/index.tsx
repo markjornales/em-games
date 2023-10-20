@@ -1,12 +1,12 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import { Poppins } from 'next/font/google';
 import React from 'react';
-import { Group, Image, Rect, Text, } from "react-konva"; 
-import { WinnerLoseImage } from './AssetLotto';
-import ScratchHere from './ScratchHere';
-import PopupAlert from '@/components/PopupAlert';
+import { Group, Image, Rect, Text, } from "react-konva";
+import { WinnerLoseImage } from './AssetLotto'; 
+import ScratchHere from '@/components/ScratchHere';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -34,8 +34,6 @@ export type TLottoGamesRef = {
     isScratchDone: boolean;
     reset: () => void
 }
-
-
  
 const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) => {
     const {gameCombination = []} = props;
@@ -50,12 +48,15 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     const y1 = (HEIGHT-HEIGHT*.35)*.85
     const y2 = (HEIGHT-HEIGHT*.35)*.85 + HEIGHT*.35 
 
-    const {
+    const { 
         canvas, 
         isScratchDone, 
         setStagePointerPos, 
         setScratchDone
-    } = useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc: '/images/200/LottoGame/lottogamesfront.png'});
+    } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {
+        height: HEIGHT*.35,
+        width: WIDTH*.8
+    },imageSrc: '/images/200/LottoGame/lottogamesfront.png'});
 
     const {
         imageRef,
@@ -145,9 +146,18 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             setModalshow(false);
         }}
      />
-     <ScratchHere {...{height, width}}/>
+     <ScratchHere 
+        x={(width-width*.6)/2}
+        y={(height-height*.2)*.73}
+        height={height*.2}
+        width={width*.6}
+        BHeight={height}
+        BWidth={width}
+     />
     </Group>
   );
 });
+
+ScratchGames.displayName = "ScratchGames";
 
 export default ScratchGames
