@@ -9,15 +9,32 @@ import { Group, Image, Rect, Text } from "react-konva";
 import { Poppins } from "next/font/google";
 import ScratchHere from "@/components/ScratchHere";
 import useImage from "use-image";
+import StarDefault from "./StarDefault";
+import PopupAlert from "@/components/PopupAlert";
 
 const outfit = Poppins({
     subsets: ["latin"],
     weight: "500"
 })
 
-const GoldenCSCratch = (props: any) => {
+const sampledata = [
+    [false, false, false],
+    [false, false, false],
+    [true, false , false]
+]
+
+type TGoldenScratch = {
+
+}
+type TGoldenRef = {
+    isScratchDone: boolean;
+    reset: () => void
+}   
+
+const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) => {
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
+    const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = React.useRef<number>(height*.8).current;
     const WIDTH = React.useRef<number>(width*.86).current;
     const x1 = React.useRef<number>(WIDTH*.2).current;
@@ -31,7 +48,7 @@ const GoldenCSCratch = (props: any) => {
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
         imageSrc: "/images/200/goldencapricorn/front.png"});
-    const [image] = useImage("/images/200/goldencapricorn/back.png")
+    
 
     const {
         handleMouseDown, 
@@ -41,6 +58,19 @@ const GoldenCSCratch = (props: any) => {
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            setModalshow(true);
+        }
+    },[isScratchDone]);
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]);
+        },
+    }));
     
     return (
         <Group>
@@ -51,6 +81,21 @@ const GoldenCSCratch = (props: any) => {
                     width={width*.859}
                     height={HEIGHT}
                 />
+                {sampledata.map((column, indexColumn) => 
+                    column.map((row, indexRow) => 
+                        <StarDefault 
+                            star={row}
+                            key={indexColumn + indexRow} 
+                            width={WIDTH} 
+                            height={HEIGHT}
+                            iconHeight={WIDTH*.14}
+                            iconWidth={WIDTH*.14}
+                            y={WIDTH*(.74 + (.16* indexColumn))} 
+                            x={WIDTH*(.221 + (.204*indexRow))} 
+                            isScratchDone={isScratchDone}
+                        />
+                    )
+                )}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -76,12 +121,16 @@ const GoldenCSCratch = (props: any) => {
                         fontSize={WIDTH*.06}
                     />
                 </Group>
-                {/* <Image 
-                    image={image}
-                    width={WIDTH}
-                    height={HEIGHT}
-                /> */}
             </Group>
+            <PopupAlert 
+                statusWinner={1}
+                visible={isModalShow}
+                height={height}
+                width={width}
+                onTap={() => {
+                    setModalshow(false);
+                }}
+            />
             <ScratchHere 
                 x={(width-width*.6)/2}
                 y={(height-height*.2)*.65}
@@ -92,7 +141,7 @@ const GoldenCSCratch = (props: any) => {
             />
         </Group>
     );
-};
+});
 
 GoldenCSCratch.displayName = "GoldenCSCratch"
 

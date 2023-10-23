@@ -6,12 +6,18 @@ import GoldenCSCratch from './GoldenCScratch';
 
 function GoldenCapricorn() {
   const [isScratch, setScratch] = React.useState<boolean>(false);
+  const scratchCardRef = React.useRef<any>()
   
   const handleButtonMain = () => {
-    if(!isScratch) {
-      setScratch(true);
+    if(isScratch) {
+      if(!scratchCardRef.current.isScratchDone) {
+        alert('please Scratch first')
+      } else {
+        scratchCardRef.current.reset() 
+      }
       return;
     }
+    setScratch(true);
     
   }
   
@@ -19,7 +25,7 @@ function GoldenCapricorn() {
     <Group>
       <CButton label={isScratch? "NEXT CARD": ""}  onclickStart={handleButtonMain} />
       {isScratch? 
-        <GoldenCSCratch/>:
+        <GoldenCSCratch ref={scratchCardRef}/>:
         <ImageFlip 
           imageFrontSrc="/images/200/goldencapricorn/front.png"
           imageBackSrc="/images/200/goldencapricorn/back.png" 

@@ -1,12 +1,12 @@
 import { CanvasProvider } from '@/components/CanvasContext';
 import PopupAlert from '@/components/PopupAlert';
+import ScratchHere from '@/components/ScratchHere';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Group, Image, Rect, Text, } from "react-konva";
-import { WinnerLoseImage } from './AssetLotto'; 
-import ScratchHere from '@/components/ScratchHere';
+import { WinnerLoseImage } from './AssetLotto';
 
 const poppins = Poppins({
     subsets: ["latin"],
