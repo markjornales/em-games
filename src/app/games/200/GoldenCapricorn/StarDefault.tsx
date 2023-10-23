@@ -64,7 +64,7 @@ function StarDefault(props: TStarDefault) {
   return (
     <Group x={x} y={y}>
         <ImageAnimation   
-            opacity={star? 1: 0.4}
+            opacity={star? 1: 0.6}
             image={starImage}
             width={iconWidth}
             height={iconHeight}

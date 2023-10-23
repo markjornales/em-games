@@ -90,7 +90,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                             height={HEIGHT}
                             iconHeight={WIDTH*.14}
                             iconWidth={WIDTH*.14}
-                            y={WIDTH*(.74 + (.16* indexColumn))} 
+                            y={HEIGHT*(.47 + (.1* indexColumn))} 
                             x={WIDTH*(.221 + (.204*indexRow))} 
                             isScratchDone={isScratchDone}
                         />
