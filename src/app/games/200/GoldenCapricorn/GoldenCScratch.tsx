@@ -7,6 +7,8 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import { Group, Image, Rect, Text } from "react-konva";
 // import useImage from "use-image";
 import { Poppins } from "next/font/google";
+import ScratchHere from "@/components/ScratchHere";
+import useImage from "use-image";
 
 const outfit = Poppins({
     subsets: ["latin"],
@@ -29,6 +31,7 @@ const GoldenCSCratch = (props: any) => {
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
         imageSrc: "/images/200/goldencapricorn/front.png"});
+    const [image] = useImage("/images/200/goldencapricorn/back.png")
 
     const {
         handleMouseDown, 
@@ -48,8 +51,7 @@ const GoldenCSCratch = (props: any) => {
                     width={width*.859}
                     height={HEIGHT}
                 />
-                <Image  
-                        
+                <Image
                     ref={imageRef}
                     image={canvas} 
                     cornerRadius={10}
@@ -74,7 +76,20 @@ const GoldenCSCratch = (props: any) => {
                         fontSize={WIDTH*.06}
                     />
                 </Group>
+                {/* <Image 
+                    image={image}
+                    width={WIDTH}
+                    height={HEIGHT}
+                /> */}
             </Group>
+            <ScratchHere 
+                x={(width-width*.6)/2}
+                y={(height-height*.2)*.65}
+                height={height*.2}
+                width={width*.6}
+                BHeight={height}
+                BWidth={width}
+            />
         </Group>
     );
 };
