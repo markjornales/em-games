@@ -1,6 +1,7 @@
 'use client';  
 import dynamic from "next/dynamic";
 import { useRouter } from 'next/navigation';
+import FortuneRabbit from "../../200/FortuneRabbit";
 
 const PageCanvas = dynamic(() => import("@/components/PageCanvas"), {
   ssr: false
@@ -43,7 +44,16 @@ export default function Home({params}:{params: THomePageParams} ) {
             <GoldenCapricorn/>
             <WarningModal />
           </PageCanvas>
-        )
+        );
+      case "200-fortunerabbit": 
+      return (
+        <PageCanvas>
+          <BalanceBar balance_amount={12525222} time_played={152}/>
+           <FortuneRabbit/>
+          <WarningModal/>
+        </PageCanvas>
+      );
+      
       default:
         router.push('/games/not-found');
         return null;
