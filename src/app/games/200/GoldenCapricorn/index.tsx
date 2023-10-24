@@ -1,7 +1,6 @@
-import React from 'react'
-import CButton from '@/components/CButton'
-import ImageFlip from '@/components/ImageFlip'
- import { Group } from 'react-konva'
+import CButton from '@/components/CButton';
+import React from 'react';
+import { Group } from 'react-konva';
 import GoldenCSCratch from './GoldenCScratch';
 
 function GoldenCapricorn() {
@@ -12,8 +11,7 @@ function GoldenCapricorn() {
         alert('please Scratch first')
       } else {
         scratchCardRef.current.reset() 
-      } 
-    
+      }  
   }
   
   return (
