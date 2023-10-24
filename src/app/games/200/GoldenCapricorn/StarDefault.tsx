@@ -32,8 +32,8 @@ function StarDefault(props: TStarDefault) {
             const context = canvasElement.getContext("2d")!;
             canvasElement.width = width;
             canvasElement.height = height;
-            const xstar = !star? width*.57: width*.404;
-            const ystar = !star? width*2.05:width*2.140
+            const xstar = !star? width*.68: width*.48;
+            const ystar = !star? width*2.43:width*2.540
             const wstar = !star? 160: 106;
             const hstar = !star? 160: 120;
             context.drawImage(image, xstar, ystar, wstar, hstar, 0, 0, canvasElement.width, canvasElement.height);
