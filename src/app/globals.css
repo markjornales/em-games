@@ -25,4 +25,6 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
- 
+canvas {
+  cursor: url(/images/hand.png), auto;
+}

@@ -2,6 +2,7 @@ import CButton from '@/components/CButton'
 import ImageFlip from '@/components/ImageFlip'
 import React from 'react'
 import { Group } from 'react-konva'
+import FortuneScratch from './FortuneScratch';
 
 function FortuneRabbit() {
     const [isScratch, setScratch] = React.useState<boolean>(false);
@@ -22,11 +23,12 @@ function FortuneRabbit() {
 
   return (
     <Group>
-        <CButton label={isScratch? "NEXT CARD": ""}  onclickStart={handleButtonMain} />
-        <ImageFlip 
+        <CButton label="NEXT CARD" onclickStart={handleButtonMain} />
+        <FortuneScratch/>
+        {/* <ImageFlip 
           imageFrontSrc="/images/200/fortunerabbit/front.png"
           imageBackSrc="/images/200/fortunerabbit/back.png" 
-        />
+        /> */}
     </Group>
   )
 }

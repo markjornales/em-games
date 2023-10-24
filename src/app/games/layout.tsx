@@ -54,7 +54,7 @@ export default function RootLayout({
       <body className={inter.className} >
         <CanvasProvider.Provider value={{isCanvasSize}}>
           <div className="h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary flex justify-center "> 
-              <div className="flex-1  max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]" ref={canvasParent}>
+              <div className="flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]" ref={canvasParent}>
                 {children}
             </div>
           </div>
