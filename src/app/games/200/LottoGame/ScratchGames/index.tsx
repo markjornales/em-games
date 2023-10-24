@@ -122,15 +122,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             onPointerUp={handleMouseUp}
             onPointerMove={handleMouseMove}
             onPointerLeave={handleOnPointerLeave}
-        /> 
-       
-        {/* <Rect 
-            fill="red"
-            width={x2-x1}
-            height={y2-y1}
-            x={x1}
-            y={y1}
-        /> */}
+        />  
 
         <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
             <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
