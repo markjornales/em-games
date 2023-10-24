@@ -23,7 +23,7 @@ function MainGames() {
       if(!scratchCardRef.current.isScratchDone) {
         alert('please Scratch first')
       } else {
-        scratchCardRef.current.reset() 
+        scratchCardRef.current.reset() //resets
       }
       return;
     }
