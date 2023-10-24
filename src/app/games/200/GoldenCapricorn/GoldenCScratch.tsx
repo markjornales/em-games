@@ -41,6 +41,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
     const y1 = React.useRef<number>(HEIGHT*.49).current;
     const x2 = React.useRef<number>(WIDTH*.78).current;
     const y2 = React.useRef<number>(HEIGHT*.75).current
+    
     const {
         canvas, 
         isScratchDone, 
