@@ -18,8 +18,7 @@ type TtextProps = {
 function ProgressBar() {
   const { isCanvasSize } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize;
-    const refText = React.useRef<any>(); 
-    const [isTextProps, setTextProps] = React.useState<TtextProps>({textheight: 0, textwidth: 0});
+    const refText = React.useRef<any>();  
     const [isProgress, setProgress] = React.useState<number>(0);
     const { setPlayed } = React.useContext(CanvasContext);
     const [isLoading, setLoading] = React.useState<boolean>(true);
@@ -27,14 +26,8 @@ function ProgressBar() {
     const bar_width = width * .45;
     const bar_heigth = width* .05;
     const minbarX = bar_width *.03
-    const maxbarX = (bar_width - width*.025) - minbarX
-
-    React.useEffect(() => { 
-        setTextProps({
-            textheight: refText.current.height(),
-            textwidth: refText.current.width(), 
-        });     
-    },[isLoading]);
+    const maxbarX = (bar_width - width*.019) - minbarX
+ 
 
     
   React.useEffect(() => { 
@@ -47,27 +40,14 @@ function ProgressBar() {
       if((progessbarwidth + 3) > maxbarX) {
         setLoading(false);
         frameAnimation.stop();
+       setTimeout(() => {
+         setPlayed(true);
+       }, 500)
       }
     })
     frameAnimation.start();
   },[])
 
-  const onMouseEnter = (e: any) => { 
-    const container = e.target.getStage().container();
-        if(!isLoading) {
-            container.style.cursor = "url(/images/hand.png), auto";
-        }
-  }
-  const onMouseLeave = (e: any)=> {
-    const container = e.target.getStage().container();
-    container.style.cursor = "default";
-  }
-
-  const handleOnClickPlayed = () => {
-    if(!isLoading) {
-      setPlayed(true);
-    }
-  }
 
   return (
     <Group x={(width-(width*.45))/2} y={height*.8}>
@@ -92,20 +72,15 @@ function ProgressBar() {
           />)}
         </Group> 
         <Group 
-          y={bar_heigth + 10} 
-          width={bar_width} 
-          height={isTextProps.textheight}> 
-            <Text
-                x={(bar_width-isTextProps.textwidth)/2}
-                ref={refText}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave} 
-                onTap={handleOnClickPlayed}
-                onClick={handleOnClickPlayed}
+          y={bar_heigth + 10} > 
+            <Text   
                 fill="white"
                 fontSize={24}
                 fontFamily={poppins.style.fontFamily}
-                text={isLoading? "Loading": "PLAY"}  
+                text={"Loading"}
+                width={bar_width}  
+                height={bar_heigth}
+                align="center"
             />
         </Group>
   </Group>
