@@ -5,18 +5,25 @@ import { Group } from 'react-konva'
 import DiceScratch from './DiceScratch'
 
 function DiceRush20() {
+  const scratchCardRef = React.useRef<any>()
+  
+  const handleButtonMain = () => {
+    if(!scratchCardRef.current.isScratchDone) {
+        alert('please Scratch first')
+      } else {
+        scratchCardRef.current.reset() 
+      }  
+  }
+
   return (
     <Group>
-         <CButton label=""  onclickStart={() => {}} />
-        {/* <ImageFlip 
-            imageBackSrc="/images/20/dicerush/back.png" 
-            imageFrontSrc="/images/20/dicerush/front.png"
-          /> */}
+         <CButton label="NEXT CARD"  onclickStart={handleButtonMain}  /> 
           <DiceScratch
+            ref={scratchCardRef}
             combination={[
-              [null, null],
               [3, null],
-              [null, null],
+              [3, null],
+              [null, 3],
             ]}
           />
 
