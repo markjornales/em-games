@@ -65,6 +65,7 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
             {combination.map((dataArray, indexRow) => 
                 dataArray.map((jack, indexColumn) => 
                     <JackImage
+                        key={indexRow + indexColumn}
                         value={jack}
                         dwidth={WIDTH}
                         dheight={HEIGHT}
