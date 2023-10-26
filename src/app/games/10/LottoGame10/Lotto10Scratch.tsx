@@ -62,6 +62,7 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
             {combinations.map((data, indexRow) => 
                 data.map((value, indexColumn) => 
                     <PrizeFind
+                        key={indexRow + indexColumn}
                         dheight={HEIGHT}
                         dwidth={WIDTH}
                         iconHeight={WIDTH*.16}

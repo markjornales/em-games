@@ -62,6 +62,7 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
             {canvas && combination.map((dataArray, indexRow) => 
                 dataArray.map((values, indexColumn) => 
                     <DiceImage
+                        key={indexRow + indexColumn}
                         dheight={HEIGHT}
                         dwidth={WIDTH}
                         imageHeight={WIDTH*.23}
