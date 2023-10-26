@@ -3,29 +3,34 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
+import DiceImage from './DiceImage';
 
-type TDiceScratchProps = {}
+type TDiceScratchProps = {
+    combination: (number|null)[][]
+}
 type TDiceScratchRef = {}
 
-const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>(() => {
+const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props, ref) => {
+    const {combination} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const HEIGHT = React.useRef<number>(height*.75).current;
-    const WIDTH = React.useRef<number>(width*.86).current;
+    const HEIGHT =height*.75;
+    const WIDTH = width*.86;
 
     const x1 = WIDTH*.29;
     const x2 = WIDTH*.87;
     const y1 = HEIGHT*.54;
     const y2 = HEIGHT*.93
     
-    const {
-        canvas, 
-        isScratchDone, 
-        setScratchDone,
-        setStagePointerPos
-    } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/20/dicerush/front.png"});
+    const { canvas, isScratchDone, setScratchDone, setStagePointerPos } = useScratchMethod({
+        x1, 
+        y1, 
+        HEIGHT, 
+        WIDTH, 
+        scratchArea: { height: y2 - y1, width: x2 - x1 }, 
+        imageSrc: "/images/20/dicerush/front.png",
+    });
 
     const {
         handleMouseDown, 
@@ -39,7 +44,20 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>(() => {
     return (
     <Group>
         <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
-            <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
+            <Rect cornerRadius={10} fill="#464646" width={width*.859} height={HEIGHT*.998}/>
+            {canvas && combination.map((dataArray, indexRow) => 
+                dataArray.map((values, indexColumn) => 
+                    <DiceImage
+                        dheight={HEIGHT}
+                        dwidth={WIDTH}
+                        imageHeight={WIDTH*.23}
+                        imageWidth={WIDTH*.23}
+                        y={WIDTH*(.964 + (0.227 * indexRow))}
+                        x={WIDTH*(.31 + (0.3 * indexColumn))}
+                        dicesValue={values}
+                    />
+                )
+            )}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -49,15 +67,14 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>(() => {
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             />
+             
             {/* <Rect 
                 fill="red"
                 width={x2-x1}
                 height={y2-y1}
                 x={x1}
                 y={y1}
-            /> */}
-
-
+            /> */} 
         </Group>
     </Group>
   );

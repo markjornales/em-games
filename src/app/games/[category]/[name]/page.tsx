@@ -40,22 +40,23 @@ export default function Home ({params}: THomePageParams) {
   const router = useRouter(); 
 
   const gameComponents: TGameComponents = {
-    "200-lottogame": <LottoGame/>,
-    "200-bingo": <BingoGame/>,
-    "200-goldencapricorn": <GoldenCapricorn/>,
-    "200-fortunerabbit": <FortuneRabbit/>,
-    "10-lottogame": <LottoGame10/>,
-    "20-lottogame": <LottoGame20/>,
-    "20-dicerush": <DiceRush20/>,
+    "200-lottogame": <LottoGame/>, // check
+    "200-bingo": <BingoGame/>, // unfinish
+    "200-goldencapricorn": <GoldenCapricorn/>, //check
+    "200-fortunerabbit": <FortuneRabbit/>, // check
+    "10-lottogame": <LottoGame10/>, // check 
+    "20-lottogame": <LottoGame20/>, // check
+    "20-dicerush": <DiceRush20/>, //check
     "20-flipjack": <FlipJack20/>,
     "50-diceroller": <DiceRoller50/>,
     "50-lotto50": <LottoGame50/>,
-    "100-fruitblast": <FruitBlast100/>,
+    "100-fruitblast": <FruitBlast100/>, // check
     "100-lotto100": <LottoGame100/>,
     "100-luckyslots": <LuckySlots100/>,
   };
   
   const gameKey = `${params.category}-${params.name}`;
+  
   if(gameComponents[gameKey]){
     return renderGame({
       gameComponents: gameComponents[gameKey]
@@ -69,9 +70,9 @@ export default function Home ({params}: THomePageParams) {
 function renderGame({gameComponents}: TRenderGame) {
   return (
     <PageCanvas>
-       <BalanceBar balance_amount={12525222} time_played={152}/>
+       <BalanceBar balance_amount={52629} time_played={152}/>
           {gameComponents}
-       <WarningModal/>
+       {/* <WarningModal/> */}
     </PageCanvas> 
   );
 }

@@ -32,7 +32,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
                 canvasElement.current = document.createElement("canvas");
                 context.current = canvasElement.current.getContext("2d");
                 canvasElement.current.width = WIDTH;
-                canvasElement.current.height = HEIGHT;  
+                canvasElement.current.height = HEIGHT; 
                 context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
                 if(context.current!=undefined) {
                 context.current.lineJoin = "round";
