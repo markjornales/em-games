@@ -49,9 +49,9 @@ export default function Home ({params}: THomePageParams) {
     "20-dicerush": <DiceRush20/>, //check
     "20-flipjack": <FlipJack20/>, //check
     "50-diceroller": <DiceRoller50/>,
-    "50-lotto50": <LottoGame50/>,
+    "50-lotto50": <LottoGame50/>,   //check
     "100-fruitblast": <FruitBlast100/>, // check
-    "100-lotto100": <LottoGame100/>,
+    "100-lotto100": <LottoGame100/>, // check
     "100-luckyslots": <LuckySlots100/>,
   };
   
