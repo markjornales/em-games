@@ -56,7 +56,7 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                 show={rabit}
                 key={indexColumn + indexRow}
                 x={WIDTH*(0.234  + (.23 * indexColumn))}
-                y={WIDTH*(.93 + (.15 * indexRow))}
+                y={HEIGHT*(.51 + (.1 * indexRow))}
                 heigth={HEIGHT} 
                 width={WIDTH}
             />

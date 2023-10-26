@@ -1,23 +1,28 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import React from 'react';
+import { Group, Image, Rect } from 'react-konva';
+import PrizeFind from './PrizeFind';
 
-type TLotto100ScratchProps = {}
+type TLotto100ScratchProps = {
+    combinations: boolean[][]
+}
 type TLotto100ScratchRef = {}
 
-const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchProps>(() => {
+const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchProps>((props, ref) => {
+    const {combinations = []} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const HEIGHT = React.useRef<number>(height*.75).current;
-    const WIDTH = React.useRef<number>(width*.86).current;
+    const HEIGHT = height*.75;
+    const WIDTH = width*.86;
 
-    const x1 = WIDTH*.15;
-    const x2 = WIDTH*.89;
+    const x1 = WIDTH*.13;
+    const x2 = WIDTH*.88;
     const y1 = HEIGHT*.57;
-    const y2 = HEIGHT*.89;
+    const y2 = HEIGHT*.90
     
     const {
         canvas, 
@@ -35,11 +40,38 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-        
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            // setModalshow(true);
+        }
+    },[isScratchDone])
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]); 
+        },
+    }));
+
+
     return (
     <Group>
-        <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
+            {combinations.map((data, indexRow) => 
+                data.map((value, indexColumn) => 
+                    <PrizeFind
+                        dheight={HEIGHT}
+                        dwidth={WIDTH}
+                        iconHeight={WIDTH*.16}
+                        iconWeight={WIDTH*.16}
+                        y={HEIGHT*(.53 + (0.1 * indexRow))}
+                        x={WIDTH*(.09 + (0.17 * indexColumn))}
+                        name={value? "pesos": "fire"}
+                    />
+                )
+            )}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -48,17 +80,18 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            />
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */}
-
+            /> 
 
         </Group>
+        <PopupAlert 
+            statusWinner={1}
+            visible={isModalShow}
+            height={height}
+            width={width}
+            onTap={() => {
+                setModalshow(false);
+            }}
+        />
     </Group>
   );
 });
