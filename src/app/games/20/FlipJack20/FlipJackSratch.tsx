@@ -55,8 +55,8 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
                         dheight={HEIGHT}
                         imageWidth={WIDTH*.18}
                         imageHeight={WIDTH*.27}
-                        x={WIDTH*(.148 + (0.255 * indexColumn))}
-                        y={WIDTH*(.97 + (0.32 * indexRow))}
+                        x={WIDTH*(.148 + (0.256 * indexColumn))}
+                        y={HEIGHT*(.53 + (0.19 * indexRow))}
                     />
                 
                 )
@@ -70,6 +70,7 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             />
+             
             {/* <Rect 
                 fill="red"
                 width={x2-x1}
