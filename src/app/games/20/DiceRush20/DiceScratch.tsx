@@ -4,6 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
 import DiceImage from './DiceImage';
+import PopupAlert from '@/components/PopupAlert';
 
 type TDiceScratchProps = {
     combination: (number|null)[][]
@@ -40,10 +41,23 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-        
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            setModalshow(true);
+        }
+    },[isScratchDone]);
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]);
+        },
+    }));
+    
     return (
     <Group>
-        <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
             <Rect cornerRadius={10} fill="#464646" width={width*.859} height={HEIGHT*.998}/>
             {canvas && combination.map((dataArray, indexRow) => 
                 dataArray.map((values, indexColumn) => 
@@ -66,16 +80,17 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            />
-             
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */} 
+            /> 
         </Group>
+        <PopupAlert 
+            statusWinner={5}
+            visible={isModalShow}
+            height={height}
+            width={width}
+            onTap={() => {
+                setModalshow(false);
+            }}
+        />
     </Group>
   );
 });

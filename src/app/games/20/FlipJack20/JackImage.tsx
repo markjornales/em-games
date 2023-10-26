@@ -1,6 +1,7 @@
 import React from 'react'
 import { Group, Image } from 'react-konva'
 import useImage from 'use-image';
+import { TCombination } from './FlipJackSratch';
 
 type TJackImage = {
     dwidth: number;
@@ -9,11 +10,11 @@ type TJackImage = {
     y?: number;
     imageHeight: number;
     imageWidth: number;
-    
+    value: TCombination|undefined
 }
 
 function JackImage(props: TJackImage) {
-    const { dheight, dwidth, imageHeight, imageWidth, x, y} = props;
+    const { dheight, dwidth, imageHeight, imageWidth, x, y, value} = props;
     const [drawImages] = useImage("/images/20/flipjack/front.png");
     const [isImageShow, setImageShow] = React.useState<HTMLCanvasElement>();
 
@@ -31,7 +32,8 @@ function JackImage(props: TJackImage) {
 
     return (
         <Group y={y} x={x}>
-            <Image 
+            <Image
+                opacity={value? 1: 0.3}
                 image={isImageShow}
                 width={imageWidth}
                 height={imageHeight}

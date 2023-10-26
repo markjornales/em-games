@@ -12,7 +12,10 @@ function FlipJack20() {
             imageBackSrc="/images/20/flipjack/back.png" 
             imageFrontSrc="/images/20/flipjack/front.png"
           /> */}
-          <FlipJackScratch/>
+          <FlipJackScratch combination={[
+            ["jack", undefined, "jack"],
+            [undefined, undefined, undefined], 
+          ]}/>
     </Group>
   )
 }

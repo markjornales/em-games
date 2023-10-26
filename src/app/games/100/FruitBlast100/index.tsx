@@ -1,5 +1,4 @@
 import CButton from '@/components/CButton'
-import ImageFlip from '@/components/ImageFlip'
 import React from 'react'
 import { Group } from 'react-konva'
 import FruitBlastScratch from './FruitBlastScratch'
@@ -17,7 +16,7 @@ function FruitBlast100() {
   
   return (
     <Group>
-         <CButton label="" onclickStart={handleButtonMain} /> 
+         <CButton label="NEXT CARD" onclickStart={handleButtonMain} /> 
           <FruitBlastScratch
             ref={scratchCardRef}
             combinations={[
@@ -25,7 +24,7 @@ function FruitBlast100() {
               [undefined, undefined, "cherry", undefined], 
               ["cherry", undefined, undefined, undefined],
               [undefined, undefined, "cherry", undefined]
-          ]}
+            ]}
           />
     </Group>
   )
