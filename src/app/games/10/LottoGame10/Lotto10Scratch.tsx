@@ -16,8 +16,8 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const HEIGHT = React.useRef<number>(height*.75).current;
-    const WIDTH = React.useRef<number>(width*.86).current;
+    const HEIGHT = height*.75;
+    const WIDTH = width*.86;
 
     const x1 = WIDTH*.13;
     const x2 = WIDTH*.88;
@@ -42,7 +42,7 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
 
     React.useEffect(() => {
         if(isScratchDone){ 
-            setModalshow(true);
+            // setModalshow(true);
         }
     },[isScratchDone])
 
@@ -66,7 +66,7 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
                         dwidth={WIDTH}
                         iconHeight={WIDTH*.16}
                         iconWeight={WIDTH*.16}
-                        y={WIDTH*(.962 + (0.17 * indexRow))}
+                        y={HEIGHT*(.53 + (0.1 * indexRow))}
                         x={WIDTH*(.09 + (0.17 * indexColumn))}
                         name={value? "pesos": "fire"}
                     />

@@ -3,6 +3,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
+import DiceImage from './DiceImage';
 
 type TDiceRollerScratchProps = {}
 type TDiceRollerScratchRef = {}
@@ -56,6 +57,20 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
                 x={x1}
                 y={y1}
             /> */}
+
+             {Array.from(new Array(2)).map((_, indexRow) => 
+                Array.from(new Array(3)).map((_, indexColumn) => 
+                    <DiceImage
+                        dwidth={WIDTH}
+                        dheight={HEIGHT}
+                        imageHeight={WIDTH*.15}
+                        imageWidth={WIDTH*.19}
+                        // x={WIDTH*(.148 + (0.255 * indexColumn))}
+                        // y={WIDTH*(.88 + (0.285 * indexRow))}
+                    />
+                
+                )
+            )}
 
 
         </Group>
