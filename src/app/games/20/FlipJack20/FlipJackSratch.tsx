@@ -3,6 +3,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
+import JackImage from './JackImage';
 
 type TFlipJackScratchProps = {}
 type TFlipJackScratchRef = {}
@@ -57,6 +58,19 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
                 y={y1}
             /> */}
 
+            {Array.from(new Array(2)).map((_, indexRow) => 
+                Array.from(new Array(3)).map((_, indexColumn) => 
+                    <JackImage
+                        dwidth={WIDTH}
+                        dheight={HEIGHT}
+                        imageHeight={WIDTH*.25}
+                        imageWidth={WIDTH*.19}
+                        x={WIDTH*(.148 + (0.255 * indexColumn))}
+                        y={WIDTH*(.88 + (0.285 * indexRow))}
+                    />
+                
+                )
+            )}
 
         </Group>
     </Group>
