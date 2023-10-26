@@ -4,11 +4,15 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
 import DiceImage from './DiceImage';
+import PopupAlert from '@/components/PopupAlert';
 
-type TDiceRollerScratchProps = {}
+type TDiceRollerScratchProps = {
+    combinations: (number|undefined)[][]
+}
 type TDiceRollerScratchRef = {}
 
-const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScratchProps>(() => {
+const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScratchProps>((props, ref) => {
+    const { combinations } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -36,11 +40,39 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-        
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            setModalshow(true);
+        }
+    },[isScratchDone]);
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]);
+        },
+    }));
+    const showResults = React.useMemo(() => 
+        combinations.map((data, indexRows) => 
+            data.map((dicenumber, indexColumn) => 
+                <DiceImage 
+                    dwidth={WIDTH}
+                    dheight={HEIGHT}
+                    imageWidth={WIDTH*.18}
+                    imageHeight={WIDTH*.24}
+                    y={HEIGHT*(.49 + (0.13 * indexRows))}
+                    x={WIDTH*(.113 + (0.223 * indexColumn))}
+                    indexDices={dicenumber} 
+                /> 
+            )
+    ),[]);
+
     return (
     <Group>
         <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
+            {showResults}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -49,32 +81,17 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            />
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */}
-
-             {Array.from(new Array(2)).map((_, indexRow) => 
-                Array.from(new Array(3)).map((_, indexColumn) => 
-                    <DiceImage
-                        key={indexRow + indexColumn}
-                        dwidth={WIDTH}
-                        dheight={HEIGHT}
-                        imageHeight={WIDTH*.15}
-                        imageWidth={WIDTH*.19}
-                        // x={WIDTH*(.148 + (0.255 * indexColumn))}
-                        // y={WIDTH*(.88 + (0.285 * indexRow))}
-                    />
-                
-                )
-            )}
-
-
+            />  
         </Group>
+        <PopupAlert 
+            statusWinner={0}
+            visible={isModalShow}
+            height={height}
+            width={width}
+            onTap={() => {
+                setModalshow(false);
+            }}
+        />
     </Group>
   );
 });

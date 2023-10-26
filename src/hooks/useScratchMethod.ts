@@ -54,7 +54,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
                 const arraydata = imageData.data.filter((value, index) => index % 4 === (4 - 1) && value === 0);
                 const maxPixels = scratchArea.width * scratchArea.height;
                 const percentage = (arraydata.length / maxPixels) * 100;  
-                if(percentage > 99) { 
+                if(percentage > 90) { 
                     setScratchDone(true);
                 }
             }

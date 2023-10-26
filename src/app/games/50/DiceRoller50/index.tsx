@@ -5,14 +5,26 @@ import { Group } from 'react-konva'
 import DiceRollerScratch from './DiceRollerScratch'
 
 function DiceRoller50() {
+  const scratchCardRef = React.useRef<any>()
+  
+  const handleButtonMain = () => {
+    if(!scratchCardRef.current.isScratchDone) {
+        alert('please Scratch first')
+      } else {
+        scratchCardRef.current.reset() 
+      }  
+  }
   return (
     <Group>
-         <CButton label=""  onclickStart={() => {}} />
-        {/* <ImageFlip 
-            imageBackSrc="/images/50/diceroller/back.png" 
-            imageFrontSrc="/images/50/diceroller/front.png"
-          /> */}
-          <DiceRollerScratch/>
+         <CButton label="NEXT CARD" url_path="fiftycards"  onclickStart={handleButtonMain} /> 
+          <DiceRollerScratch
+            ref={scratchCardRef}
+            combinations={[
+              [undefined , undefined, undefined],
+              [undefined, undefined, undefined],
+              [undefined, undefined, undefined]
+            ]}
+          />
     </Group>
   )
 }

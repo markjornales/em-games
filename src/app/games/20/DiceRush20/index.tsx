@@ -22,8 +22,8 @@ function DiceRush20() {
             ref={scratchCardRef}
             combination={[
               [3, null],
+              [null, null],
               [3, null],
-              [null, 3],
             ]}
           />
 

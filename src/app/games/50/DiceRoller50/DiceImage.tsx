@@ -9,11 +9,11 @@ type TDiceImage = {
     y?: number;
     imageHeight: number;
     imageWidth: number;
-    
+    indexDices: number| undefined;
 }
 
 function DiceImage(props: TDiceImage) {
-    const { dheight, dwidth, imageHeight, imageWidth, x, y} = props;
+    const { dheight, dwidth, imageHeight, imageWidth, x, y, indexDices} = props;
     const [drawImages] = useImage("/images/50/diceroller/front.png");
     const [isImageShow, setImageShow] = React.useState<HTMLCanvasElement>();
 
@@ -23,15 +23,57 @@ function DiceImage(props: TDiceImage) {
             const context = canvasElement.getContext("2d")!;
             canvasElement.width = dwidth;
             canvasElement.height = dheight;
-
-            context.drawImage(drawImages, dwidth*.3, dwidth*2.1, 190, 250, 0, 0, canvasElement.width, canvasElement.height)
+            
+            const diceList = [
+                { sx: dwidth*.36, sy: dwidth*2.56, swidth: 190, sheight: 250},
+                { sx: dwidth*1.07, sy: dwidth*2.527, swidth: 190, sheight: 250},
+                { sx: dwidth*1.77, sy: dwidth*2.54, swidth: 190, sheight: 250},
+                { sx: dwidth*.36, sy: dwidth*3.28, swidth: 185, sheight: 230},
+                { sx: dwidth*1.06, sy: dwidth*3.28, swidth: 185, sheight: 230},
+                { sx: dwidth*1.74, sy: dwidth*3.3, swidth: 184, sheight: 226},
+                { sx: dwidth*.39, sy: dwidth*3.98, swidth: 182, sheight: 225},
+                { sx: dwidth*1.06, sy: dwidth*3.98, swidth: 180, sheight: 226},
+                { sx: dwidth*1.79, sy: dwidth*3.96, swidth: 180, sheight: 230},
+            ]; 
+            context.beginPath(); 
+            context.moveTo(170, 100);
+            context.lineTo(2, 160);
+            context.lineTo(22, 430);
+            context.lineTo(160, 560);
+            context.lineTo(318, 432);
+            context.lineTo(334, 165)
+            context.closePath();
+            context.clip();
+            if(indexDices) {
+                context.drawImage(drawImages, 
+                    diceList[indexDices].sx, 
+                    diceList[indexDices].sy, 
+                    diceList[indexDices].swidth, 
+                    diceList[indexDices].sheight, 0, 0, 
+                    canvasElement.width, 
+                    canvasElement.height
+                );
+            }else {
+                context.drawImage(drawImages, 
+                    diceList[0].sx, 
+                    diceList[0].sy, 
+                    diceList[0].swidth, 
+                    diceList[0].sheight, 0, 0, 
+                    canvasElement.width, 
+                    canvasElement.height
+                );
+            }
             setImageShow(canvasElement);
         }
-    },[drawImages, ]);
+    },[
+        drawImages,
+        indexDices
+    ]);
 
     return (
         <Group y={y} x={x}>
             <Image 
+                opacity={indexDices == undefined? 0.3: 1}
                 image={isImageShow}
                 width={imageWidth}
                 height={imageHeight}

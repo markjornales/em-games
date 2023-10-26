@@ -3,6 +3,7 @@ import { Outfit } from 'next/font/google';
 import React from 'react';
 import { Group, Text } from 'react-konva';
 import { CanvasProvider } from './CanvasContext';
+import { useRouter } from 'next/navigation';
 
 const outfit = Outfit({
     subsets: ["latin"],
@@ -12,10 +13,12 @@ const outfit = Outfit({
 type TCButton = {
   onclickStart: () => void
   label: string;
+  url_path?: string;
 }
 
 function CButton(props: TCButton) {
-    const { onclickStart, label} = props;
+    const { onclickStart, label, url_path} = props;
+    const router = useRouter(); 
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isClicked, setClicked] = React.useState<boolean>(false);
@@ -26,13 +29,18 @@ function CButton(props: TCButton) {
       setClicked(false);
       onclickStart();
     }
+
+    const handleBackButton = () => {
+      setClickBack(false); 
+        router.push(`https://emperorgaming.bet/${url_path}.php`); 
+    }
     
   return (
     <Group x={(width-((width*.35) + (width*.12)))/2} y={height*.88}>
           <Group 
             opacity={isClickBack? 0.5: 1} 
             onPointerDown={() => setClickBack(true)}
-            onPointerUp={() => setClickBack(false)}>
+            onPointerUp={handleBackButton}>
               <ImageLoad
                 src="/images/BackButton.png"
                 imageProps={{
