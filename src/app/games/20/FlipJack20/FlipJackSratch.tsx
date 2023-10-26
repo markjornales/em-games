@@ -4,6 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
 import JackImage from './JackImage';
+import PopupAlert from '@/components/PopupAlert';
 
 export type TCombination = "jack"
 
@@ -42,6 +43,20 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            setModalshow(true);
+        }
+    },[isScratchDone])
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]); 
+        },
+    }));
+
         
     return (
     <Group>
@@ -69,19 +84,17 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            />
-             
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */}
-
-            
-
+            /> 
         </Group>
+        <PopupAlert 
+            statusWinner={1}
+            visible={isModalShow}
+            height={height}
+            width={width}
+            onTap={() => {
+                setModalshow(false);
+            }}
+        />
     </Group>
   );
 });

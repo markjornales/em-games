@@ -5,14 +5,20 @@ import { Group } from 'react-konva'
 import FlipJackScratch from './FlipJackSratch'
 
 function FlipJack20() {
+  const scratchCardRef = React.useRef<any>();
+
+  const handleButtonMain = () => { 
+    if(!scratchCardRef.current.isScratchDone) {
+      alert('please Scratch first')
+    } else {
+      scratchCardRef.current.reset() 
+    } 
+  }
+
   return (
     <Group>
-         <CButton label=""  onclickStart={() => {}} />
-        {/* <ImageFlip 
-            imageBackSrc="/images/20/flipjack/back.png" 
-            imageFrontSrc="/images/20/flipjack/front.png"
-          /> */}
-          <FlipJackScratch combination={[
+         <CButton label="NEXT CARD"  onclickStart={handleButtonMain} /> 
+          <FlipJackScratch ref={scratchCardRef} combination={[
             ["jack", undefined, "jack"],
             [undefined, undefined, undefined], 
           ]}/>
