@@ -42,7 +42,7 @@ const Lotto50Scratch = React.forwardRef<TLotto50ScratchRef, TLotto50ScratchProps
 
     React.useEffect(() => {
         if(isScratchDone){ 
-            // setModalshow(true);
+            setModalshow(true);
         }
     },[isScratchDone])
 
