@@ -95,4 +95,6 @@ const Lotto20Scratch = React.forwardRef<TLotto20ScratchRef, TLotto20ScratchProps
   );
 });
 
+Lotto20Scratch.displayName = "Lotto20Scratch"
+
 export default Lotto20Scratch
