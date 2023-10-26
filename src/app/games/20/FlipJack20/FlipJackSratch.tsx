@@ -99,4 +99,6 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
   );
 });
 
+FlipJackScratch.displayName = "FlipJackScratch"
+
 export default FlipJackScratch

@@ -95,4 +95,6 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
   );
 });
 
+DiceScratch.displayName = "DiceScratch"
+
 export default DiceScratch

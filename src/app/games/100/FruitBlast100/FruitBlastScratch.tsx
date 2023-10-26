@@ -102,4 +102,6 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
   );
 });
 
+FruitBlastScratch.displayName = "FruitBlastScratch";
+
 export default FruitBlastScratch

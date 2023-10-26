@@ -63,4 +63,6 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
   );
 });
 
+LuckySlotsScratch.displayName = "LuckySlotsScratch"
+
 export default LuckySlotsScratch

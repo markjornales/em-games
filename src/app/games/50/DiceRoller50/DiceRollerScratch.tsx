@@ -78,4 +78,6 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
   );
 });
 
+DiceRollerScratch.displayName = "DiceRollerScratch";
+
 export default DiceRollerScratch

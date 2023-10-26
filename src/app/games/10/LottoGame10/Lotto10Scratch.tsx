@@ -96,4 +96,6 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
   );
 });
 
+Lotto10Scratch.displayName = "Lotto10Scratch"
+
 export default Lotto10Scratch
