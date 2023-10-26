@@ -50,7 +50,7 @@ function ImageFlip(props: ImageFlip) {
                     src={isClicked? imageBackSrc: imageFrontSrc}
                     imageProps={{
                     width: width*.86,
-                    height: height*.8,
+                    height: height*.75,
                     cornerRadius: 10, 
                 }}/>
             </AnimatedGroup>

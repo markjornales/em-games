@@ -35,12 +35,13 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const HEIGHT = React.useRef<number>(height*.8).current;
+    const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current;
     const x1 = React.useRef<number>(WIDTH*.2).current;
     const y1 = React.useRef<number>(HEIGHT*.49).current;
     const x2 = React.useRef<number>(WIDTH*.78).current;
     const y2 = React.useRef<number>(HEIGHT*.75).current
+    
     const {
         canvas, 
         isScratchDone, 
@@ -74,7 +75,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-HEIGHT*.975)/2}>
+            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
                 <Rect 
                     cornerRadius={10}
                     fill="white"
@@ -90,7 +91,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                             height={HEIGHT}
                             iconHeight={WIDTH*.14}
                             iconWidth={WIDTH*.14}
-                            y={WIDTH*(.74 + (.16* indexColumn))} 
+                            y={HEIGHT*(.47 + (.1* indexColumn))} 
                             x={WIDTH*(.221 + (.204*indexRow))} 
                             isScratchDone={isScratchDone}
                         />
@@ -108,8 +109,9 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                 <Group y={(HEIGHT - 10)*.928} x={WIDTH*.1}>
                     <Rect 
                         fill="white" 
+                        // stroke="black"
                         width={WIDTH*.8} 
-                        height={WIDTH*.11}
+                        height={WIDTH*.12}
                     />
                     <Text 
                         align="center"
@@ -120,7 +122,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                         fontFamily={outfit.style.fontFamily}
                         fontSize={WIDTH*.06}
                     />
-                </Group>
+                </Group> 
             </Group>
             <PopupAlert 
                 statusWinner={1}
@@ -133,7 +135,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
             />
             <ScratchHere 
                 x={(width-width*.6)/2}
-                y={(height-height*.2)*.65}
+                y={(height-height*.2)*.6}
                 height={height*.2}
                 width={width*.6}
                 BHeight={height}

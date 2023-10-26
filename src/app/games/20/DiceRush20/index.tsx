@@ -12,7 +12,13 @@ function DiceRush20() {
             imageBackSrc="/images/20/dicerush/back.png" 
             imageFrontSrc="/images/20/dicerush/front.png"
           /> */}
-          <DiceScratch/>
+          <DiceScratch
+            combination={[
+              [null, null],
+              [3, null],
+              [null, null],
+            ]}
+          />
 
     </Group>
   )

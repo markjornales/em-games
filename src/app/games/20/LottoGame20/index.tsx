@@ -5,14 +5,27 @@ import { Group } from 'react-konva'
 import Lotto20Scratch from './Lotto20Scratch'
 
 function LottoGame20() {
+  const scratchCardRef = React.useRef<any>();
+
+  const handleButtonMain = () => { 
+    if(!scratchCardRef.current.isScratchDone) {
+      alert('please Scratch first')
+    } else {
+      scratchCardRef.current.reset() 
+    } 
+  }
   return (
     <Group>
-         <CButton label=""  onclickStart={() => {}} />
-        {/* <ImageFlip 
-            imageBackSrc="/images/20/lottogame/back.png" 
-            imageFrontSrc="/images/20/lottogame/front.png"
-          /> */}
-          <Lotto20Scratch/>
+         <CButton label="NEXT CARD"  onclickStart={handleButtonMain} />
+          <Lotto20Scratch
+            ref={scratchCardRef}
+           combinations={[
+            [false, false , false, false, false],
+            [false, false , true, false, false],
+            [true, false , false, false, false],
+            [false, false , false, false, false],
+          ]}
+          />
     </Group>
   )
 }

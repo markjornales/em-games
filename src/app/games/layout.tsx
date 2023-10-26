@@ -49,11 +49,12 @@ export default function RootLayout({
       <head>
         <title>Emperor Gaming Solutions</title>
         <meta name='description' content='Description' />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className} >
         <CanvasProvider.Provider value={{isCanvasSize}}>
-          <div className="h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary flex justify-center  min-h-[739px] min-w-[480px]"> 
-              <div className="flex-1 max-w-[480px] max-h-[813px]" ref={canvasParent}>
+          <div className="h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary flex justify-center "> 
+              <div className="flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]" ref={canvasParent}>
                 {children}
             </div>
           </div>

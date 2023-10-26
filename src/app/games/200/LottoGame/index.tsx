@@ -14,34 +14,24 @@ const gameCombination: TgameCombination= [
 
 function MainGames() {
   const { isCanvasSize } = React.useContext(CanvasProvider);
-  const { height, width } = isCanvasSize;
-  const [isScratch, setScratch] = React.useState<boolean>(false);
+  const { height, width } = isCanvasSize; 
   const scratchCardRef = React.useRef<any>()
 
   const onclickStarts = () => {
-    if(isScratch) {
-      if(!scratchCardRef.current.isScratchDone) {
+    if(!scratchCardRef.current.isScratchDone) {
         alert('please Scratch first')
       } else {
-        scratchCardRef.current.reset() 
-      }
-      return;
-    }
-    setScratch(true);
+        scratchCardRef.current.reset() //resets
+      } 
   }
 
     return (
       <Group>
-        <CButton label={isScratch? "NEXT CARD": ""} onclickStart={onclickStarts} />
-        {isScratch? 
+        <CButton label="NEXT CARD" onclickStart={onclickStarts} /> 
           <ScratchGame 
             gameCombination={gameCombination} 
             ref={scratchCardRef}
-          />: 
-          <ImageFlip 
-            imageBackSrc="/images/200/LottoGame/lottogamesbackflip.png" 
-            imageFrontSrc="/images/200/LottoGame/lottogamesfront.png"
-          />} 
+          />  
       </Group>
     );
 }

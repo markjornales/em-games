@@ -33,8 +33,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
                 context.current = canvasElement.current.getContext("2d");
                 canvasElement.current.width = WIDTH;
                 canvasElement.current.height = HEIGHT; 
-                image.alt = "image resorce"
-                context.current?.drawImage(image, 0, 0, canvasElement.current.width, canvasElement.current.height); 
+                context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
                 if(context.current!=undefined) {
                 context.current.lineJoin = "round";
                 context.current.lineCap = "round";
@@ -66,7 +65,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
         image, 
         stagePointerPos,
     ]);
-
+ 
   
 
     return {

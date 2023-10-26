@@ -5,14 +5,28 @@ import { Group } from 'react-konva'
 import FruitBlastScratch from './FruitBlastScratch'
 
 function FruitBlast100() {
+  const scratchCardRef = React.useRef<any>()
+  
+  const handleButtonMain = () => {
+    if(!scratchCardRef.current.isScratchDone) {
+        alert('please Scratch first')
+      } else {
+        scratchCardRef.current.reset() 
+      }  
+  }
+  
   return (
     <Group>
-         <CButton label=""  onclickStart={() => {}} />
-        {/* <ImageFlip 
-            imageBackSrc="/images/100/fruitblast/back.png" 
-            imageFrontSrc="/images/100/fruitblast/front.png"
-          /> */}
-          <FruitBlastScratch/>
+         <CButton label="" onclickStart={handleButtonMain} /> 
+          <FruitBlastScratch
+            ref={scratchCardRef}
+            combinations={[
+              [undefined, undefined, undefined, undefined],
+              [undefined, undefined, "cherry", undefined], 
+              ["cherry", undefined, undefined, undefined],
+              [undefined, undefined, "cherry", undefined]
+          ]}
+          />
     </Group>
   )
 }

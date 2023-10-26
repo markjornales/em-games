@@ -40,8 +40,9 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;   
+    
     const WIDTH = width*.862;
-    const HEIGHT = height*.8; 
+    const HEIGHT = height*.75; 
     
     const x1 = (WIDTH - WIDTH*.8)/2;
     const x2 = ((WIDTH - WIDTH*.8)/2) + WIDTH*.8
@@ -84,7 +85,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
   return (
     <Group>
      <Group y={(height-(height*.78))/2} x={(width-width*.86)/2} >  
-        <Rect fill="white" width={width*.86} height={height*.8} cornerRadius={10}/>
+        <Rect fill="white" width={width*.86} height={height*.75} cornerRadius={10}/>
         {canvas && gameCombination.map((data, index) => {
             const ypos = .097 * index; 
             return data.map((value, indexValue) => {   
@@ -93,15 +94,15 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
                     <WinnerLoseImage key={index + indexValue} {...value? {
                             y: 0.545 + ypos,
                             x: 0.11 + xpos,
-                            imgWidth: 0.092,
-                            imgHeight: 1.878,
+                            imgWidth: 0.11,
+                            imgHeight: 2.252,
                             value,
                             isScratchDone
                         }:{
                             y: 0.545 + ypos,
                             x: (0.28 + xpos)-0.17,
-                            imgWidth: 0.267,
-                            imgHeight: 2.362,
+                            imgWidth: 0.32,
+                            imgHeight: 2.835,
                             opacity: 0.6,
                             value,
                             isScratchDone
@@ -121,8 +122,8 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             onPointerUp={handleMouseUp}
             onPointerMove={handleMouseMove}
             onPointerLeave={handleOnPointerLeave}
-        /> 
-       
+        />  
+
         <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
             <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
             <Text

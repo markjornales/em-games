@@ -18,7 +18,7 @@ type TWinnerLoseImage = {
     isScratchDone: boolean
 } & TStagePos;
 
- const WinnerLoseImage = React.memo((props: TWinnerLoseImage) => {
+ const WinnerLoseImage =  (props: TWinnerLoseImage) => {
     const {src, height, width, imgHeight, imgWidth, x, y, opacity = 1, value, isScratchDone} = props;
     const [isCanvasImage, setCanvasImage] = React.useState<HTMLCanvasElement>();
     const [imageElement] = useImage(src);
@@ -67,7 +67,7 @@ type TWinnerLoseImage = {
                 }} 
             /> 
     );
-})
+}
 
 WinnerLoseImage.displayName = "WinnerLoseImage"
 
