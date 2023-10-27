@@ -27,18 +27,18 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
     const canvasElement = React.useRef<HTMLCanvasElement>();
    
     React.useEffect(() => {
-        if(!isScratchDone) {
+        // if(!isScratchDone) {
             if(image) {   
                 canvasElement.current = document.createElement("canvas");
                 context.current = canvasElement.current.getContext("2d");
                 canvasElement.current.width = WIDTH;
                 canvasElement.current.height = HEIGHT; 
-                context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
                 if(context.current!=undefined) {
                 context.current.lineJoin = "round";
                 context.current.lineCap = "round";
                 context.current.lineWidth = 35;
                 context.current.fillStyle = "#FFFFFF";
+                context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
                 context.current.beginPath()
                 context.current.globalCompositeOperation = "destination-out";
                 if(stagePointerPos.length > 0) {
@@ -54,13 +54,13 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea}: TScrat
                 const arraydata = imageData.data.filter((value, index) => index % 4 === (4 - 1) && value === 0);
                 const maxPixels = scratchArea.width * scratchArea.height;
                 const percentage = (arraydata.length / maxPixels) * 100;  
-                if(percentage > 90) { 
-                    setScratchDone(true);
+                    if(percentage > 90) { 
+                        setScratchDone(true);
+                    }
                 }
-            }
                 setCanvas(canvasElement.current) 
             }
-        }
+        // }
     },[
         image, 
         stagePointerPos,

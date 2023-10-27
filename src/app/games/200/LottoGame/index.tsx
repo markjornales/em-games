@@ -27,7 +27,7 @@ function MainGames() {
 
     return (
       <Group>
-        <CButton label="NEXT CARD" onclickStart={onclickStarts} /> 
+        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={onclickStarts} /> 
           <ScratchGame 
             gameCombination={gameCombination} 
             ref={scratchCardRef}

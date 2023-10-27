@@ -24,13 +24,12 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
     const y1 = HEIGHT*.50;
     const y2 = HEIGHT*.88
     
-    const {
-        canvas, 
-        isScratchDone, 
-        setScratchDone,
-        setStagePointerPos
-    } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/50/diceroller/front.png"});
+    const { canvas, isScratchDone, setScratchDone, setStagePointerPos } = 
+    useScratchMethod({
+        HEIGHT, WIDTH, x1, y1, 
+        scratchArea: {height: y2 - y1, width: x2 - x1}, 
+        imageSrc: "/images/50/diceroller/front.png"
+    });
 
     const {
         handleMouseDown, 

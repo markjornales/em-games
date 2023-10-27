@@ -23,7 +23,7 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseDown = React.useCallback(() => {
         isPaint.current = true;  
         const position = imageRef.current?.getRelativePointerPosition()!;
-        if(scratchScope(position) && !isScratchDone){
+        if(scratchScope(position)){
             setStagePointerPos((initstage) => [...initstage, {
                 moveTo: {x: Math.ceil(position.x), y: Math.ceil(position.y)},
                 lineTo: []
@@ -34,7 +34,7 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseMove = React.useCallback(() => {
         if(isPaint.current){ 
             const position = imageRef.current?.getRelativePointerPosition()!; 
-            if(scratchScope(position) && !isScratchDone){
+            if(scratchScope(position)){
                 setStagePointerPos((initstage) => {
                     initstage[initstage.length - 1]?.lineTo.push({x: Math.ceil(position.x), y: Math.ceil(position.y)})
                     return [...initstage];
