@@ -56,6 +56,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
         combinations.map((data, indexRows) => 
             data.map((dicenumber, indexColumn) => 
                 <DiceImage 
+                    key={indexRows + indexColumn}
                     dwidth={WIDTH}
                     dheight={HEIGHT}
                     imageWidth={WIDTH*.18}
