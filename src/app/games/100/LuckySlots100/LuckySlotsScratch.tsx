@@ -3,21 +3,29 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
+import SlotSeven from './SlotSeven';
+import PopupAlert from '@/components/PopupAlert';
 
-type TLuckySlotsScratchProps = {}
+export type TCombinations = "dollar"|"seven";
+type TLuckySlotsScratchProps = {
+    combinations: TCombinations[][]
+}
 type TLuckySlotsScratchRef = {}
 
-const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScratchProps>(() => {
+
+
+const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScratchProps>((props, ref) => {
+    const { combinations } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current;
 
-    const x1 = WIDTH*.15;
-    const x2 = WIDTH*.85;
-    const y1 = HEIGHT*.61;
-    const y2 = HEIGHT*.89;
+    const x1 = WIDTH*.17;
+    const x2 = WIDTH*.83;
+    const y1 = HEIGHT*.63;
+    const y2 = HEIGHT*.87;
     
     const {
         canvas, 
@@ -35,11 +43,42 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    React.useEffect(() => {
+        if(isScratchDone){ 
+            setModalshow(true);
+        }
+    },[isScratchDone])
+
+    React.useImperativeHandle(ref, () => ({
+        isScratchDone,
+        reset: () => { 
+            setScratchDone(false);
+            setStagePointerPos([]); 
+        },
+    }));
+
         
     return (
     <Group>
-        <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
-            <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
+        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+            <Rect cornerRadius={10} fill="#e7e1c8" width={width*.859} height={HEIGHT*.998}/>
+            {combinations.map((datacombi, indexRow) =>
+                datacombi.map((valuecombi, indexColumn) => 
+                <Group 
+                    opacity={valuecombi == "dollar" ? 0.3: 1}
+                    y={HEIGHT*(.596 + (0.076 * indexRow))} 
+                    x={WIDTH*(.13 + (0.185 * indexColumn))} 
+                    key={indexRow + indexColumn}>
+                    <SlotSeven
+                        width={WIDTH}
+                        height={HEIGHT}
+                        slotsname={valuecombi}
+                        slotHeight={WIDTH*.14}
+                        slotWidth={WIDTH*.14}
+                    />
+                </Group>
+                )
+            )}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -48,17 +87,17 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            />
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */}
-
-
+            />  
         </Group>
+        <PopupAlert 
+            statusWinner={2}
+            visible={isModalShow}
+            height={height}
+            width={width}
+            onTap={() => {
+                setModalshow(false);
+            }}
+        />
     </Group>
   );
 });

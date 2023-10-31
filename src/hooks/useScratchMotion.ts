@@ -24,10 +24,10 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseDown = React.useCallback(() => {
         isPaint.current = true;  
         const position = imageRef.current?.getRelativePointerPosition()!;
-        sounds.current = new Audio("/sounds/scratch_pencil.mp3");
-        sounds.current.loop = true;
-        sounds.current?.play();
         if(scratchScope(position)){
+            sounds.current = new Audio("/sounds/scratch_pencil.mp3");
+            sounds.current.loop = true;
+            sounds.current?.play();
             setStagePointerPos((initstage) => [...initstage, {
                 moveTo: {x: Math.ceil(position.x), y: Math.ceil(position.y)},
                 lineTo: []
