@@ -3,6 +3,7 @@ import React from "react";
 export type TCanvas = {
     width: number;
     height: number;
+    offsound?: boolean;
 } 
 
 type TCanvasContext = {
@@ -29,5 +30,5 @@ type TCanvasProviderProp = {
 };
 
 export const CanvasProvider = React.createContext<TCanvasProviderProp>({
-    isCanvasSize: {height: 0, width: 0},
+    isCanvasSize: {height: 0, width: 0, offsound: false},
 });

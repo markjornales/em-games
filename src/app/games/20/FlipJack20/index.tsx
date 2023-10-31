@@ -17,7 +17,7 @@ function FlipJack20() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD"  onclickStart={handleButtonMain} /> 
+         <CButton label="NEXT CARD" url_path="twentycards" onclickStart={handleButtonMain} /> 
           <FlipJackScratch ref={scratchCardRef} combination={[
             ["jack", undefined, "jack"],
             [undefined, undefined, undefined], 

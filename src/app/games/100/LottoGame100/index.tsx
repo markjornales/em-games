@@ -16,7 +16,7 @@ function LottoGame100() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD"  onclickStart={handleButtonMain} /> 
+         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} /> 
           <Lotto100Scratch
             ref={scratchCardRef}
             combinations={[

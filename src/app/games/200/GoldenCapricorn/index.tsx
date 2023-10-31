@@ -16,7 +16,7 @@ function GoldenCapricorn() {
   
   return (
     <Group>
-      <CButton label="NEXT CARD" onclickStart={handleButtonMain} />
+      <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
         <GoldenCSCratch ref={scratchCardRef}/>
     </Group>
   )

@@ -6,13 +6,13 @@ import React from 'react';
 import { Group } from 'react-konva';
 import ProgressBar from './ProgressBar';
 import AnimateEmperor from './animated/emperor';
-
+import Konva from 'konva';
 const GroupImages:any = animated(Group);
 
 function SplashScreen() { 
   const { isCanvasSize } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize;
-
+   
   return (
     <Group>
       <Group y={20}>

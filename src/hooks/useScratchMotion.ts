@@ -15,6 +15,7 @@ function useScratchMotion(props: TScratchMotion) {
     const {x1, x2, y1, y2, setStagePointerPos, isScratchDone} = props; 
     const isPaint = React.useRef<boolean>(false);
     const imageRef = React.useRef<React.ComponentRef<typeof Image>>(null);
+    const sounds = React.useRef<any>();
 
     const scratchScope = ({x, y} : TStagePos) => {
         return (x > x1 && x < x2) && (y > y1 && y < y2)? true: false
@@ -23,6 +24,9 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseDown = React.useCallback(() => {
         isPaint.current = true;  
         const position = imageRef.current?.getRelativePointerPosition()!;
+        sounds.current = new Audio("/sounds/scratch_pencil.mp3");
+        sounds.current.loop = true;
+        sounds.current?.play();
         if(scratchScope(position)){
             setStagePointerPos((initstage) => [...initstage, {
                 moveTo: {x: Math.ceil(position.x), y: Math.ceil(position.y)},
@@ -45,10 +49,12 @@ function useScratchMotion(props: TScratchMotion) {
 
     const handleOnPointerLeave = () => {
         isPaint.current = false
+        sounds.current?.pause();
     }
 
     const handleMouseUp = () => { 
-        isPaint.current = false;
+        isPaint.current = false; 
+        sounds.current?.pause();
     }
 
     return {

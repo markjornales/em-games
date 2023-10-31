@@ -4,6 +4,7 @@ import { CanvasProvider, TCanvas } from '@/components/CanvasContext'
 import { Inter } from 'next/font/google'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import Konva from 'konva'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +25,9 @@ export default function RootLayout({
   const [isCanvasSize, setConvasSize] = React.useState<TCanvas>({
       height: 0,
       width: 0,
+      offsound: false
   });
+  const mounted = React.useRef<boolean>(false);
 
   React.useEffect(() => {
       handleEventListener()   
@@ -51,7 +54,7 @@ export default function RootLayout({
         <meta name='description' content='Description' />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className} >
+      <body className={inter.className} > 
         <CanvasProvider.Provider value={{isCanvasSize}}>
           <div className="h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary flex justify-center "> 
               <div className="flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]" ref={canvasParent}>

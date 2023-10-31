@@ -41,7 +41,7 @@ export default function Home ({params}: THomePageParams) {
 
   const gameComponents: TGameComponents = {
     "200-lottogame": <LottoGame/>, // check
-    "200-bingo": <BingoGame/>, // unfinish
+    "200-bingo": <BingoGame/>, // finish
     "200-goldencapricorn": <GoldenCapricorn/>, //check
     "200-fortunerabbit": <FortuneRabbit/>, // check
     "10-lottogame": <LottoGame10/>, // check 

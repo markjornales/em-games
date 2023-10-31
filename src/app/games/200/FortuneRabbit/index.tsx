@@ -23,7 +23,7 @@ function FortuneRabbit() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" onclickStart={handleButtonMain} />
+        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
         <FortuneScratch combination={sampleData} ref={scratchCardRef}/>
     </Group>
   )
