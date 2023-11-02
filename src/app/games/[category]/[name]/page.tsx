@@ -1,8 +1,11 @@
 'use client';
-import React from "react";
 import dynamic from "next/dynamic";
-import { useRouter } from 'next/navigation';  
-
+import { useRouter } from 'next/navigation';
+import Fifty from "./Fifty";
+import Onehundred from "./Onehundred";
+import Ten from "./Ten";
+import Twenty from "./Twenty";
+import Twohundred from "./Twohundred";
 type THomePageParams = {
   params: {
     category: string;
@@ -12,7 +15,7 @@ type THomePageParams = {
 type TRenderGame = {
   gameComponents: JSX.Element
 }
-type TGameComponents = {
+export type TGameComponents = {
   [key: string]: JSX.Element
 }
 
@@ -20,56 +23,20 @@ const PageCanvas = dynamic(() => import("@/components/PageCanvas"), {
   ssr: false
 });
 
-const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
-const LottoGame = dynamic(() => import("@/app/games/200/LottoGame")); 
-const BingoGame = dynamic(() => import("@/app/games/200/BingoGame"))
-const GoldenCapricorn = dynamic(() => import("@/app/games/200/GoldenCapricorn"));
-const FortuneRabbit = dynamic(() => import("@/app/games/200/FortuneRabbit"));
-const GollapGlory = dynamic(() => import("@/app/games/200/GollapGlory"));
-const CasinoJoker = dynamic(() => import("@/app/games/200/CasinoJoker"));
-const LuckyJack = dynamic(() => import("@/app/games/200/LuckyJack"));
-const ThailandBangkok = dynamic(() => import("@/app/games/200/ThailandBangkok"));
-const LottoGame10 = dynamic(() => import("@/app/games/10/LottoGame10"));
-const LottoGame20 = dynamic(() => import("@/app/games/20/LottoGame20"));
-const DiceRush20 = dynamic(() => import("@/app/games/20/DiceRush20"));
-const FlipJack20 = dynamic(() => import("@/app/games/20/FlipJack20"));
-const DiceRoller50 = dynamic(() => import("@/app/games/50/DiceRoller50"));
-const LottoGame50 = dynamic(() => import("@/app/games/50/LottoGame50"));
-const FruitBlast100 = dynamic(() => import("@/app/games/100/FruitBlast100"));
-const LottoGame100 = dynamic(() => import("@/app/games/100/LottoGame100"));
-const LuckySlots100 = dynamic(() => import("@/app/games/100/LuckySlots100"));
+const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 
 export default function Home ({params}: THomePageParams) {
+  
   const router = useRouter(); 
-
-  const gameComponents: TGameComponents = {
-    "200-lottogame": <LottoGame/>,
-    "200-bingo": <BingoGame/>,
-    "200-goldencapricorn": <GoldenCapricorn/>,
-    "200-fortunerabbit": <FortuneRabbit/>,
-    "200-gollapglory": <GollapGlory/>,
-    "200-casinojoker": <CasinoJoker/>,
-    "200-luckyjack": <LuckyJack/>,
-    "200-thailandbangkok": <ThailandBangkok/>,
-    "100-fruitblast": <FruitBlast100/>,
-    "100-lotto": <LottoGame100/>,
-    "100-luckyslots": <LuckySlots100/>,
-    "50-diceroller": <DiceRoller50/>, 
-    "50-lotto": <LottoGame50/>,
-    "20-lottogame": <LottoGame20/>,
-    "20-dicerush": <DiceRush20/>, 
-    "20-flipjack": <FlipJack20/>,
-    "10-lottogame": <LottoGame10/>,
-  };
-  
+  const gameComponents: TGameComponents = Object.assign({}, Twohundred, Onehundred, Fifty, Twenty, Ten);
   const gameKey = `${params.category}-${params.name}`;
-  
+
   if(gameComponents[gameKey]){
     return renderGame({
       gameComponents: gameComponents[gameKey]
     });
-  }else {
+  } else {
     router.push('/games/not-found');
     return null;
   }
