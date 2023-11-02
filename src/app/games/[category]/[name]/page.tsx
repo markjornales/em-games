@@ -26,6 +26,9 @@ const LottoGame = dynamic(() => import("@/app/games/200/LottoGame"));
 const BingoGame = dynamic(() => import("@/app/games/200/BingoGame"))
 const GoldenCapricorn = dynamic(() => import("@/app/games/200/GoldenCapricorn"));
 const FortuneRabbit = dynamic(() => import("@/app/games/200/FortuneRabbit"));
+const GollapGlory = dynamic(() => import("@/app/games/200/GollapGlory"));
+const CasinoJoker = dynamic(() => import("@/app/games/200/CasinoJoker"));
+const LuckyJack = dynamic(() => import("@/app/games/200/LuckyJack"));
 const LottoGame10 = dynamic(() => import("@/app/games/10/LottoGame10"));
 const LottoGame20 = dynamic(() => import("@/app/games/20/LottoGame20"));
 const DiceRush20 = dynamic(() => import("@/app/games/20/DiceRush20"));
@@ -44,6 +47,9 @@ export default function Home ({params}: THomePageParams) {
     "200-bingo": <BingoGame/>, // finish
     "200-goldencapricorn": <GoldenCapricorn/>, //check
     "200-fortunerabbit": <FortuneRabbit/>, // check
+    "200-gollapglory": <GollapGlory/>, //check
+    "200-casinojoker": <CasinoJoker/>,
+    "200-luckyjack": <LuckyJack/>,
     "10-lottogame": <LottoGame10/>, // check 
     "20-lottogame": <LottoGame20/>, // check
     "20-dicerush": <DiceRush20/>, //check
@@ -52,7 +58,7 @@ export default function Home ({params}: THomePageParams) {
     "50-lotto": <LottoGame50/>,   //check
     "100-fruitblast": <FruitBlast100/>, // check
     "100-lotto": <LottoGame100/>, // check
-    "100-luckyslots": <LuckySlots100/>,
+    "100-luckyslots": <LuckySlots100/>, //check
   };
   
   const gameKey = `${params.category}-${params.name}`;
