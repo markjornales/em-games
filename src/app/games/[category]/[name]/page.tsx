@@ -29,6 +29,7 @@ const FortuneRabbit = dynamic(() => import("@/app/games/200/FortuneRabbit"));
 const GollapGlory = dynamic(() => import("@/app/games/200/GollapGlory"));
 const CasinoJoker = dynamic(() => import("@/app/games/200/CasinoJoker"));
 const LuckyJack = dynamic(() => import("@/app/games/200/LuckyJack"));
+const ThailandBangkok = dynamic(() => import("@/app/games/200/ThailandBangkok"));
 const LottoGame10 = dynamic(() => import("@/app/games/10/LottoGame10"));
 const LottoGame20 = dynamic(() => import("@/app/games/20/LottoGame20"));
 const DiceRush20 = dynamic(() => import("@/app/games/20/DiceRush20"));
@@ -43,22 +44,23 @@ export default function Home ({params}: THomePageParams) {
   const router = useRouter(); 
 
   const gameComponents: TGameComponents = {
-    "200-lottogame": <LottoGame/>, // check
-    "200-bingo": <BingoGame/>, // finish
-    "200-goldencapricorn": <GoldenCapricorn/>, //check
-    "200-fortunerabbit": <FortuneRabbit/>, // check
-    "200-gollapglory": <GollapGlory/>, //check
+    "200-lottogame": <LottoGame/>,
+    "200-bingo": <BingoGame/>,
+    "200-goldencapricorn": <GoldenCapricorn/>,
+    "200-fortunerabbit": <FortuneRabbit/>,
+    "200-gollapglory": <GollapGlory/>,
     "200-casinojoker": <CasinoJoker/>,
     "200-luckyjack": <LuckyJack/>,
-    "10-lottogame": <LottoGame10/>, // check 
-    "20-lottogame": <LottoGame20/>, // check
-    "20-dicerush": <DiceRush20/>, //check
-    "20-flipjack": <FlipJack20/>, //check
-    "50-diceroller": <DiceRoller50/>,//done
-    "50-lotto": <LottoGame50/>,   //check
-    "100-fruitblast": <FruitBlast100/>, // check
-    "100-lotto": <LottoGame100/>, // check
-    "100-luckyslots": <LuckySlots100/>, //check
+    "200-thailandbangkok": <ThailandBangkok/>,
+    "100-fruitblast": <FruitBlast100/>,
+    "100-lotto": <LottoGame100/>,
+    "100-luckyslots": <LuckySlots100/>,
+    "50-diceroller": <DiceRoller50/>, 
+    "50-lotto": <LottoGame50/>,
+    "20-lottogame": <LottoGame20/>,
+    "20-dicerush": <DiceRush20/>, 
+    "20-flipjack": <FlipJack20/>,
+    "10-lottogame": <LottoGame10/>,
   };
   
   const gameKey = `${params.category}-${params.name}`;
