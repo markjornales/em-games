@@ -1,30 +1,30 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
-import PopupAlert from '@/components/PopupAlert'; 
-import GoldBars from './GoldBars';
+import { Group, Image, Rect } from "react-konva";
+import Bugsuk from './Bugsuk';
 
-type TThailandBScratch = {
+type TBugsukScratchScratch = {
     combination: boolean[][]
 }
-type TThailandBRef = {
+type TBugsukScratchRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((props, ref) => {
+const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>((props, ref) => {
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.25;
-    const y1 = HEIGHT*.53;
-    const x2 = WIDTH*.74;
-    const y2 = HEIGHT*.83
+    const x1 = WIDTH*.28;
+    const y1 = HEIGHT*.11;
+    const x2 = WIDTH*.71;
+    const y2 = HEIGHT*.43
     
     const {
         canvas, 
@@ -32,7 +32,7 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/200/thailandbangkok/front.png"});
+        imageSrc: "/images/10/bugsuk/front.png"});
     
 
     const {
@@ -62,19 +62,14 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
             <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
                 {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
+                    data.map((values, indexColumn) =>  
                         <Group 
-                            opacity={values? 1: 0.3}
-                            key={ indexRow + indexColumn} 
-                            y={HEIGHT*(.52 + (0.102 * indexRow))} 
-                            x={WIDTH*(.21 + (0.188 * indexColumn))}
-                        >
-                            <GoldBars
-                                imageHeight={WIDTH*.2}
-                                imageWidth={WIDTH*.2}
-                                showGold={values}
-                            />
-                        </Group>
+                            opacity={values? 1 : 0.2} 
+                            key={indexColumn + indexRow} 
+                            x={WIDTH*(.24 + (0.167 * indexColumn))} 
+                            y={HEIGHT*(.11 + (0.105 * indexRow))}>
+                            <Bugsuk imageHeight={WIDTH*.18} imageWidth={WIDTH*.18}/>
+                        </Group> 
                     )
                 )}
                 <Image
@@ -85,8 +80,8 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
-                 
+                />      
+                          
             </Group>
             <PopupAlert 
                 statusWinner={0}
@@ -101,6 +96,6 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
     );
 });
 
-ThailandBScratch.displayName = "ThailandBScratch"
+BugsukScratch.displayName = "BugsukScratch"
 
-export default ThailandBScratch;
+export default BugsukScratch;

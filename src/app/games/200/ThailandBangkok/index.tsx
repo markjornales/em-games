@@ -18,7 +18,7 @@ function ThailandBangkok() {
     <Group>
         <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
         <ThailandBScratch ref={scratchCardRef} combination={[
-            [false, false , false],
+            [false, true , false],
             [false, false , false],
             [false, false , false],
         ]}/>

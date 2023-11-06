@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import SuperBallScratch from './SuperBallScratch';
 
 function Superball() {
     const scratchCardRef = React.useRef<any>();
@@ -15,7 +16,8 @@ function Superball() {
 
     return (
         <Group>
-            <CButton label="NEXT CARD" url_path="tencards" onclickStart={handleButtonMain} />
+            <CButton label="NEXT CARD" url_path="tencards" onclickStart={handleButtonMain} /> 
+            <SuperBallScratch ref={scratchCardRef} combination={[undefined, undefined, undefined]}/>
         </Group>
     )
 }

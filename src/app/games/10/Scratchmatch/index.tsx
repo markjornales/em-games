@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
-import { Group } from 'react-konva'
+import { Group } from 'react-konva' 
+import MatchScratch from './MatchScratch';
 
 function Scratchmatch() {
     const scratchCardRef = React.useRef<any>();
@@ -16,6 +17,11 @@ function Scratchmatch() {
     return (
         <Group>
             <CButton label="NEXT CARD" url_path="tencards" onclickStart={handleButtonMain} />
+            <MatchScratch ref={scratchCardRef} combination={[
+                [false, false, false],
+                [false, false, false],
+                [false, false, false],
+            ]}/>
         </Group>
     )
 }

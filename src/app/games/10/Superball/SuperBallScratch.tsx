@@ -3,28 +3,28 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
-import PopupAlert from '@/components/PopupAlert'; 
-import GoldBars from './GoldBars';
+import PopupAlert from '@/components/PopupAlert';  
+import SuperBall from './SuperBall';
 
-type TThailandBScratch = {
-    combination: boolean[][]
+type TSuperBallScratch = {
+    combination: ((0|1|2)|undefined)[]
 }
-type TThailandBRef = {
+type TSuperBallBRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((props, ref) => {
+const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((props, ref) => {
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.25;
-    const y1 = HEIGHT*.53;
-    const x2 = WIDTH*.74;
-    const y2 = HEIGHT*.83
+    const x1 = WIDTH*.85;
+    const y1 = HEIGHT*.17;
+    const x2 = WIDTH*.95;
+    const y2 = HEIGHT*.46;
     
     const {
         canvas, 
@@ -32,7 +32,7 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/200/thailandbangkok/front.png"});
+        imageSrc: "/images/10/superball/front.png"});
     
 
     const {
@@ -61,21 +61,16 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                        <Group 
-                            opacity={values? 1: 0.3}
-                            key={ indexRow + indexColumn} 
-                            y={HEIGHT*(.52 + (0.102 * indexRow))} 
-                            x={WIDTH*(.21 + (0.188 * indexColumn))}
-                        >
-                            <GoldBars
-                                imageHeight={WIDTH*.2}
-                                imageWidth={WIDTH*.2}
-                                showGold={values}
-                            />
-                        </Group>
-                    )
+                {combination.map((value, index) => 
+                    <Group key={index} opacity={value == index ? 1: 0.2} x={WIDTH*.825} y={HEIGHT*(.19 + (0.094 * index))}>
+                        <SuperBall
+                            dHeight={HEIGHT}
+                            dWidth={WIDTH}
+                            imageHeight={WIDTH*.15}
+                            imageWidth={WIDTH*.15} 
+                            indexColor={index}
+                        />
+                    </Group>
                 )}
                 <Image
                     ref={imageRef}
@@ -85,8 +80,7 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
-                 
+                />   
             </Group>
             <PopupAlert 
                 statusWinner={0}
@@ -101,6 +95,6 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
     );
 });
 
-ThailandBScratch.displayName = "ThailandBScratch"
+SuperBallScratch.displayName = "SuperBallScratch"
 
-export default ThailandBScratch;
+export default SuperBallScratch;
