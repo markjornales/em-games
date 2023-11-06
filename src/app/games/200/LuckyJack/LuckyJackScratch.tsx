@@ -65,6 +65,7 @@ const LuckyJackScratch = React.forwardRef<TLuckyJackRef, TLuckyJackScratch>((pro
                 {combination.map((data, indexRow) => 
                     data.map((value, indexColumn) => 
                         <Group 
+                            key={indexColumn+ indexRow}
                             opacity={value? 1: 0.2}
                             x={WIDTH*(.34 + (0.28 *indexColumn))} 
                             y={HEIGHT*(.044 + (0.136 * indexRow))}>
