@@ -65,6 +65,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
                 {combination.map((data, indexRow) => 
                     data.map((value, indexColumn) => 
                         <Group 
+                            key={indexColumn+ indexRow}
                             opacity={value? 1: 0.3}
                             y={HEIGHT*(.545 + (0.113 * indexRow))} 
                             x={WIDTH*(.39 + (0.28 * indexColumn))}>
