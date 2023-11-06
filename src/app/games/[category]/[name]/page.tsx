@@ -4,8 +4,11 @@ import { useRouter } from 'next/navigation';
 import Fifty from "./Fifty";
 import Onehundred from "./Onehundred";
 import Ten from "./Ten";
+import Five from "./Five";
 import Twenty from "./Twenty";
 import Twohundred from "./Twohundred";
+
+
 type THomePageParams = {
   params: {
     category: string;
@@ -29,7 +32,7 @@ const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 export default function Home ({params}: THomePageParams) {
   
   const router = useRouter(); 
-  const gameComponents: TGameComponents = Object.assign({}, Twohundred, Onehundred, Fifty, Twenty, Ten);
+  const gameComponents: TGameComponents = Object.assign({}, Five, Twohundred, Onehundred, Fifty, Twenty, Ten);
   const gameKey = `${params.category}-${params.name}`;
 
   if(gameComponents[gameKey]){

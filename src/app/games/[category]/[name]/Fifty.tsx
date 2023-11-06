@@ -3,11 +3,23 @@ import { TGameComponents } from "./page";
 
 const DiceRoller50 = dynamic(() => import("@/app/games/50/DiceRoller50"));
 const LottoGame50 = dynamic(() => import("@/app/games/50/LottoGame50"));
+const Bingo = dynamic(() => import("@/app/games/50/Bingo"));
+const Casino = dynamic(() => import("@/app/games/50/Casino"));
+const Riderfortune = dynamic(() => import("@/app/games/50/Riderfortune"));
+const Spotcash = dynamic(() => import("@/app/games/50/Spotcash"));
+const Superball = dynamic(() => import("@/app/games/50/Superball"));
+const USA = dynamic(() => import("@/app/games/50/USA"));
 
  
 const routelist: TGameComponents = {
     "diceroller": <DiceRoller50/>, 
     "lotto": <LottoGame50/>,
+    "bingo": <Bingo/>,
+    "casino": <Casino/>,
+    "riderfortune": <Riderfortune/>,
+    "spotcash": <Spotcash/>,
+    "superball": <Superball/>,
+    "usa": <USA/>,
 }
 
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({
