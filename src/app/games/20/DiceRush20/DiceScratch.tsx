@@ -65,10 +65,10 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
                         key={indexRow + indexColumn}
                         dheight={HEIGHT}
                         dwidth={WIDTH}
-                        imageHeight={WIDTH*.23}
-                        imageWidth={WIDTH*.23}
-                        y={WIDTH*(.964 + (0.227 * indexRow))}
-                        x={WIDTH*(.31 + (0.3 * indexColumn))}
+                        imageHeight={WIDTH*.2}
+                        imageWidth={WIDTH*.2}
+                        y={WIDTH*(.88 + (0.21 * indexRow))}
+                        x={WIDTH*(.32 + (0.3 * indexColumn))}
                         dicesValue={values}
                     />
                 )

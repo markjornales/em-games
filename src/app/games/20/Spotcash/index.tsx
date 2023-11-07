@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import SpotScratch from './SpotScratch'
 
 function Spotcash() {
   const scratchCardRef = React.useRef<any>()
@@ -16,6 +17,11 @@ function Spotcash() {
   return (
     <Group>
          <CButton label="NEXT CARD" url_path="twentycards" onclickStart={handleButtonMain}  /> 
+         <SpotScratch ref={scratchCardRef} combination={[
+                [false, false, false ],
+                [false, false, false ],
+                [false, false, false ],
+            ]}/>
     </Group>
   )
 }

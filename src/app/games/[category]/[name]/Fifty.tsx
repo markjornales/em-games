@@ -3,6 +3,7 @@ import { TGameComponents } from "./page";
 
 const DiceRoller50 = dynamic(() => import("@/app/games/50/DiceRoller50"));
 const LottoGame50 = dynamic(() => import("@/app/games/50/LottoGame50"));
+const Bacarat = dynamic(() => import("@/app/games/50/Bacarat"));
 const Bingo = dynamic(() => import("@/app/games/50/Bingo"));
 const Casino = dynamic(() => import("@/app/games/50/Casino"));
 const Riderfortune = dynamic(() => import("@/app/games/50/Riderfortune"));
@@ -14,6 +15,7 @@ const USA = dynamic(() => import("@/app/games/50/USA"));
 const routelist: TGameComponents = {
     "diceroller": <DiceRoller50/>, 
     "lotto": <LottoGame50/>,
+    "bacarat" : <Bacarat/>,
     "bingo": <Bingo/>,
     "casino": <Casino/>,
     "riderfortune": <Riderfortune/>,

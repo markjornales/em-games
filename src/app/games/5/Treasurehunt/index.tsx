@@ -2,6 +2,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import TreasureScratch from './TreasureScratch';
 
 function Treasurehunt() {
     const scratchCardRef = React.useRef<any>();
@@ -17,6 +18,11 @@ function Treasurehunt() {
     return (
         <Group>
             <CButton label="NEXT CARD" url_path="fivecards" onclickStart={handleButtonMain} />
+            <TreasureScratch ref={scratchCardRef} combination={[
+                [true, false, false ],
+                [false, true, false ],
+                [false, false, true ],
+            ]}/>
         </Group>
     )
 }

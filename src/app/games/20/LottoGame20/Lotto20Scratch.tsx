@@ -64,10 +64,10 @@ const Lotto20Scratch = React.forwardRef<TLotto20ScratchRef, TLotto20ScratchProps
                         key={indexRow + indexColumn}
                         dheight={HEIGHT}
                         dwidth={WIDTH}
-                        iconHeight={WIDTH*.16}
-                        iconWeight={WIDTH*.16}
-                        y={WIDTH*(.962 + (0.17 * indexRow))}
-                        x={WIDTH*(.09 + (0.17 * indexColumn))}
+                        iconHeight={WIDTH*.12}
+                        iconWeight={WIDTH*.12}
+                        y={WIDTH*(.93 + (0.13 * indexRow))}
+                        x={WIDTH*(.13 + (0.16 * indexColumn))}
                         name={value? "pesos": "fire"}
                     />
                 )

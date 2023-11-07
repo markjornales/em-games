@@ -2,6 +2,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import FruitBasketScratch from './FruitBasketScratch';
 
 function Fruitbasket() {
     const scratchCardRef = React.useRef<any>();
@@ -17,6 +18,15 @@ function Fruitbasket() {
     return (
         <Group>
             <CButton label="NEXT CARD" url_path="fivecards" onclickStart={handleButtonMain} />
+            <FruitBasketScratch
+            ref={scratchCardRef}
+            combinations={[
+              [undefined, undefined, undefined, undefined],
+              [undefined, undefined, "cherry", undefined], 
+              ["cherry", undefined, undefined, undefined],
+              [undefined, undefined, "cherry", undefined]
+            ]}
+          />
         </Group>
     )
 }

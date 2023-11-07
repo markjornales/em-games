@@ -65,8 +65,8 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
                     data.map((values, indexColumn) => 
                     <Group 
                         opacity={values ? 1: 0.4}
-                        x={WIDTH*(.4 + (0.16 * indexColumn)) } 
-                        y={HEIGHT*(.48 + (0.12 * indexRow))} 
+                        x={WIDTH*(.38 + (0.16 * indexColumn)) } 
+                        y={HEIGHT*(.49 + (0.11 * indexRow))} 
                         key={indexRow + indexColumn}>
                         <Galactic imageHeight={WIDTH*.1} imageWidth={WIDTH*.1}/>
                     </Group>

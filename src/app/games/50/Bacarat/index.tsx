@@ -1,9 +1,9 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
-import CasinoScratch from './CasinoScratch'
+import BacaratScratch from './BacaratScratch'
 
-function Casino() {
+function Bacarat() {
   const scratchCardRef = React.useRef<any>()
   
   const handleButtonMain = () => {
@@ -16,13 +16,14 @@ function Casino() {
   return (
     <Group>
          <CButton label="NEXT CARD" url_path="fiftycards"  onclickStart={handleButtonMain} /> 
-         <CasinoScratch ref={scratchCardRef} combination={[
-                [true, false, false ],
-                [false, false, false ],
-                [false, false, false ],
+         <BacaratScratch ref={scratchCardRef} combination={[
+                [true, false, ],
+                [false, false,],
+                [false, true,],
+                [false, false,],
             ]}/>
     </Group>
   )
 }
 
-export default Casino
+export default Bacarat

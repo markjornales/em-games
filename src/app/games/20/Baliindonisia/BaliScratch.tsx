@@ -4,27 +4,27 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Love from './Love';
+import Bali from './Bali';
 
-type TLoveScratch = {
+type TBaliScratch = {
     combination: boolean[][]
 }
-type TLoveRef = {
+type TBaliRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
+const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.42;
+    const x1 = WIDTH*.29;
     const y1 = HEIGHT*.17;
-    const x2 = WIDTH*.90;
-    const y2 = HEIGHT*.49
+    const x2 = WIDTH*.72;
+    const y2 = HEIGHT*.53
     
     const {
         canvas, 
@@ -32,7 +32,7 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/5/lovering/front.png"});
+        imageSrc: "/images/20/baliindonesia/front.png"});
     
 
     const {
@@ -60,18 +60,21 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
                 {combination.map((data, indexRow) => 
                     data.map((values, indexColumn) => 
                     <Group 
                         opacity={values ? 1: 0.4}
-                        x={WIDTH*(.43 + (0.165 * indexColumn)) } 
-                        y={HEIGHT*(.18 + (0.1 * indexRow))} 
+                        x={WIDTH*(.36 + (0.18 * indexColumn)) } 
+                        y={HEIGHT*(.15 + (0.13 * indexRow))} 
                         key={indexRow + indexColumn}>
-                        <Love imageHeight={WIDTH*.15} imageWidth={WIDTH*.15}/>
+                        <Bali imageHeight={WIDTH*.19} imageWidth={WIDTH*.16}/>
                     </Group>
                     )
                 )}
+                
+                
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -82,8 +85,10 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
                     onPointerLeave={handleOnPointerLeave}
                 />   
                 
-                
-                
+               
+
+
+
                 {/* <Rect 
                 fill="red"
                 width={x2-x1}
@@ -106,6 +111,6 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
     );
 });
 
-LoveScratch.displayName = "LoveScratch"
+BaliScratch.displayName = "BaliScratch"
 
-export default LoveScratch;
+export default BaliScratch;
