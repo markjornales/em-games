@@ -2,6 +2,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import CarScratch from './CarScratch';
 
 function Carshow() {
     const scratchCardRef = React.useRef<any>();
@@ -17,6 +18,11 @@ function Carshow() {
     return (
         <Group>
             <CButton label="NEXT CARD" url_path="fivecards" onclickStart={handleButtonMain} />
+            <CarScratch ref={scratchCardRef} combination={[
+                [true, false, true],
+                [false, false, false],
+                [false, false, false], 
+            ]}/>
         </Group>
     )
 }

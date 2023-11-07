@@ -2,6 +2,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import GoldenScratch from './GoldenScratch';
 
 function Goldenbuddha() {
     const scratchCardRef = React.useRef<any>();
@@ -17,6 +18,11 @@ function Goldenbuddha() {
     return (
         <Group>
             <CButton label="NEXT CARD" url_path="fivecards" onclickStart={handleButtonMain} />
+            <GoldenScratch ref={scratchCardRef} combination={[
+                [true, false],
+                [false, true],
+                [false, false],
+            ]}/>
         </Group>
     )
 }

@@ -73,8 +73,8 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
                         iconHeight={WIDTH*.12}
                         iconWidth={width*.11} 
                         fruitName={value} 
-                        y={HEIGHT*(.15 + (0.07 * indexRow))}
-                        x={WIDTH*(.3 + (0.13 * indexColumn))}
+                        y={HEIGHT*(.15 + (0.08 * indexRow))}
+                        x={WIDTH*(.3 + (0.14 * indexColumn))}
                     />
                 )
             )}
