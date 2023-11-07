@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import { Group } from 'react-konva'
  import React from "react";
+import PockerScratch from './PockerScratch';
  
 
 function Pocker() {
@@ -18,6 +19,11 @@ function Pocker() {
   return (
     <Group>
         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} />
+        <PockerScratch ref={scratchCardRef} combination={[
+            [undefined, undefined],
+            [undefined, undefined],
+            [undefined, undefined],
+          ]}/>
      </Group>
   )
 }
