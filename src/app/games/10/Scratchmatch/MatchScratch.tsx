@@ -63,6 +63,7 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
                 {combination.map((data, indexRow) => 
                     data.map((values, indexColumn) =>  
                     <Group 
+                        key={indexColumn+ indexRow}
                         opacity={values? 1: 0.3}
                         x={WIDTH*(.27 + (0.155 *indexColumn))} 
                         y={HEIGHT*(.22 + (0.112 * indexRow))} >

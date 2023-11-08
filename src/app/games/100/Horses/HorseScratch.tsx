@@ -1,31 +1,29 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
-import PopupAlert from '@/components/PopupAlert';
-import Joker from './Joker';
-
-
-type TCasinoJokerScratch = {
+import Horseasset from './Horseasset';
+type THorseScratch  = {
     combination: boolean[][]
 }
-type TCasinoJokerRef = {
+type THorseScratchRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch>((props, ref) => {
+const HorseScratch = React.forwardRef<THorseScratchRef, THorseScratch>((props, ref) => {
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.4;
-    const y1 = HEIGHT*.56;
-    const x2 = WIDTH*.88;
-    const y2 = HEIGHT*.86
+    const x1 = WIDTH*.22;
+    const y1 = HEIGHT*.66;
+    const x2 = WIDTH*.63;
+    const y2 = HEIGHT*.945
     
     const {
         canvas, 
@@ -33,7 +31,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/200/casinojoker/front.png"});
+        imageSrc: "/images/100/horse/front.png"});
     
 
     const {
@@ -60,22 +58,21 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
-                <Rect cornerRadius={10} fill="#ececec"width={width*.859} height={HEIGHT}/>
+            <Group x={(width-WIDTH)/2} y={(height-height*.78)/2}>
+                <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
                 {combination.map((data, indexRow) => 
-                    data.map((value, indexColumn) => 
-                        <Group 
-                            key={indexColumn+ indexRow}
-                            opacity={value? 1: 0.3}
-                            y={HEIGHT*(.545 + (0.113 * indexRow))} 
-                            x={WIDTH*(.39 + (0.28 * indexColumn))}>
-                            <Joker
-                                dHeight={HEIGHT}
-                                dWidth={WIDTH}
-                                imageHeight={WIDTH*.17}
-                                imageWidth={WIDTH*.23}
-                            />
-                        </Group>
+                    data.map((values, indexColumn) =>  
+                    <Group 
+                        opacity={values ? 1: 0.4}
+                        key={indexRow + indexColumn} 
+                        y={HEIGHT*(.632 + (0.12 * indexRow))} 
+                        x={WIDTH*(.183 + (0.155 * indexColumn))}
+                    >
+                        <Horseasset
+                            imageHeight={WIDTH*.16}
+                            imageWidth={WIDTH*.16}
+                        />
+                    </Group>
                     )
                 )}
                 <Image
@@ -86,7 +83,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />
+                />  
             </Group>
             <PopupAlert 
                 statusWinner={0}
@@ -101,6 +98,6 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     );
 });
 
-CasinoJokerScratch.displayName = "CasinoJokerScratch"
+HorseScratch.displayName = "HorseScratch"
 
-export default CasinoJokerScratch;
+export default HorseScratch;

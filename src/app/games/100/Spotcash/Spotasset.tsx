@@ -10,7 +10,7 @@ type TSpotassetProps = {
 
 function Spotasset(props: TSpotassetProps) {
     const { imageHeight, imageWidth, assetname } = props;
-    const [isImageRender] = useImage(`/images/100/spotcash/${assetname}.png`);
+    const [isImageRender] = useImage(`/images/10/spotcash/${assetname}.png`);
     return (
     <Image 
         image={isImageRender}

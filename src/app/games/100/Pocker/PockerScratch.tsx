@@ -1,31 +1,30 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
-import PopupAlert from '@/components/PopupAlert';
-import Joker from './Joker';
+import Pockerasset, { TPockernames } from './Pockerasset';
 
-
-type TCasinoJokerScratch = {
-    combination: boolean[][]
+type TPockerScratch  = {
+    combination:  (TPockernames|undefined)[][]
 }
-type TCasinoJokerRef = {
+type TPockerScratchRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch>((props, ref) => {
+const PockerScratch = React.forwardRef<TPockerScratchRef, TPockerScratch>((props, ref) => {
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.4;
-    const y1 = HEIGHT*.56;
-    const x2 = WIDTH*.88;
-    const y2 = HEIGHT*.86
+    const x1 = WIDTH*.3;
+    const y1 = HEIGHT*.5;
+    const x2 = WIDTH*.89;
+    const y2 = HEIGHT*.82
     
     const {
         canvas, 
@@ -33,7 +32,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/200/casinojoker/front.png"});
+        imageSrc: "/images/100/pocker/front.png"});
     
 
     const {
@@ -60,24 +59,24 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
-                <Rect cornerRadius={10} fill="#ececec"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((value, indexColumn) => 
-                        <Group 
-                            key={indexColumn+ indexRow}
-                            opacity={value? 1: 0.3}
-                            y={HEIGHT*(.545 + (0.113 * indexRow))} 
-                            x={WIDTH*(.39 + (0.28 * indexColumn))}>
-                            <Joker
-                                dHeight={HEIGHT}
-                                dWidth={WIDTH}
-                                imageHeight={WIDTH*.17}
-                                imageWidth={WIDTH*.23}
-                            />
-                        </Group>
+            <Group x={(width-WIDTH)/2} y={(height-height*.78)/2}>
+                <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/> 
+                 {combination.map((data, indexRow) => 
+                    data.map((values, indexColumn) =>  
+                    <Group 
+                        key={indexRow + indexColumn} 
+                        x={WIDTH*(.31 + (0.32 * indexColumn))} 
+                        y={HEIGHT*(.488 + (0.123* indexRow))}
+                        opacity={values? 1: 0.3}
+                        >
+                        <Pockerasset
+                            imageHeight={WIDTH*.17}
+                            imageWidth={WIDTH*.238}
+                            pockername={values}
+                        />
+                    </Group>
                     )
-                )}
+                )} 
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -101,6 +100,6 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     );
 });
 
-CasinoJokerScratch.displayName = "CasinoJokerScratch"
+PockerScratch.displayName = "PockerScratch"
 
-export default CasinoJokerScratch;
+export default PockerScratch;

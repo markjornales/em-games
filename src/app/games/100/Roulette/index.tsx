@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import { Group } from 'react-konva'
  import React from "react";
+import RouletteScratch from './RouletteScratch';
  
 
 function Roulette() {
@@ -18,6 +19,13 @@ function Roulette() {
   return (
     <Group>
         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} />
+        <RouletteScratch ref={scratchCardRef}
+          combination={[
+            [false, false, false],
+            [false, false, false],
+            [false, false, false],
+          ]}
+        />
      </Group>
   )
 }

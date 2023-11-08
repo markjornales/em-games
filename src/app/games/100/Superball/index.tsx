@@ -1,7 +1,7 @@
 import CButton from '@/components/CButton'
 import { Group } from 'react-konva'
- import React from "react";
- 
+import React from "react"; 
+import SuperBallScratch from './SuperBallScratch';
 
 function Superball() {
 
@@ -18,6 +18,7 @@ function Superball() {
   return (
     <Group>
         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} />
+        <SuperBallScratch ref={scratchCardRef} combination={[undefined, undefined, undefined]}/>
      </Group>
   )
 }
