@@ -10,7 +10,7 @@ type TBingoProps = {
 
 function Bingo(props: TBingoProps) {
     const { imageHeight, imageWidth, assetname } = props;
-    const [isImageRender] = useImage(`/images/20/bingo/${assetname}.png`);
+    const [isImageRender] = useImage(`/images/50/bingo/${assetname}.png`);
     return (
     <Image 
         image={isImageRender}
