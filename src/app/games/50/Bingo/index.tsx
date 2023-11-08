@@ -1,6 +1,7 @@
 import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
+import BingoScratch from './BingoScratch'
 
 function Bingo() {
   const scratchCardRef = React.useRef<any>()
@@ -15,6 +16,12 @@ function Bingo() {
   return (
     <Group>
          <CButton label="NEXT CARD" url_path="fiftycards"  onclickStart={handleButtonMain} /> 
+         <BingoScratch ref={scratchCardRef} combination={[
+                [false, false],
+                [false, true],
+                [false, true],
+              
+            ]}/>
     </Group>
   )
 }
