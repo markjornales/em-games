@@ -9,6 +9,7 @@ import Konva from "konva";
 function PageCanvas({children}: {children: React.ReactNode}) { 
   const { isCanvasSize } = React.useContext(CanvasProvider); 
   const values = useCanvasContext();
+ /*
   React.useEffect(() => {
     const audio = new Audio("/sounds/GerrmanIntro.mp3");
     const animate = new Konva.Animation(() => { 
@@ -26,7 +27,7 @@ function PageCanvas({children}: {children: React.ReactNode}) {
       animate.stop(); 
     }
   },[isCanvasSize.offsound]);
-
+*/
   return (
     <CanvasContext.Provider value={values}> 
       <Stage {...isCanvasSize}>

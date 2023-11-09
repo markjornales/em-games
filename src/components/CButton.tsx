@@ -36,7 +36,7 @@ function CButton(props: TCButton) {
     }
     
   return (
-    <Group x={(width-((width*.35) + (width*.12)))/2} y={height*.88}>
+    <Group x={(width-((width*.35) + (width*.12) + (width*.4)))/2} y={height*.88}>
           <Group 
             opacity={isClickBack? 0.5: 1} 
             onPointerDown={() => setClickBack(true)}
@@ -49,28 +49,48 @@ function CButton(props: TCButton) {
                 }}
               />
           </Group>
+          
+          <Group  x={(width*.12) * 1.3} >
+            <ImageLoad
+                src="/images/start.png"
+                imageProps={{
+                  width: width*.35,
+                  height: width*.09,
+                }}
+              />
+               <Text
+                fill="#5E1700"
+                text="FAST SCRATCH"
+                align="center"
+                verticalAlign="middle"
+                width={width*.35}
+                height={width*.09}
+                fontSize={fontSizeDefault}
+                fontFamily={outfit.style.fontFamily}
+              />
+          </Group>
           <Group 
-            x={(width*.12) * 1.3} 
+           x={width*.52}
             opacity={isClicked? 0.6: 1}
             onPointerDown={() => setClicked(true)}
             onPointerUp={onClickStart}> 
-            <ImageLoad
-              src="/images/start.png"
-              imageProps={{
-                width: width*.35,
-                height: width*.09,
-              }}
-            />
-            <Text
-              fill="#5E1700"
-              text={label || "START"}
-              align="center"
-              verticalAlign="middle"
-              width={width*.35}
-              height={width*.09}
-              fontSize={fontSizeDefault}
-              fontFamily={outfit.style.fontFamily}
-            />
+              <ImageLoad
+                src="/images/start.png"
+                imageProps={{
+                  width: width*.35,
+                  height: width*.09,
+                }}
+              />
+              <Text
+                fill="#5E1700"
+                text={label || "START"}
+                align="center"
+                verticalAlign="middle"
+                width={width*.35}
+                height={width*.09}
+                fontSize={fontSizeDefault}
+                fontFamily={outfit.style.fontFamily}
+              />
           </Group>
         </Group>
   )
