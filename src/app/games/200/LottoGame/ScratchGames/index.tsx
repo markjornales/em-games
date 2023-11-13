@@ -7,6 +7,7 @@ import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Group, Image, Rect, Text, } from "react-konva";
 import { WinnerLoseImage } from './AssetLotto';
+import useFastScratch from '@/hooks/useFastScratch';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -67,6 +68,8 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
         handleOnPointerLeave, 
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 30});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -78,7 +81,11 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
 
 

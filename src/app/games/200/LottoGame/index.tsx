@@ -27,7 +27,11 @@ function MainGames() {
 
     return (
       <Group>
-        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={onclickStarts} /> 
+        <CButton onfastscratch={() => {
+           if(!scratchCardRef.current.isScratchDone){
+            scratchCardRef.current.fastscratch();   
+          } 
+        }} label="NEXT CARD" url_path="hundredto" onclickStart={onclickStarts} /> 
           <ScratchGame 
             gameCombination={gameCombination} 
             ref={scratchCardRef}

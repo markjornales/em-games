@@ -17,7 +17,11 @@ function BingoGame() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="hundredto"  onclickStart={handleButtonMain} />
+         <CButton onfastscratch={() =>{
+                if(!scratchCardRef.current.isScratchDone){
+                    scratchCardRef.current.fastscratch();   
+                } 
+            }}  label="NEXT CARD" url_path="hundredto"  onclickStart={handleButtonMain} />
          <BingoScratch ref={scratchCardRef}/>
      </Group>
   );

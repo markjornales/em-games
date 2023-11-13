@@ -4,7 +4,7 @@ import Konva from 'konva'
 
 type TUseFastScratch = {
     setStagePointerPos: React.Dispatch<React.SetStateAction<TStageMoveProps[]>>;
-
+    speed: number;
     positions: {
         x1: number;
         x2: number;
@@ -14,7 +14,7 @@ type TUseFastScratch = {
 }
 
 function useFastScratch(props: TUseFastScratch) {
-    const { setStagePointerPos, positions } = props;
+    const { setStagePointerPos, positions, speed } = props;
     const [isFastScratch, setFastScratch] = React.useState<boolean>(false);
     React.useEffect(() => { 
        const scratchAuto = () => {
@@ -28,7 +28,7 @@ function useFastScratch(props: TUseFastScratch) {
             if(xpos1 < positions.x2) {
                 lineTo.push({x: xpos1, y: ypos1});
                 if(ypos1 < positions.y2) {
-                    ypos1 +=4; 
+                    ypos1 += speed; 
                 } else { 
                     xpos1 += 35; 
                     ypos1 = positions.y1     

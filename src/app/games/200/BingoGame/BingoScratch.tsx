@@ -7,6 +7,7 @@ import ScratchHere from '@/components/ScratchHere';
 import PopupAlert from '@/components/PopupAlert';
 import { shuffleArrays } from '@/hooks/functions';
 import Bingo from './Bingo';
+import useFastScratch from '@/hooks/useFastScratch';
 
 type TBingoScratchProps = {
   // combination: boolean[][]
@@ -58,6 +59,8 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
     const { handleMouseDown, handleMouseMove, handleMouseUp, handleOnPointerLeave, imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
     
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 5});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -69,7 +72,11 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]); 
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
 
  
@@ -100,6 +107,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />
+                 
             </Group>
             <PopupAlert 
                 statusWinner={0}
