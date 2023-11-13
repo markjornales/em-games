@@ -16,7 +16,15 @@ function Superball() {
   
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="fiftycards"  onclickStart={handleButtonMain} /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="fiftycards"  
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain} /> 
          <SuperBallScratch ref={scratchCardRef} combination={[undefined, undefined, undefined]}/>
     </Group>
   );

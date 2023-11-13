@@ -16,7 +16,15 @@ function Burjkhalifa() {
   
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="hundredcards" 
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain} /> 
          <BurjkhalifaScratch ref={scratchCardRef}
             combination={[
               [false, false, false],

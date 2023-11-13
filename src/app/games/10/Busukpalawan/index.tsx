@@ -16,7 +16,15 @@ function Busukpalawan() {
 
     return (
         <Group>
-            <CButton label="NEXT CARD" url_path="tencards" onclickStart={handleButtonMain} />
+            <CButton 
+            label="NEXT CARD" 
+            url_path="tencards" 
+            onfastscratch={() =>{
+                if(!scratchCardRef.current.isScratchDone){
+                    scratchCardRef.current.fastscratch();   
+                } 
+            }} 
+            onclickStart={handleButtonMain} />
             <BugsukScratch ref={scratchCardRef} combination={[
                 [true, false, false,],
                 [false, false, false,],

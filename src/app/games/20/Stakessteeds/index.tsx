@@ -16,7 +16,16 @@ function Stakessteeds() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="twentycards" onclickStart={handleButtonMain}  /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="twentycards" 
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain}  /> 
+
          <StakesScratch ref={scratchCardRef} combination={[
                 [true, false, false ],
                 [false, false, false ],

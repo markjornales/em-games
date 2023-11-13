@@ -5,6 +5,7 @@ import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Bacarat from './Bacarat';
+import useFastScratch from '@/hooks/useFastScratch';
 
 type TBacaratScratch = {
     combination: boolean[][]
@@ -26,6 +27,7 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
     const x2 = WIDTH*.8;
     const y2 = HEIGHT*.5
     
+    
     const {
         canvas, 
         isScratchDone, 
@@ -43,6 +45,8 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -54,7 +58,11 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (

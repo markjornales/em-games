@@ -5,6 +5,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva";
 import Bugsuk from './Bugsuk';
+import useFastScratch from '@/hooks/useFastScratch';
 
 type TBugsukScratchScratch = {
     combination: boolean[][]
@@ -43,6 +44,8 @@ const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -54,7 +57,11 @@ const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (

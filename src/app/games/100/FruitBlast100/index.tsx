@@ -16,7 +16,15 @@ function FruitBlast100() {
   
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="hundredcards" 
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain} /> 
           <FruitBlastScratch
             ref={scratchCardRef}
             combinations={[

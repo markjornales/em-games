@@ -5,6 +5,7 @@ import React from 'react'
 import { Group, Image, Rect } from 'react-konva'
 import JackImage from './JackImage';
 import PopupAlert from '@/components/PopupAlert';
+import useFastScratch from '@/hooks/useFastScratch';
 
 export type TCombination = "jack"
 
@@ -43,6 +44,8 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -54,7 +57,11 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]); 
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
 
         

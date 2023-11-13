@@ -17,7 +17,15 @@ function LottoGame50() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="fiftycards" onclickStart={handleButtonMain} /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="fiftycards" 
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain} /> 
           <Lotto50Scratch
             ref={scratchCardRef}
             combinations={[

@@ -3,6 +3,7 @@ import React from 'react'
 import { Group } from 'react-konva'
 import LuckybuddhaScratch from './LuckybuddhaScratch';
 
+
 function Luckybuddah() {
     const scratchCardRef = React.useRef<any>();
 
@@ -16,7 +17,15 @@ function Luckybuddah() {
 
     return (
         <Group>
-            <CButton label="NEXT CARD" url_path="tencards" onclickStart={handleButtonMain} />
+            <CButton 
+            label="NEXT CARD" 
+            url_path="tencards" 
+            onfastscratch={() =>{
+                if(!scratchCardRef.current.isScratchDone){
+                    scratchCardRef.current.fastscratch();   
+                } 
+            }} 
+            onclickStart={handleButtonMain} />
             <LuckybuddhaScratch ref={scratchCardRef}
                 combination={[
                     [true, false, false],

@@ -5,6 +5,8 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect } from "react-konva";
 import Goldencoin from './Goldencoin';
+import useFastScratch from '@/hooks/useFastScratch';
+
 type TMatchScratch  = {
     combination: boolean[][]
 }
@@ -42,6 +44,8 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -53,7 +57,11 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (

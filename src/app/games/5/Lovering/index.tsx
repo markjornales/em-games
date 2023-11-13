@@ -17,7 +17,15 @@ function Lovering() {
 
     return (
         <Group>
-            <CButton label="NEXT CARD" url_path="fivecards" onclickStart={handleButtonMain} />
+            <CButton 
+            label="NEXT CARD" 
+            url_path="fivecards" 
+            onfastscratch={() =>{
+                if(!scratchCardRef.current.isScratchDone){
+                    scratchCardRef.current.fastscratch();   
+                } 
+            }} 
+            onclickStart={handleButtonMain} />
             <LoveScratch ref={scratchCardRef} combination={[
                  [true, false, false],
                  [false, true, false],

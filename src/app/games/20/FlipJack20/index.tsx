@@ -17,7 +17,15 @@ function FlipJack20() {
 
   return (
     <Group>
-         <CButton label="NEXT CARD" url_path="twentycards" onclickStart={handleButtonMain} /> 
+         <CButton 
+         label="NEXT CARD" 
+         url_path="twentycards" 
+         onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+         onclickStart={handleButtonMain} /> 
           <FlipJackScratch ref={scratchCardRef} combination={[
             ["jack", undefined, "jack"],
             [undefined, undefined, undefined], 

@@ -18,7 +18,15 @@ function Pocker() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" url_path="hundredcards" onclickStart={handleButtonMain} />
+        <CButton 
+        label="NEXT CARD" 
+        url_path="hundredcards" 
+        onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+      }} 
+        onclickStart={handleButtonMain} />
         <PockerScratch ref={scratchCardRef} combination={[
             [undefined, undefined],
             [undefined, undefined],

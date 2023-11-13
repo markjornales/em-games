@@ -5,6 +5,7 @@ import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Treasure from './Treasure';
+import useFastScratch from '@/hooks/useFastScratch';
 
 type TTreasureScratch = {
     combination: boolean[][]
@@ -43,6 +44,8 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -54,7 +57,11 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (
