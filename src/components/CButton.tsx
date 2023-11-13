@@ -11,18 +11,21 @@ const outfit = Outfit({
     display: "swap"
   });
 type TCButton = {
-  onclickStart: () => void
+  onclickStart: () => void;
+  onfastscratch: () => void;
   label: string;
   url_path?: string;
 }
 
 function CButton(props: TCButton) {
-    const { onclickStart, label, url_path} = props;
+    const { onclickStart, label, url_path, onfastscratch} = props;
     const router = useRouter(); 
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isClicked, setClicked] = React.useState<boolean>(false);
     const [isClickBack, setClickBack] = React.useState<boolean>(false);
+    const [isFastScratchClick, setFastScratchClick] = React.useState<boolean>(false)
+
     const fontSizeDefault = width*.04;
 
     const onClickStart = () => {
@@ -33,6 +36,11 @@ function CButton(props: TCButton) {
     const handleBackButton = () => {
       setClickBack(false); 
         router.push(`https://emperorgaming.bet/${url_path}.php`); 
+    }
+
+    const handlePointerUp = () => {
+      onfastscratch();
+      setFastScratchClick(false)
     }
     
   return (
@@ -49,28 +57,8 @@ function CButton(props: TCButton) {
                 }}
               />
           </Group>
-          
-          <Group  x={(width*.12) * 1.3} >
-            <ImageLoad
-                src="/images/start.png"
-                imageProps={{
-                  width: width*.35,
-                  height: width*.09,
-                }}
-              />
-               <Text
-                fill="#5E1700"
-                text="FAST SCRATCH"
-                align="center"
-                verticalAlign="middle"
-                width={width*.35}
-                height={width*.09}
-                fontSize={fontSizeDefault}
-                fontFamily={outfit.style.fontFamily}
-              />
-          </Group>
-          <Group 
-           x={width*.52}
+          <Group  
+           x={(width*.12) * 1.3} 
             opacity={isClicked? 0.6: 1}
             onPointerDown={() => setClicked(true)}
             onPointerUp={onClickStart}> 
@@ -92,6 +80,30 @@ function CButton(props: TCButton) {
                 fontFamily={outfit.style.fontFamily}
               />
           </Group>
+          <Group 
+            x={width*.52}
+            opacity={isFastScratchClick? 0.6: 1} 
+            onPointerDown={() => setFastScratchClick(true)}
+            onPointerUp={handlePointerUp}>
+            <ImageLoad
+                src="/images/fast.png"
+                imageProps={{
+                  width: width*.35,
+                  height: width*.09,
+                }}
+              />
+               <Text
+                fill="#5E1700"
+                text="FAST SCRATCH"
+                align="center"
+                verticalAlign="middle"
+                width={width*.35}
+                height={width*.09}
+                fontSize={fontSizeDefault}
+                fontFamily={outfit.style.fontFamily}
+              />
+          </Group>
+         
         </Group>
   )
 }

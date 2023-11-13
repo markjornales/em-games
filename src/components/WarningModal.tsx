@@ -17,7 +17,11 @@ const lato2 = Lato({
   subsets: ["latin"]
 })  
 
-function WarningModal() {
+type TWarningmodal = {
+  textstring: string;
+}
+
+function WarningModal({textstring}: TWarningmodal) {
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isClicked, setClicked] = React.useState<boolean>(false);
@@ -70,7 +74,7 @@ function WarningModal() {
           width={width*.45} 
           fontSize={width*.028}
           fontFamily={lato2.style.fontFamily} 
-          text="This game will cannot be played by 18 years old and below." 
+          text={textstring} 
           align="center"
         />
         <Group

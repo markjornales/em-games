@@ -5,6 +5,7 @@ import React from "react";
 import { Group, Image, Rect } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert';
 import Joker from './Joker';
+import useFastScratch from '@/hooks/useFastScratch';
 
 
 type TCasinoJokerScratch = {
@@ -19,7 +20,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     const { combination } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
-    const [isModalShow, setModalshow] = React.useState<boolean>(false);
+    const [isModalShow, setModalshow] = React.useState<boolean>(false); 
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
     const x1 = WIDTH*.4;
@@ -27,13 +28,9 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     const x2 = WIDTH*.88;
     const y2 = HEIGHT*.86
     
-    const {
-        canvas, 
-        isScratchDone, 
-        setScratchDone,
-         setStagePointerPos
-    } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/200/casinojoker/front.png"});
+    const { canvas, isScratchDone, setScratchDone, setStagePointerPos } = useScratchMethod({
+        HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, imageSrc: "/images/200/casinojoker/front.png", 
+    });
     
 
     const {
@@ -43,6 +40,8 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
         handleOnPointerLeave, 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
+
+   const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -54,8 +53,12 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
         isScratchDone,
         reset: () => { 
             setScratchDone(false);
-            setStagePointerPos([]);
+            setStagePointerPos([]); 
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (
