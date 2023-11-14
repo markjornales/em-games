@@ -23,7 +23,15 @@ function FortuneRabbit() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
+        <CButton 
+        label="NEXT CARD" 
+        url_path="hundredto" 
+        onfastscratch={() =>{
+          if(!scratchCardRef.current.isScratchDone){
+              scratchCardRef.current.fastscratch();   
+          } 
+        }} 
+        onclickStart={handleButtonMain} />
         <FortuneScratch combination={sampleData} ref={scratchCardRef}/>
     </Group>
   )

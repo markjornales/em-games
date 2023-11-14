@@ -11,6 +11,7 @@ import ScratchHere from "@/components/ScratchHere";
 import useImage from "use-image";
 import StarDefault from "./StarDefault";
 import PopupAlert from "@/components/PopupAlert";
+import useFastScratch from '@/hooks/useFastScratch';
 
 const outfit = Poppins({
     subsets: ["latin"],
@@ -59,6 +60,8 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
@@ -70,7 +73,11 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
     
     return (

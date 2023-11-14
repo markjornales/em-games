@@ -16,7 +16,15 @@ function ThailandBangkok() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
+        <CButton 
+        label="NEXT CARD" 
+        url_path="hundredto" 
+        onfastscratch={() =>{
+            if(!scratchCardRef.current.isScratchDone){
+                scratchCardRef.current.fastscratch();   
+            } 
+        }} 
+        onclickStart={handleButtonMain} />
         <ThailandBScratch ref={scratchCardRef} combination={[
             [false, true , false],
             [false, false , false],

@@ -15,7 +15,15 @@ function LuckyJack() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
+        <CButton 
+        label="NEXT CARD" 
+        url_path="hundredto" 
+        onfastscratch={() =>{
+            if(!scratchCardRef.current.isScratchDone){
+                scratchCardRef.current.fastscratch();   
+            } 
+        }} 
+        onclickStart={handleButtonMain} />
         <LuckyJackScratch ref={scratchCardRef} combination={[
             [false, false],
             [false, false],

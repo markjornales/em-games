@@ -108,6 +108,14 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerLeave={handleOnPointerLeave}
                 />
                  
+
+                  {/* <Rect 
+                fill="red"
+                width={x2-x1}
+                height={y2-y1}
+                x={x1}
+                y={y1}
+                /> */}
             </Group>
             <PopupAlert 
                 statusWinner={0}

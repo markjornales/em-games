@@ -7,6 +7,7 @@ import Rabbits from './Rabbits';
 import ScratchHere from '@/components/ScratchHere';
 import PopupAlert from '@/components/PopupAlert';
 import { shuffleArrays } from '@/hooks/functions';
+import useFastScratch from '@/hooks/useFastScratch';
 
 type TFortuneScratchProps = {combination: boolean[][]}
 type TFortuneScratchRef = {
@@ -34,6 +35,8 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
 
     const { handleMouseDown, handleMouseMove, handleMouseUp, handleOnPointerLeave, imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
+
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
     
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -46,8 +49,12 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
         reset: () => { 
             setScratchDone(false);
             setStagePointerPos([]);
-            setReset(init => !init)
+            setReset(init => !init);
+            setFastScratch(false)
         },
+        fastscratch: () => {
+            setFastScratch(true) 
+        }
     }));
 
     const ShowRabbits = React.useMemo(() => shuffleArrays(combination).map((data, indexColumn) => 
