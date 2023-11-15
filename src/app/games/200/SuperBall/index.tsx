@@ -16,8 +16,8 @@ function SuperBall() {
 
   return (
     <Group>
-        <CButton label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
-        <SuperBallScratch ref={scratchCardRef} combination={[undefined, undefined, undefined]}/>
+        <CButton onfastscratch={() => {}} label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
+        <SuperBallScratch ref={scratchCardRef} combination={[undefined, 1, undefined]}/>
     </Group>
   );
 }
