@@ -50,7 +50,7 @@ function renderGame({gameComponents}: TRenderGame) {
     <PageCanvas>
        <BalanceBar balance_amount={52629} time_played={152}/>
           {gameComponents}
-       <WarningModal textstring="This game will cannot be played by 18 years old and below."/>
+       {/* <WarningModal textstring="This game will cannot be played by 18 years old and below."/> */}
     </PageCanvas> 
   );
 }

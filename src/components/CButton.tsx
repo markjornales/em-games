@@ -44,7 +44,7 @@ function CButton(props: TCButton) {
     }
     
   return (
-    <Group x={(width-((width*.35) + (width*.12) + (width*.4)))/2} y={height*.88}>
+    <Group x={(width-((width*.35) + (width*.12) + (width*.4)))/2} y={height*.86}>
           <Group 
             opacity={isClickBack? 0.5: 1} 
             onPointerDown={() => setClickBack(true)}
