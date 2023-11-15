@@ -64,7 +64,7 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
     
     return (
     <Group>
-        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#464646" width={width*.859} height={HEIGHT*.998}/>
             {canvas && combination.map((dataArray, indexRow) => 
                 dataArray.map((values, indexColumn) => 

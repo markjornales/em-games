@@ -77,7 +77,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
 
     return (
     <Group>
-        <Group  x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group  x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
             {showResults}
             <Image

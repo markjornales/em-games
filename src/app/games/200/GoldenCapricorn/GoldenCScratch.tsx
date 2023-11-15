@@ -82,7 +82,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+            <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect 
                     cornerRadius={10}
                     fill="white"

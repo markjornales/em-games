@@ -66,7 +66,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+            <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
                 {combination.map((value, index) => 
                     <Group key={index} opacity={value == index ? 1: 0.2} x={WIDTH*.825} y={HEIGHT*(.19 + (0.094 * index))}>
