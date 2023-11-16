@@ -1,14 +1,17 @@
 import CButton from '@/components/CButton'
+import WarningModal from '@/components/WarningModal'
 import React from 'react'
 import { Group } from 'react-konva'
 import SuperBallScratch from './SuperBallScratch'
 
 function SuperBall() {
     const scratchCardRef = React.useRef<any>()
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
   
-    const handleButtonMain = () => {
+    const handleButtonMain = () => { 
+        setWarningShow(false);
         if(!scratchCardRef.current.isScratchDone) {
-            alert('please Scratch first')
+            setWarningShow(true)
         } else {
             scratchCardRef.current.reset() 
         }  
@@ -16,8 +19,13 @@ function SuperBall() {
 
   return (
     <Group>
-        <CButton onfastscratch={() => {}} label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
+        <CButton  onfastscratch={() => {
+           if(!scratchCardRef.current.isScratchDone){
+            scratchCardRef.current.fastscratch();   
+          } 
+        }} label="NEXT CARD" url_path="hundredto" onclickStart={handleButtonMain} />
         <SuperBallScratch ref={scratchCardRef} combination={[undefined, 1, undefined]}/>
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   );
 }
