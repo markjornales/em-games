@@ -67,7 +67,7 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
         
     return (
     <Group>
-        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#e7e1c8" width={width*.859} height={HEIGHT*.998}/>
             {combinations.map((datacombi, indexRow) =>
                 datacombi.map((valuecombi, indexColumn) => 

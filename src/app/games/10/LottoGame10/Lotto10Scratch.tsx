@@ -65,7 +65,7 @@ const Lotto10Scratch = React.forwardRef<TLotto10ScratchRef, TLotto10ScratchProps
 
     return (
     <Group>
-        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
             {combinations.map((data, indexRow) => 
                 data.map((value, indexColumn) => 

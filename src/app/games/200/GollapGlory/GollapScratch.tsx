@@ -67,7 +67,7 @@ const GollapScratch = React.forwardRef<TGollapRef, TGollapScratch>((props, ref) 
     
     return (
         <Group>
-            <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+            <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#dcdad1"width={width*.859} height={HEIGHT}/>
                 {combination.map((data, indexRow) => 
                     data.map((values, indexColumn) => 

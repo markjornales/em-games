@@ -68,7 +68,7 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
 
     return (
     <Group>
-        <Group x={(width- WIDTH)/2} y={(height-height*.78)/2}>
+        <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#ececec" width={width*.859} height={HEIGHT*.998}/>
             {canvas && combinations.map((data, indexRow) => 
                 data.map((value, indexColumn) => 
