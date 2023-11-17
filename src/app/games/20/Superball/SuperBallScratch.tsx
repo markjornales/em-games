@@ -70,6 +70,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
         superBallFunction(8).map((data,indexRow) => 
             data.map((colors: any, indexColumn) => 
             <Group 
+                key={indexColumn+indexRow}
                 y={HEIGHT*(.101 + (0.067 * indexRow))} 
                 x={WIDTH*(.24 + (0.112 * indexColumn))} 
                 opacity={colors[Object.keys(colors)[0]] == 1? 1: 0.2}>
