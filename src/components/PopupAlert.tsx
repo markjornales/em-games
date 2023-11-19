@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ImageLoad } from '@/components/ImageComponents';
 import { Group, Image, Rect, Text, } from "react-konva"; 
 import useImage from 'use-image';
@@ -43,6 +43,18 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
     setClicked(false);  
     onTap();
   }
+
+  React.useEffect(() => {
+    if(visible) {
+        if( statusWinner > 0) {
+            const audio = new Audio("/sounds/tadaa.mp3");
+            audio.play();
+        } else {
+            const audio = new Audio("/sounds/lose_sfx.mp3");
+            audio.play();
+        }
+    }
+  },[visible])
 
   return (
     <GroupAnimation visible={visible} 

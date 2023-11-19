@@ -22,10 +22,10 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.29;
+    const x1 = WIDTH*.27;
     const y1 = HEIGHT*.083;
-    const x2 = WIDTH*.8;
-    const y2 = HEIGHT*.45
+    const x2 = WIDTH*.835;
+    const y2 = HEIGHT*.43
     
     const {
         canvas, 
@@ -44,7 +44,7 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 20});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -68,7 +68,7 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
+                {canvas && combination.map((data, indexRow) => 
                     data.map((values, indexColumn) => 
                     <Group 
                         opacity={values ? 1: 0.4}
@@ -88,21 +88,10 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                />    
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={1}
                 visible={isModalShow}
                 height={height}
                 width={width}
