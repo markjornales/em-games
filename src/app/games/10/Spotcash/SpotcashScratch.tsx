@@ -33,7 +33,7 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/10/Spotcash/front.png"});
+        imageSrc: "/images/10/spotcash/front.png"});
     
 
     const {
@@ -68,7 +68,7 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
+                {canvas && combination.map((data, indexRow) => 
                     data.map((values, indexColumn) =>  
                     <Group 
                         opacity={values? 1: 0.2}

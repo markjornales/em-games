@@ -33,7 +33,7 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/50/Casino/front.png"});
+        imageSrc: "/images/50/casino/front.png"});
     
 
     const {
