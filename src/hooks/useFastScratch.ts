@@ -33,7 +33,7 @@ function useFastScratch(props: TUseFastScratch) {
                     xpos1 += 35; 
                     ypos1 = positions.y1     
                 }
-                setStagePointerPos([{lineTo, moveTo}]);
+                setStagePointerPos((evt) => [...evt, {lineTo, moveTo}]);
             }else {
                 konva.stop();
             }

@@ -15,7 +15,7 @@ const SuperBall = dynamic(() => import("@/app/games/200/SuperBall"));
 const routelist: TGameComponents = {
     "lottogame": <LottoGame/>,
     "bingo": <BingoGame/>,
-    "golencapricorn": <GoldenCapricorn/>,
+    "goldencapricorn": <GoldenCapricorn/>,
     "fortunerabbit": <FortuneRabbit/>,
     "gollapglory": <GollapGlory/>,
     "casinojoker": <CasinoJoker/>,

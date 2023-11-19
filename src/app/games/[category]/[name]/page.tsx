@@ -48,7 +48,7 @@ export default function Home ({params}: THomePageParams) {
 function renderGame({gameComponents}: TRenderGame) {
   return (
     <PageCanvas>
-       <BalanceBar balance_amount={52629} time_played={152}/>
+       <BalanceBar balance_amount={0} time_played={0}/>
           {gameComponents}
        {/* <WarningModal textstring="This game will cannot be played by 18 years old and below."/> */}
     </PageCanvas> 
