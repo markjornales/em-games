@@ -47,8 +47,8 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
     const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current; 
 
-    const x1 = WIDTH*.24;
-    const x2 = WIDTH*.67;
+    const x1 = WIDTH*.2;
+    const x2 = WIDTH*.74;
     const y1 = HEIGHT*.47;
     const y2 = HEIGHT*.82
     
@@ -59,7 +59,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
     const { handleMouseDown, handleMouseMove, handleMouseUp, handleOnPointerLeave, imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
     
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 5});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 20});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -85,7 +85,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#d4d4d4" width={width*.859} height={HEIGHT*.998}/> 
                 {combinations.map((position, index) => 
-                  <Group x={WIDTH*position.x} y={WIDTH*position.y} key={index}>
+                  <Group x={(WIDTH*.9)*position.x} y={WIDTH*position.y} key={index}>
                     <Bingo
                       selected={position.selected}
                       key={index}
@@ -108,8 +108,8 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerLeave={handleOnPointerLeave}
                 />
                  
-
-                  {/* <Rect 
+{/* 
+                  <Rect 
                 fill="red"
                 width={x2-x1}
                 height={y2-y1}

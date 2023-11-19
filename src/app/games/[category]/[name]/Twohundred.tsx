@@ -20,7 +20,7 @@ const routelist: TGameComponents = {
     "gollapglory": <GollapGlory/>,
     "casinojoker": <CasinoJoker/>,
     "luckyjack": <LuckyJack/>,
-    "thailandbangkok": <ThailandBangkok/>,
+    "bangkokthailand": <ThailandBangkok/>,
     "superball": <SuperBall/>
 };
  

@@ -22,10 +22,10 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.32;
+    const x1 = WIDTH*.3;
     const y1 = HEIGHT*.29;
-    const x2 = WIDTH*.75;
-    const y2 = HEIGHT*.72
+    const x2 = WIDTH*.77;
+    const y2 = HEIGHT*.71
     
     const {
         canvas, 
@@ -88,7 +88,7 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />     
+                /> 
             </Group>
             <PopupAlert 
                 statusWinner={0}

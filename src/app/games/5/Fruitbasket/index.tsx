@@ -8,6 +8,7 @@ function Fruitbasket() {
     const scratchCardRef = React.useRef<any>();
 
     const handleButtonMain = () => {
+        console.log(scratchCardRef.current)
         if (!scratchCardRef.current.isScratchDone) {
             alert('please Scratch first')
         } else {

@@ -21,10 +21,10 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.28;
+    const x1 = WIDTH*.25;
     const y1 = HEIGHT*.19;
-    const x2 = WIDTH*.72;
-    const y2 = HEIGHT*.58
+    const x2 = WIDTH*.75;
+    const y2 = HEIGHT*.57
     
     const {
         canvas, 
@@ -41,12 +41,11 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
         handleMouseUp, 
         handleOnPointerLeave, 
         imageRef
-    } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
-
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos}); 
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 15});
 
     React.useEffect(() => {
-        if(isScratchDone){ 
+        if(  isScratchDone){ 
             setModalshow(true);
         }
     },[isScratchDone]);
@@ -90,6 +89,13 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />  
+                {/* <Rect 
+                    fill="red"
+                    width={x2-x1}
+                    height={y2-y1}
+                    y={y1}
+                    x={x1}
+                /> */}
             </Group>
             <PopupAlert 
                 statusWinner={0}

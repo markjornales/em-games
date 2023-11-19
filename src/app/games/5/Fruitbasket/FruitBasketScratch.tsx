@@ -22,8 +22,8 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const HEIGHT = React.useRef<number>(height*.75).current;
-    const WIDTH = React.useRef<number>(width*.86).current;
+    const HEIGHT = height*.75;
+    const WIDTH = width*.86;
 
     const x1 = WIDTH*.30;
     const x2 = WIDTH*.86;
@@ -58,6 +58,7 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
         isScratchDone,
         reset: () => { 
             setScratchDone(false);
+            setStagePointerPos([]);
             setFastScratch(false)
         },
         fastscratch: () => {
