@@ -91,7 +91,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
 
   return (
     <Group>
-     <Group y={(height-(height*.78))/2} x={(width-width*.86)/2} >  
+     <Group y={(height-(height*.8))/2} x={(width-width*.86)/2} >  
         <Rect fill="white" width={width*.86} height={height*.75} cornerRadius={10}/>
         {canvas && gameCombination.map((data, index) => {
             const ypos = .097 * index; 
