@@ -85,7 +85,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#d4d4d4" width={width*.859} height={HEIGHT*.998}/> 
                 {combinations.map((position, index) => 
-                  <Group x={(WIDTH*.9)*position.x} y={WIDTH*position.y} key={index}>
+                  <Group x={WIDTH*position.x} y={WIDTH*position.y} key={index}>
                     <Bingo
                       selected={position.selected}
                       key={index}

@@ -11,7 +11,7 @@ function PageCanvas({children}: {children: React.ReactNode}) {
   const values = useCanvasContext();
  
   React.useEffect(() => {
-    const audio = new Audio("/sounds/thailandmp3.mp3");
+    const audio = new Audio("/sounds/chinese_sound.mp3");
     const animate = new Konva.Animation(() => { 
         audio.loop = true;
         audio.play();  

@@ -43,11 +43,13 @@ function useFastScratch(props: TUseFastScratch) {
        }
        if(isFastScratch){
              const sounds = new Audio("/sounds/scratch_pencil.mp3");
-             sounds.loop = true;
+             sounds.loop = true; 
              sounds.play();
-           scratchAuto(() => {
-                sounds.pause();
-           });
+             setTimeout(() => {
+                 scratchAuto(() => {
+                    sounds.pause();
+                 });
+             }, 400) 
        }
     },[isFastScratch]);
    
