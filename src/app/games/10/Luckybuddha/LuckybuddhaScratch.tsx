@@ -33,7 +33,7 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/10/Luckybuddha/front.png"});
+        imageSrc: "/images/10/luckybuddha/front.png"});
     
 
     const {

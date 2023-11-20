@@ -94,7 +94,7 @@ function CButton(props: TCButton) {
               />
                <Text
                 fill="#5E1700"
-                text="FAST SCRATCH"
+                text="AUTO SCRATCH"
                 align="center"
                 verticalAlign="middle"
                 width={width*.35}

@@ -41,7 +41,7 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 30});
 
     React.useEffect(() => {
         if(isScratchDone){ 

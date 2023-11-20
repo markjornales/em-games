@@ -17,7 +17,7 @@ function useFastScratch(props: TUseFastScratch) {
     const { setStagePointerPos, positions, speed } = props;
     const [isFastScratch, setFastScratch] = React.useState<boolean>(false);
     React.useEffect(() => { 
-       const scratchAuto = () => {
+       const scratchAuto = (callback: any) => {
         let ypos1 = positions.y1;
         let xpos1 = positions.x1 + 12;
 
@@ -35,13 +35,19 @@ function useFastScratch(props: TUseFastScratch) {
                 }
                 setStagePointerPos((evt) => [...evt, {lineTo, moveTo}]);
             }else {
+                callback()
                 konva.stop();
             }
         });
         konva.start();
        }
        if(isFastScratch){
-           scratchAuto();
+             const sounds = new Audio("/sounds/scratch_pencil.mp3");
+             sounds.loop = true;
+             sounds.play();
+           scratchAuto(() => {
+                sounds.pause();
+           });
        }
     },[isFastScratch]);
    
