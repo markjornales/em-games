@@ -9,7 +9,7 @@ type TDollarProps = {
 
 function Dollar(props: TDollarProps) {
     const { imageHeight, imageWidth } = props;
-    const [isImageRender] = useImage(`/images/10/luckybuddha/Dollar.png`);
+    const [isImageRender] = useImage(`/images/10/luckybuddha/dollar.png`);
     return (
     <Image 
         image={isImageRender}

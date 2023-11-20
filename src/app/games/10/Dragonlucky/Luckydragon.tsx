@@ -9,7 +9,7 @@ type TLuckydragonProps = {
 
 function Luckydragon(props: TLuckydragonProps) {
     const { imageHeight, imageWidth } = props;
-    const [isImageRender] = useImage(`/images/10/Luckydragon/dragon.png`);
+    const [isImageRender] = useImage(`/images/10/luckydragon/dragon.png`);
     return (
     <Image 
         image={isImageRender}
