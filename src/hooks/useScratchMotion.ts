@@ -1,7 +1,7 @@
- import React from 'react'
+ import { TStagePos } from '@/app/games/200/LottoGame/ScratchGames';
+import React from 'react';
 import { Image } from 'react-konva';
 import { TStageMoveProps } from './useScratchMethod';
-import { TStagePos } from '@/app/games/200/LottoGame/ScratchGames';
 export type TScratchMotion = {
     x1: number;
     x2: number;
@@ -11,7 +11,7 @@ export type TScratchMotion = {
     isScratchDone: boolean
 }
 
-function useScratchMotion(props: TScratchMotion) {
+function useScratchMotion(props: TScratchMotion) { 
     const {x1, x2, y1, y2, setStagePointerPos, isScratchDone} = props; 
     const isPaint = React.useRef<boolean>(false);
     const imageRef = React.useRef<React.ComponentRef<typeof Image>>(null);
@@ -24,7 +24,7 @@ function useScratchMotion(props: TScratchMotion) {
     const handleMouseDown = React.useCallback(() => {
         isPaint.current = true;  
         const position = imageRef.current?.getRelativePointerPosition()!;
-        if(scratchScope(position)){
+        if(scratchScope(position)){ 
             sounds.current = new Audio("/sounds/scratch_pencil.mp3");
             sounds.current.loop = true;
             sounds.current?.play();
@@ -49,12 +49,12 @@ function useScratchMotion(props: TScratchMotion) {
 
     const handleOnPointerLeave = () => {
         isPaint.current = false
-        sounds.current?.pause();
+        sounds.current?.pause();  
     }
 
     const handleMouseUp = () => { 
         isPaint.current = false; 
-        sounds.current?.pause();
+        sounds.current?.pause(); 
     }
 
     return {

@@ -1,6 +1,5 @@
 import CButton from '@/components/CButton';
 import { CanvasProvider } from '@/components/CanvasContext';
-import ImageFlip from '@/components/ImageFlip';
 import React from 'react';
 import { Group } from 'react-konva';
 import ScratchGame, { TgameCombination } from './ScratchGames';
@@ -15,8 +14,7 @@ const gameCombination: TgameCombination= [
 function MainGames() {
   const { isCanvasSize } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize; 
-  const scratchCardRef = React.useRef<any>()
-
+  const scratchCardRef = React.useRef<any>() 
   const onclickStarts = () => {
     if(!scratchCardRef.current.isScratchDone) {
         alert('please Scratch first')

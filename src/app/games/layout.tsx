@@ -1,10 +1,10 @@
 "use client"
 import '@/app/globals.css'
-import { CanvasProvider, TCanvas } from '@/components/CanvasContext'
+import { CanvasProvider } from '@/components/CanvasContext'
+import useContextProviders from '@/hooks/useContextProviders'
+import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import React from 'react'
-import dynamic from 'next/dynamic'
-import Konva from 'konva'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,32 +21,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const canvasParent = React.useRef<HTMLDivElement>(null); 
-  const [isCanvasSize, setConvasSize] = React.useState<TCanvas>({
-      height: 0,
-      width: 0,
-      offsound: false
-  });
-  const mounted = React.useRef<boolean>(false);
-
-  React.useEffect(() => {
-      handleEventListener()   
-  },[]);
-
-  React.useEffect(() => {
-      window.addEventListener("resize", handleEventListener);
-      return () => {
-          window.addEventListener("resize", handleEventListener);
-      }
-  }, []);
-
-  const handleEventListener = () => {
-      setConvasSize({
-          height: canvasParent.current?.offsetHeight || 0,
-          width: canvasParent.current?.offsetWidth || 0
-      });
-  }
-
+  const {canvasParent, isAuthenticated, providers } = useContextProviders();
+  
   return (
     <html lang="en"> 
       <head>
@@ -55,14 +31,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={inter.className} > 
-        <CanvasProvider.Provider value={{isCanvasSize}}>
+        <CanvasProvider.Provider value={providers}>
           <div className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center")}> 
               <div className={classNames("flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]")} ref={canvasParent}>
                 {children}
             </div>
           </div>
         </CanvasProvider.Provider>
-        {/* <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"> 
+        {!isAuthenticated.authenticate && <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"> 
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div> 
           <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"> 
@@ -70,15 +46,15 @@ export default function RootLayout({
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                       </svg>
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">Attension</h3>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          To access this feature, please log in to your account.
+                          {isAuthenticated.message} 
                         </p>
                       </div>
                     </div>
@@ -92,7 +68,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-        </div> */}
+        </div>}
       </body>
     </html>
   )

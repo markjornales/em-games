@@ -39,7 +39,7 @@ export type TLottoGamesRef = {
 const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) => {
     const {gameCombination = []} = props;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const { isCanvasSize } = React.useContext(CanvasProvider);
+    const { isCanvasSize, setCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;   
     
     const WIDTH = width*.862;
@@ -58,7 +58,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {
         height: HEIGHT*.35,
         width: WIDTH*.8
-    },imageSrc: '/images/200/LottoGame/lottogamesfront.png'});
+    }, imageSrc: '/images/200/LottoGame/lottogamesfront.png', });
 
     const {
         imageRef,
@@ -66,12 +66,13 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
         handleMouseMove,
         handleMouseUp, 
         handleOnPointerLeave, 
-    } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
+    } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos,});
 
     const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 30});
-
+    
     React.useEffect(() => {
         if(isScratchDone){ 
+          
             setModalshow(true);
         }
     },[isScratchDone])

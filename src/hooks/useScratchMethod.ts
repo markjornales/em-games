@@ -1,6 +1,6 @@
 import { TStagePos } from '@/app/games/200/LottoGame/ScratchGames';
 import React from 'react';
-import useImage from 'use-image'; 
+import useImage from 'use-image';
 export type TStageMoveProps = {
     moveTo: TStagePos;
     lineTo: TStagePos[]
@@ -19,7 +19,6 @@ export type TScratchMethod = {
 }
 
 function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea, threshold = 90}: TScratchMethod) {
-    
     const [image] = useImage(imageSrc);
     const [stagePointerPos, setStagePointerPos] = React.useState<TStageMoveProps[]>([]); 
     const [isScratchDone, setScratchDone] = React.useState<boolean>(false); 
@@ -29,7 +28,7 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea, thresho
    
     React.useEffect(() => {
         // if(!isScratchDone) {
-            if(image) {   
+            if(image) {  
                 canvasElement.current = document.createElement("canvas");
                 context.current = canvasElement.current.getContext("2d");
                 canvasElement.current.width = WIDTH;

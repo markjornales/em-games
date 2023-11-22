@@ -7,7 +7,8 @@ import Ten from "./Ten";
 import Five from "./Five";
 import Twenty from "./Twenty";
 import Twohundred from "./Twohundred";
-
+import React from "react";
+import { CanvasProvider } from "@/components/CanvasContext";
 
 type THomePageParams = {
   params: {
@@ -26,11 +27,11 @@ const PageCanvas = dynamic(() => import("@/components/PageCanvas"), {
   ssr: false
 });
 
-const WarningModal = dynamic(() => import("@/components/WarningModal"));
+// const WarningModal = dynamic(() => import("@/components/WarningModal"));
 const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 
 export default function Home ({params}: THomePageParams) {
-  
+
   const router = useRouter(); 
   const gameComponents: TGameComponents = Object.assign({}, Five, Twohundred, Onehundred, Fifty, Twenty, Ten);
   const gameKey = `${params.category}-${params.name}`;
@@ -46,11 +47,11 @@ export default function Home ({params}: THomePageParams) {
 }
 
 function renderGame({gameComponents}: TRenderGame) {
+  const { isCardScratch } = React.useContext(CanvasProvider);
   return (
     <PageCanvas>
-       <BalanceBar balance_amount={0} time_played={0}/>
+       <BalanceBar balance_amount={isCardScratch.e_wallet} time_played={0}/>
           {gameComponents}
-       {/* <WarningModal textstring="This game will cannot be played by 18 years old and below."/> */}
     </PageCanvas> 
   );
 }
