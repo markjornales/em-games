@@ -37,7 +37,7 @@ export default function Home ({params}: THomePageParams) {
   const gameKey = `${params.category}-${params.name}`;
 
   if(gameComponents[gameKey]){
-    return renderGame({
+    return RenderGame({
       gameComponents: gameComponents[gameKey]
     });
   } else {
@@ -46,7 +46,7 @@ export default function Home ({params}: THomePageParams) {
   }
 }
 
-function renderGame({gameComponents}: TRenderGame) {
+function RenderGame({gameComponents}: TRenderGame) {
   const { isCardScratch } = React.useContext(CanvasProvider);
   return (
     <PageCanvas>
