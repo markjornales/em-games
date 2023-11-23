@@ -3,6 +3,7 @@ import React from 'react'
 import { Group } from 'react-konva'
 import CasinoJokerScratch from './CasinoJokerScratch'
 import dynamic from 'next/dynamic';
+// eto
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 
@@ -11,8 +12,10 @@ function CasinoJoker() {
     const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
   
     const handleButtonMain = () => {
+        // eto
         setWarningShow(false);
         if(!scratchCardRef.current.isScratchDone) {
+            // eto
             setWarningShow(true)
         } else {
             scratchCardRef.current.reset() 
@@ -37,7 +40,8 @@ function CasinoJoker() {
             [false, false], 
             [false, false], 
         ]}/>
-        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+        {/* eto */}
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
     </Group>
   );
 }
