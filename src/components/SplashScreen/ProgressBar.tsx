@@ -1,3 +1,4 @@
+
 import APIHandlerPost from '@/api/API';
 import { CanvasContext, CanvasProvider, TCardScratchProp } from '@/components/CanvasContext';
 import { ImageLoad } from '@/components/ImageComponents';
@@ -5,7 +6,7 @@ import Konva from 'konva';
 import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Group, Text } from 'react-konva';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'; 
 
 
 const poppins = Poppins({
@@ -16,6 +17,7 @@ const poppins = Poppins({
 function ProgressBar() {
   const searchparams = useSearchParams();
   const search = searchparams.get("q")!;
+  const gid = searchparams.get("gid")!;
   const { isCanvasSize, setAuthenticated, setCardScratch } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize;
     const refText = React.useRef<any>();  
@@ -38,21 +40,30 @@ function ProgressBar() {
         if((progessbarwidth + 3) > maxbarX) {
           setLoading(false);
           frameAnimation.stop();
-          setTimeout(() => authentications(), 500)
+          setTimeout(() => {
+            authentications(); 
+          }, 500)
         }
       })
       frameAnimation.start();
     },[]);
+
+  
 
     const authentications = async () => { 
       try {
         const response = await APIHandlerPost({ 
           qUid: search, 
           dataParams: {
-            card_id: 5,
-            user_id: 1,
+            card_id: parseInt(gid), 
             category: null
-        }});  
+        }});
+        if(!gid){
+          throw {
+            message: "Unable to open this game please choose another game or try again click same game. thank you!",
+            status: 401
+          }
+        }
         if(!response.ok && response.status_code == 0) { 
           if(response.status === 401) {
             throw {
@@ -60,17 +71,20 @@ function ProgressBar() {
               status: 401
             }
           } 
-        }else { 
-          setCardScratch(JSON.parse(response.scratch))
-          setPlayed(true);
+          if(response.status == 500) {
+            throw {
+              message: "Server is Busy, Please try again later."
+            }
+          }
+        }else {  
+            setCardScratch(JSON.parse(response.scratch))
+            setPlayed(true);
         }
       } catch (error: any) {  
-        if(error.status == 401) {
           setAuthenticated({
             authenticate: false, 
             message: error.message
-          })  
-        } 
+          })   
       } 
     }
 

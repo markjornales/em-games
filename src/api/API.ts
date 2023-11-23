@@ -2,8 +2,7 @@
 type TAPIHandlerPost = {
     qUid: string,
     dataParams: {
-        card_id: number;
-        user_id: number;
+        card_id: number; 
         category: any;
     }
 }

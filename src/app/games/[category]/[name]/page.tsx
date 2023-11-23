@@ -50,7 +50,7 @@ function RenderGame({gameComponents}: TRenderGame) {
   const { isCardScratch } = React.useContext(CanvasProvider);
   return (
     <PageCanvas>
-       <BalanceBar balance_amount={isCardScratch.e_wallet} time_played={0}/>
+       <BalanceBar balance_amount={isCardScratch?.e_wallet} time_played={0}/>
           {gameComponents}
     </PageCanvas> 
   );
