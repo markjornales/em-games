@@ -2,13 +2,21 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Tarsier from './Tarsier';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 
 type TBoholScratch = {
-    combination: boolean[][]
+    combination: boolean[][];
+    popupwinners: number;
+    reference: string;
 }
 type TBoholRef = {
     isScratchDone: boolean;
@@ -16,7 +24,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners, reference } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -44,7 +52,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({ setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -68,14 +76,14 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
+                {combination.map((data, indexrow) => 
+                    data.map((values, indexcolumn) => 
                     <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.44 + (0.188 * indexColumn)) } 
-                        y={HEIGHT*(.415 + (0.12 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Tarsier imageHeight={WIDTH*.2} imageWidth={WIDTH*.2}/>
+                        opacity={values? 1: 0.4}
+                        key={indexrow + indexcolumn} 
+                        x={WIDTH*(.4 + (0.153 * indexcolumn))} 
+                        y={HEIGHT*(.454 + (0.108 * indexrow))}>
+                        <Tarsier imageHeight={WIDTH*.18} imageWidth={WIDTH*.18}/>
                     </Group>
                     )
                 )}
@@ -88,8 +96,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />   
-                
-                
+               
                 {/* <Rect 
                 fill="red"
                 width={x2-x1}
@@ -97,9 +104,25 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                 x={x1}
                 y={y1}
             /> */}
+                <Group y={HEIGHT*.9} x={WIDTH*.03}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.95}
+                        height={WIDTH*.15}
+                    />
+                    <Text 
+                        text={reference} 
+                        width={WIDTH*.95} 
+                        height={WIDTH*.15}
+                        align="center"
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

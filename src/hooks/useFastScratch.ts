@@ -16,6 +16,7 @@ type TUseFastScratch = {
 function useFastScratch(props: TUseFastScratch) {
     const { setStagePointerPos, positions, speed } = props;
     const [isFastScratch, setFastScratch] = React.useState<boolean>(false);
+    
     React.useEffect(() => { 
        const scratchAuto = (callback: any) => {
         let ypos1 = positions.y1;

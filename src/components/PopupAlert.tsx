@@ -18,19 +18,45 @@ const poppins = Poppins({
 })
 
 
-const imageList = [
-    "Lose.png",
-    "prize_0.png",
-    "prize_1.png",
-    "prize_2.png",
-    "prize_3.png",
-    "prize_4.png",
-];
 
-const GroupAnimation:any = animated(Group)
+
+const GroupAnimation:any = animated(Group);
+
+function useImageLists (statusWinner: number) {
+    const path = "/images/popup/";
+    const imageList = [
+        "Lose.png",
+        "prize_0.png",
+        "prize_1.png",
+        "prize_2.png",
+        "prize_3.png",
+        "prize_4.png",
+    ];
+    const imagelists = [
+        "Lose.png", //index 0
+        "p5.png", //index 1
+        "p10.png", //index 2
+        "p20.png", //index 3
+        "p50.png", //index 4
+        "p100.png", //index 5
+        "p200.png", //index 6
+        "p500.png", //index 7
+        "p1k.png", //index 8
+        "p5k.png", //index 9
+        "p10k.png", //index 10
+        "p20k.png", //index 11
+        "p50k.png", //index 12
+        "p100k.png", //index 13
+        "p200k.png", //index 14
+        "p500k.png", //index 15
+        "p1m.png", //index 16
+        "p2m.png" //index 17
+    ];
+    return `${path}${imagelists[statusWinner]}`
+}
 
 function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPoupAlert) {
-   const [imageModal] = useImage(`/images/popup/${imageList[statusWinner]}`);
+   const [imageModal] = useImage(useImageLists(statusWinner));
    const [isClicked, setClicked] = React.useState<boolean>(false);
    const [isVisible, setVisible] = React.useState<boolean>(false);
    const {opacity} = useSpring({

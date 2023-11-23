@@ -34,7 +34,7 @@ function BalanceBar({  balance_amount, time_played }: TBalanceBarProps) {
     });
     const BalWidth = width*.4; 
     const BalHeight = width*.1;
-    const TfontSize = width*.035
+    const TfontSize = width*.042
    
     React.useEffect(() => {
       resizeFonts()
@@ -98,7 +98,7 @@ function BalanceBar({  balance_amount, time_played }: TBalanceBarProps) {
                 }}
               />
               <Text 
-                text={time_played.toLocaleString()}
+                text={"-"}
                 fill="white"
                 align="right"
                 verticalAlign="middle"

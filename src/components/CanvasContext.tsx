@@ -30,11 +30,12 @@ export type authenticationProp = {
 }
 
 export type TCardScratchProp = {
-    combi: number;
+    combi: string;
     refno: string;
     message: string;
     winner: number;
     e_wallet: number;
+    game_code: string;
 }
 
 type TCanvasProviderProp = {
@@ -49,7 +50,7 @@ type TCanvasProviderProp = {
 export const CanvasProvider = React.createContext<TCanvasProviderProp>({
     isCanvasSize: {height: 0, width: 0, offsound: false},
     isAuthenticated: {message: "", authenticate: true},
-    isCardScratch: { combi: 0, e_wallet: 0, message: "", refno: "", winner: 0},
+    isCardScratch: { combi: "", e_wallet: 0, message: "", refno: "", winner: 0, game_code: ""},
     setAuthenticated: () => {},
     setCanvasSize: () => {},
     setCardScratch: () => {}
