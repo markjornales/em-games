@@ -81,7 +81,7 @@ function BalanceBar({  balance_amount, time_played }: TBalanceBarProps) {
                 fill="white"
                 align="right" 
                 verticalAlign="middle"
-                text={balance_amount.toLocaleString()} 
+                text={balance_amount?.toLocaleString()} 
                 ref={refBalAmount} 
                 width={BalWidth*.92}  
                 height={BalHeight}
