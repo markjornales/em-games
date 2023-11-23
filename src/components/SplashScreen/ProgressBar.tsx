@@ -51,7 +51,7 @@ function ProgressBar() {
   
 
     const authentications = async () => { 
-      try { 
+      try {
         const response = await APIHandlerPost({ 
           qUid: search, 
           dataParams: {
