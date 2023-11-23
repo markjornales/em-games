@@ -6,10 +6,10 @@ import GoldenScratch from './GoldenScratch';
 import dynamic from 'next/dynamic';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
-const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
 
 function Goldenbuddha() {
     const scratchCardRef = React.useRef<any>();
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
 
     const handleButtonMain = () => {
         setWarningShow(false);
