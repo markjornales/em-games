@@ -3,13 +3,18 @@ import ImageFlip from '@/components/ImageFlip'
 import React from 'react'
 import { Group } from 'react-konva'
 import FlipJackScratch from './FlipJackSratch'
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal")); 
 
 function FlipJack20() {
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
 
   const handleButtonMain = () => { 
+    setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      alert('please Scratch first')
+      setWarningShow(true)
     } else {
       scratchCardRef.current.reset() 
     } 
@@ -30,6 +35,7 @@ function FlipJack20() {
             ["jack", undefined, "jack"],
             [undefined, undefined, undefined], 
           ]}/>
+           {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
     </Group>
   )
 }

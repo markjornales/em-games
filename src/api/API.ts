@@ -48,8 +48,7 @@ export const authentications = async ({
           card_id: parseInt(gid), 
           category: null
       }}); 
-      const scratchProps: TCardScratchProp = JSON.parse(response.scratch); 
-      console.log(scratchProps)
+      const scratchProps: TCardScratchProp = JSON.parse(response.scratch);  
       if(!gid){
         throw {
           message: "Unable to open this game please choose another game or try again click same game. thank you!",

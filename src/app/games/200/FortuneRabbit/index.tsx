@@ -3,6 +3,9 @@ import ImageFlip from '@/components/ImageFlip'
 import React from 'react'
 import { Group } from 'react-konva'
 import FortuneScratch from './FortuneScratch';
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 const sampleData = [
   [false, false , false],
@@ -12,10 +15,12 @@ const sampleData = [
 
 function FortuneRabbit() { 
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
 
     const handleButtonMain = () => { 
+      setWarningShow(false);
       if(!scratchCardRef.current.isScratchDone) {
-        alert('please Scratch first')
+        setWarningShow(true)
       } else {
         scratchCardRef.current.reset() 
       } 
@@ -33,6 +38,7 @@ function FortuneRabbit() {
         }} 
         onclickStart={handleButtonMain} />
         <FortuneScratch combination={sampleData} ref={scratchCardRef}/>
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

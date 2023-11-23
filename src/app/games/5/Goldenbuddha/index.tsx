@@ -3,13 +3,18 @@ import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
 import GoldenScratch from './GoldenScratch';
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
+const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
 
 function Goldenbuddha() {
     const scratchCardRef = React.useRef<any>();
 
     const handleButtonMain = () => {
+        setWarningShow(false);
         if (!scratchCardRef.current.isScratchDone) {
-            alert('please Scratch first')
+            setWarningShow(true) 
         } else {
             scratchCardRef.current.reset()
         }
@@ -31,6 +36,7 @@ function Goldenbuddha() {
                 [false, true],
                 [false, false],
             ]}/>
+            {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
         </Group>
     )
 }

@@ -2,14 +2,19 @@ import CButton from '@/components/CButton'
 import { Group } from 'react-konva'
 import React from "react";
 import SpotcashScratch from './SpotcashScratch';
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Spotcash() {
 
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
 
   const handleButtonMain = () => { 
+    setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      alert('please Scratch first')
+      setWarningShow(true)
     } else {
       scratchCardRef.current.reset() 
     } 
@@ -31,6 +36,7 @@ function Spotcash() {
                 [false, false, false],
                 [false, false, false],
             ]}/>
+             {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
      </Group>
   )
 }

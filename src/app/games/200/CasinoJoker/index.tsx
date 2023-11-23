@@ -3,20 +3,20 @@ import React from 'react'
 import { Group } from 'react-konva'
 import CasinoJokerScratch from './CasinoJokerScratch'
 import dynamic from 'next/dynamic';
-// eto
-const WarningModal = dynamic(() => import("@/components/WarningModal"));
+
+const WarningModal = dynamic(() => import("@/components/WarningModal")); // eto
 
 
 function CasinoJoker() {
     const scratchCardRef = React.useRef<any>();
-    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);    // eto
   
     const handleButtonMain = () => {
-        // eto
-        setWarningShow(false);
+        
+        setWarningShow(false); // eto
         if(!scratchCardRef.current.isScratchDone) {
-            // eto
-            setWarningShow(true)
+            
+            setWarningShow(true) // eto
         } else {
             scratchCardRef.current.reset() 
         }  
@@ -40,8 +40,8 @@ function CasinoJoker() {
             [false, false], 
             [false, false], 
         ]}/>
-        {/* eto */}
-        {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
+        
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>} {/* eto */}
     </Group>
   );
 }

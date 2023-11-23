@@ -2,23 +2,28 @@
 import { authentications } from '@/api/API';
 import CButton from '@/components/CButton';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { GridBooleansCards } from '@/hooks/functions';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { Group } from 'react-konva';
 import BoholScratch from './BoholScratch';
-import { GridBooleansCards } from '@/hooks/functions';
+
+import dynamic from 'next/dynamic';
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Bohol() {
     const scratchCardRef = React.useRef<any>();
     const { setPlayed } = React.useContext(CanvasContext);
     const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
-    const gid = searchparams.get("gid")!;
-    
+    const gid = searchparams.get("gid")!; 
+
     const handleButtonMain = () => {
+        setWarningShow(false);
         if (!scratchCardRef.current.isScratchDone) {
-            alert('please Scratch first')
+            setWarningShow(true)
         } else {
             authentications({ 
                 setAuthenticated, 
@@ -53,7 +58,8 @@ function Bohol() {
                 columns: 3, 
                 combi: isCardScratch.combi, 
                 rows: 3 
-            }).getValues()}/>
+            }).getValues()}/> 
+            {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
         </Group>
     )
 }

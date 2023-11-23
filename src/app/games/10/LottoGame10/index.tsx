@@ -3,13 +3,18 @@ import ImageFlip from '@/components/ImageFlip'
 import React from 'react'
 import { Group } from 'react-konva'
 import Lotto10Scratch from './Lotto10Scratch'
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function LottoGame10() {
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
 
-  const handleButtonMain = () => { 
+  const handleButtonMain = () => {
+    setWarningShow(false);  
     if(!scratchCardRef.current.isScratchDone) {
-      alert('please Scratch first')
+      setWarningShow(true) 
     } else {
       scratchCardRef.current.reset() 
     } 
@@ -35,6 +40,7 @@ function LottoGame10() {
               [false, false , true, false, false],
             ]}
           />
+            {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

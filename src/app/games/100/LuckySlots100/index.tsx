@@ -2,6 +2,9 @@ import CButton from '@/components/CButton'
 import { Group } from 'react-konva'
 import LuckySlotsScratch, { TCombinations } from './LuckySlotsScratch'
 import React from "react";
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 const combinations:TCombinations[][] = [
     ["seven", "dollar", "dollar", "dollar"],
@@ -14,10 +17,12 @@ const combinations:TCombinations[][] = [
 function LuckySlots100() {
 
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
 
   const handleButtonMain = () => { 
+    setWarningShow(false); 
     if(!scratchCardRef.current.isScratchDone) {
-      alert('please Scratch first')
+      setWarningShow(true) 
     } else {
       scratchCardRef.current.reset() 
     } 
@@ -35,6 +40,7 @@ function LuckySlots100() {
       }} 
         onclickStart={handleButtonMain} />
         <LuckySlotsScratch ref={scratchCardRef} combinations={combinations}/>
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
     </Group>
   )
 }

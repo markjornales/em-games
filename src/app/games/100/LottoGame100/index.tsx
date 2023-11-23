@@ -2,13 +2,18 @@ import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
 import Lotto100Scratch from './Lotto100Scratch'
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function LottoGame100() {
   const scratchCardRef = React.useRef<any>();
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);  
 
   const handleButtonMain = () => { 
+    setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      alert('please Scratch first')
+      setWarningShow(true) 
     } else {
       scratchCardRef.current.reset() 
     } 
@@ -34,6 +39,7 @@ function LottoGame100() {
               [false, false , true, false, false],
             ]}
           />
+          {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

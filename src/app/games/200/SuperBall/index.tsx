@@ -1,8 +1,11 @@
 import CButton from '@/components/CButton'
-import WarningModal from '@/components/WarningModal'
+// import WarningModal from '@/components/WarningModal'
 import React from 'react'
 import { Group } from 'react-konva'
 import SuperBallScratch from './SuperBallScratch'
+import dynamic from 'next/dynamic';
+
+const WarningModal = dynamic(() => import("@/components/WarningModal")); 
 
 function SuperBall() {
     const scratchCardRef = React.useRef<any>()
