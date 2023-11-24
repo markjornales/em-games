@@ -3,12 +3,19 @@ import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import Luckydragon from './Luckydragon';
 import useFastScratch from '@/hooks/useFastScratch';
-
+import { Poppins } from 'next/font/google'; 
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 type TLuckydragonScratch  = {
     combination: boolean[][]
+    popupwinners: number; 
+    reference: string; 
+
 }
 type TLuckydragonScratchRef = {
     isScratchDone: boolean;
@@ -16,7 +23,7 @@ type TLuckydragonScratchRef = {
 }   
 
 const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragonScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners , reference } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -33,7 +40,7 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/10/luckydragon/front.png"});
+        imageSrc: "/images/10/luckydragon/frontnew.png"});
     
 
     const {
@@ -89,9 +96,26 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 /> 
+
+                 <Group y={HEIGHT*.01} x={WIDTH*.03}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.79}
+                        height={WIDTH*.116}
+                    />
+                    <Text 
+                        text={reference} 
+                        width={WIDTH*.77} 
+                        height={WIDTH*.12}
+                        align="center"
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

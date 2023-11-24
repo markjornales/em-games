@@ -6,18 +6,21 @@ import { Group, Image, Rect, Text } from "react-konva";
 import PopupAlert from '@/components/PopupAlert'; 
 import Tarsier from './Tarsier';
 import useFastScratch from '@/hooks/useFastScratch';
-import { Poppins } from 'next/font/google';
+import { Poppins } from 'next/font/google';   //eto
 
 // eto siya dapat ilagay
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
 });
+//---
 
 type TBoholScratch = {
     combination: boolean[][];
-    popupwinners: number; //eto siya dapat ilagay
-    reference: string; //eto siya dapat ilagay
+    //eto siya dapat ilagay
+    popupwinners: number; 
+    reference: string; 
+    //--/>
 }
 type TBoholRef = {
     isScratchDone: boolean;
@@ -25,7 +28,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {
-    const { combination, popupwinners /**eto siya dapat ilagay */, reference /*eto siya dapat ilagay */} = props;
+    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -105,6 +108,8 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                 x={x1}
                 y={y1}
             /> */}
+
+
             {/* eto siya dapat ilagay */}
                 <Group y={HEIGHT*.9} x={WIDTH*.03}>
                     <Rect 
@@ -122,6 +127,8 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                         fontSize={WIDTH*.07}
                     />
                 </Group>
+            {/*----/> */}
+            
             </Group>
             <PopupAlert 
                 statusWinner={popupwinners}

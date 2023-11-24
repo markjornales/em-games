@@ -2,7 +2,7 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import { Group, Image, Rect, Text} from 'react-konva'
 import Fruits from './Fruits';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
@@ -36,7 +36,7 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
         setScratchDone,
         setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/5/fruitbasket/front.png"});
+        imageSrc: "/images/5/fruitbasket/frontnew.png"});
 
     const {
         handleMouseDown, 
@@ -103,6 +103,7 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
                 x={x1}
                 y={y1}
                 /> */}
+                
         </Group>
         <PopupAlert 
             statusWinner={1}

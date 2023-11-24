@@ -1,5 +1,9 @@
 // fivecards// fivecards
+import { authentications } from '@/api/API';
 import CButton from '@/components/CButton'
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
+import { GridBooleansCards } from '@/hooks/functions';         
+import { useSearchParams } from 'next/navigation';  
 import React from 'react'
 import { Group } from 'react-konva'
 import LoveScratch from './LoveScratch';
@@ -10,14 +14,29 @@ const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Lovering() {
     const scratchCardRef = React.useRef<any>();
+    const { setPlayed } = React.useContext(CanvasContext);     
+    const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
     const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
+    const searchparams = useSearchParams(); 
+    const search = searchparams.get("q")!;
+    const gid = searchparams.get("gid")!; 
 
     const handleButtonMain = () => {
         setWarningShow(false);
         if (!scratchCardRef.current.isScratchDone) {
             setWarningShow(true)
         } else {
-            scratchCardRef.current.reset()
+            authentications({ 
+                setAuthenticated, 
+                setCardScratch, 
+                setPlayed, 
+                searchparams, 
+                search, 
+                gid 
+            })
+            .then(() => {
+                scratchCardRef.current.reset();
+            });
         }
     }
 
@@ -32,11 +51,15 @@ function Lovering() {
                 } 
             }} 
             onclickStart={handleButtonMain} />
-            <LoveScratch ref={scratchCardRef} combination={[
-                 [true, false, false],
-                 [false, true, false],
-                 [false, false, false], 
-            ]}/>
+            <LoveScratch ref={scratchCardRef}
+              reference={isCardScratch.refno}
+              popupwinners={[0,1,2,3,4,5,7,9,12][isCardScratch.combi.replace(/[^1]/g, '').length]}  
+              combination={new GridBooleansCards({ 
+                  columns: 3, 
+                  combi: isCardScratch.combi, 
+                  rows: 3 
+              }).getValues()}
+            />
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
         </Group>
     )
