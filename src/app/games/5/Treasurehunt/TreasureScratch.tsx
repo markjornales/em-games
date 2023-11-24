@@ -6,9 +6,17 @@ import { Group, Image, Rect } from "react-konva";
 import PopupAlert from '@/components/PopupAlert'; 
 import Treasure from './Treasure';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google'; 
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 
 type TTreasureScratch = {
     combination: boolean[][]
+    popupwinners: number; 
+    reference: string; 
 }
 type TTreasureRef = {
     isScratchDone: boolean;
@@ -16,7 +24,7 @@ type TTreasureRef = {
 }   
 
 const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners , reference } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -33,7 +41,7 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/5/treasure/front.png"});
+        imageSrc: "/images/5/treasure/frontnew.png"});
     
 
     const {
@@ -101,7 +109,7 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
 
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}
