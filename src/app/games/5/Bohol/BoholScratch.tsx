@@ -8,6 +8,7 @@ import Tarsier from './Tarsier';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
 
+// eto siya dapat ilagay
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
@@ -15,8 +16,8 @@ const poppins = Poppins({
 
 type TBoholScratch = {
     combination: boolean[][];
-    popupwinners: number;
-    reference: string;
+    popupwinners: number; //eto siya dapat ilagay
+    reference: string; //eto siya dapat ilagay
 }
 type TBoholRef = {
     isScratchDone: boolean;
@@ -24,7 +25,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {
-    const { combination, popupwinners, reference } = props;
+    const { combination, popupwinners /**eto siya dapat ilagay */, reference /*eto siya dapat ilagay */} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -104,6 +105,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                 x={x1}
                 y={y1}
             /> */}
+            {/* eto siya dapat ilagay */}
                 <Group y={HEIGHT*.9} x={WIDTH*.03}>
                     <Rect 
                         fill="white"

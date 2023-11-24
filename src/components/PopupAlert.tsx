@@ -32,6 +32,7 @@ function useImageLists (statusWinner: number) {
         "prize_3.png",
         "prize_4.png",
     ];
+    // --- eto siya dapat ilagay
     const imagelists = [
         "Lose.png", //index 0
         "p5.png", //index 1

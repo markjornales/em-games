@@ -20,7 +20,7 @@ export default async function APIHandlerPost(props: TAPIHandlerPost) {
             }, 
             body: JSON.stringify(dataParams)
         });
-        if(!response.ok) {
+        if(!response.ok) { 
             return {
                 status: response.status,
                 ok: response.ok,
@@ -48,13 +48,8 @@ export const authentications = async ({
           card_id: parseInt(gid), 
           category: null
       }}); 
-      const scratchProps: TCardScratchProp = JSON.parse(response.scratch);  
-      if(!gid){
-        throw {
-          message: "Unable to open this game please choose another game or try again click same game. thank you!",
-          status: 401
-        }
-      }
+      
+      
       if(!response.ok && response.status_code == 0) { 
         if(response.status === 401) {
           throw {
@@ -71,14 +66,20 @@ export const authentications = async ({
             message: "System is down please try again later."
           }
         }
-      }else {   
+      }
+      else if(!gid){
+        throw {
+          message: "Unable to open this game please choose another game or try again click same game. thank you!",
+          status: 401
+        }
+      } else {   
+          const scratchProps: TCardScratchProp = JSON.parse(response.scratch);  
           setCardScratch(scratchProps);
           setPlayed(true);
           if(scratchProps.game_code == "100"){
             throw { message: scratchProps.message }
           }
-      }
- 
+      } 
     } catch (error: any) {  
         setAuthenticated({
           authenticate: false, 
