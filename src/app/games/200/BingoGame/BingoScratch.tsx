@@ -2,52 +2,38 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
-import { Group, Image, Rect } from 'react-konva' 
+import { Group, Image, Rect, Text } from 'react-konva' 
 import ScratchHere from '@/components/ScratchHere';
 import PopupAlert from '@/components/PopupAlert';
-import { shuffleArrays } from '@/hooks/functions';
+import { TCombination, shuffleArrays } from '@/hooks/functions';
 import Bingo from './Bingo';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 
 type TBingoScratchProps = {
-  // combination: boolean[][]
+  combination: TCombination[];
+  popupwinners: number;
+  reference: string;
 }
 type TBingoScratchRef = {
     isScratchDone: boolean;
     reset: () => void
 }
 
-// letterB = {x: 0.35, y: 1.26, cornerRadius: 0}
-// letterI = {x: 0.35, y: 1.07, cornerRadius: 0}
-// letterN = {x: 0.35, y: 0.88, cornerRadius: 0}
-// letterG = {x: 0.55, y: 1.185, cornerRadius: 0.1}
-// letterO = {x: 0.55, y:0.94, cornerRadius:0.1}
-
-type TCombination = {
-  x: number;
-  y:number;
-  cornerRadius: number;
-  selected: boolean;
-  letter: "letterB"|"letterI"|"letterN"|"letterG"|"letterO"
-}
-
-const combinations: TCombination[] = [
-  {x: 0.35, y: 1.26, cornerRadius: 0, selected: false, letter: "letterB"},
-  {x: 0.35, y: 1.07, cornerRadius: 0, selected: false, letter: "letterI"},
-  {x: 0.35, y: 0.88, cornerRadius: 0, selected: false, letter: "letterN"},
-  {x: 0.55, y: 1.185, cornerRadius: 0.1, selected: false, letter: "letterG"},
-  {x: 0.55, y:0.94, cornerRadius:0.1, selected: false, letter: "letterO"}
-];
-
 const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((props, ref) => {
-    // const {combination} = props;
+    const {combination, popupwinners, reference} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current; 
 
-    const x1 = WIDTH*.2;
+    const x1 = WIDTH*.17;
     const x2 = WIDTH*.74;
     const y1 = HEIGHT*.47;
     const y2 = HEIGHT*.82
@@ -84,7 +70,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#d4d4d4" width={width*.859} height={HEIGHT*.998}/> 
-                {combinations.map((position, index) => 
+                {combination.map((position, index) => 
                   <Group x={WIDTH*position.x} y={WIDTH*position.y} key={index}>
                     <Bingo
                       selected={position.selected}
@@ -108,8 +94,23 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerLeave={handleOnPointerLeave}
                 />
                  
-{/* 
-                  <Rect 
+                 {/* <Group y={HEIGHT*.9} x={WIDTH*.03}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.95}
+                        height={WIDTH*.15}
+                    />
+                    <Text 
+                        text={reference} 
+                        width={WIDTH*.95} 
+                        height={WIDTH*.15}
+                        align="center"
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                    />
+                </Group> */}
+                  {/* <Rect 
                 fill="red"
                 width={x2-x1}
                 height={y2-y1}
@@ -118,7 +119,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                 /> */}
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

@@ -52,3 +52,71 @@ export class GridBooleansCards {
     return shuffleArrays(this.table)
   }
 }
+
+export type TCombination = {
+  x: number;
+  y:number;
+  cornerRadius: number;
+  selected: boolean;
+  letter: "letterB"|"letterI"|"letterN"|"letterG"|"letterO"
+}
+
+type TbingoScratchProp = {
+  combi: string;
+}
+type TPrizeList = (string|string[])[]
+export class BingoScratchClass {
+  private winnersTable: TCombination[] = [
+    {x: 0.35, y: 1.26, cornerRadius: 0, selected: false, letter: "letterB"},
+    {x: 0.35, y: 1.07, cornerRadius: 0, selected: false, letter: "letterI"},
+    {x: 0.35, y: 0.88, cornerRadius: 0, selected: false, letter: "letterN"},
+    {x: 0.55, y: 1.185, cornerRadius: 0.1, selected: false, letter: "letterG"},
+    {x: 0.55, y:0.94, cornerRadius:0.1, selected: false, letter: "letterO"}
+  ];
+  private prizesList: TPrizeList = [
+    "none",
+    "letterB",
+    "letterI",
+    "letterN",
+    "letterG",
+    "letterO", 
+    ["letterB"],
+    ["letterI"],
+    ["letterN"],
+    ["letterB", "letterI", "letterN", "letterG", "letterO"]
+  ]
+  constructor(private props: TbingoScratchProp) {
+    
+    this.init();
+  }
+  private init () {
+    const combination = this.props.combi.replace(/[^1]/g, '').length;
+    if(typeof this.prizesList[combination] == "string") {
+      for(let letters=0;letters < this.winnersTable.length; letters ++){
+        if(this.prizesList[combination] == this.winnersTable[letters].letter){
+          this.winnersTable[letters].selected = true;      
+        }
+      }
+    } else {
+      let count = 0
+      for(let find=0; find < this.winnersTable.length; find++){
+          if(this.prizesList[combination].length > 1 ) { 
+            this.winnersTable[find].selected = true;
+          }else {
+              if(this.prizesList[combination][0] == this.winnersTable[find].letter && (this.winnersTable[find + 1] && count != 1)){ 
+                this.winnersTable[find].selected = true;
+                  const nextIndex = find + 1;
+                  this.winnersTable[nextIndex].selected = true;
+                  this.winnersTable[nextIndex].cornerRadius = this.winnersTable[find].cornerRadius;
+                  this.winnersTable[nextIndex].letter = this.winnersTable[find].letter;
+                  count ++;
+              } 
+          }   
+      }
+    }
+  }
+  getValue() {
+    console.log(this.winnersTable)
+    return this.winnersTable
+  }
+}

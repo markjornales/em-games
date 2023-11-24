@@ -1,94 +1,49 @@
-// const colors = ["blue", "green", "orange", "red", "violet"]
-// const column = 5;
-// const rows = 7;
-// const combi = 8;
-// let tables = [];
+const combinations = [
+    {x: 0.35, y: 1.26, cornerRadius: 0, selected: false, letter: "letterB"},
+    {x: 0.35, y: 1.07, cornerRadius: 0, selected: false, letter: "letterI"},
+    {x: 0.35, y: 0.88, cornerRadius: 0, selected: false, letter: "letterN"},
+    {x: 0.55, y: 1.185, cornerRadius: 0.1, selected: false, letter: "letterG"},
+    {x: 0.55, y:0.94, cornerRadius:0.1, selected: false, letter: "letterO"}
+  ];
+  const combi = 0;
+//   const tableWinners = []; 
+  const prizes = [
+    "none",
+    "letterB",
+    "letterI",
+    "letterN",
+    "letterG",
+    "letterO",
+    ["letterB"],
+    ["letterI"],
+    ["letterN"],
+    ["letterB", "letterI", "letterN", "letterG", "letterO"]
+  ];
 
-// //table prizes
-// const prizeLegend = [
-//     {violet: 0, red: 0, blue: 0, green: 0, orange: 0},
-//     {violet: 3, red: 0, blue: 0, green: 0, orange: 0},
-//     {violet: 0, red: 3, blue: 0, green: 0, orange: 0},
-//     {violet: 0, red: 0, blue: 3, green: 0, orange: 0},
-//     {violet: 0, red: 0, blue: 0, green: 3, orange: 0},
-//     {violet: 0, red: 0, blue: 0, green: 0, orange: 3},
-//     {violet: 1, red: 0, blue: 1, green: 0, orange: 1},
-//     {violet: 1, red: 0, blue: 1, green: 1, orange: 1},
-//     {violet: 1, red: 1, blue: 1, green: 1, orange: 1},
-// ];
- 
-// //grid
-// for(let rw = 0; rw < rows; rw ++){
-//     tables[rw] = []
-//     const collect = []; 
-//     for(let cl = 0; cl < column; cl ++){
-//         const random = Math.floor(Math.random() * colors.length);
-//         const pickedcolors = colors[random];
-//         if(!collect.includes(pickedcolors)){
-//              tables[rw].push({
-//                 [pickedcolors]: false
-//             });  
-//             collect.push(pickedcolors);
-//         }else {
-//             cl--;
-//         }
-//     } 
-// } 
- 
-// //conditions
-// const picked = prizeLegend[combi];
-// const pickeshuffle = Object.keys(picked);
-
-// for(let match in pickeshuffle){
-//     let valuematch = picked[pickeshuffle[match]];
-//     let repeated = []
-//     if(valuematch != 0) {
-//         for(let valm = 0; valm < valuematch; valm ++) {
-//             const randomIndexes = Math.floor(Math.random() * tables.length);
-//          if(!repeated.includes(randomIndexes)){
-//             tables = tables.map((data, index) => {  
-//              if(index == randomIndexes) {
-//                 return data.map((colors) => {
-//                     const colorobjects = Object.keys(colors).join('') 
-//                     if(colorobjects == pickeshuffle[match]) {
-//                         return { [colorobjects]: true}
-//                     }
-//                     return colors
-//                 });
-//              }
-//              return data
-//            })
-//            repeated.push(randomIndexes);
-//          }else {
-//             valm --;
-//          }
-//        } 
-//     }
-// }
-const combi = 7;
-const columns = 3;
-const rows = 3;
-const table = []
-
-for(let col = 0; col < columns; col ++){
-    table[col] = []
-    for(let row =0; row < rows; row ++) {
-        table[col].push(false);
+if(typeof prizes[combi] == "string") {
+    for(let letters=0;letters < combinations.length; letters ++){
+        if(prizes[combi] == combinations[letters].letter){
+            combinations[letters].selected = true;      
+        }
+    }
+}else { 
+    let count = 0
+    for(let find=0; find < combinations.length; find++){
+        if(prizes[combi].length > 1 ) { 
+            combinations[find].selected = true;
+        }else {
+            if(prizes[combi][0] == combinations[find].letter && (combinations[find + 1] && count != 1)){ 
+                combinations[find].selected = true;
+                const nextIndex = find + 1;
+                combinations[nextIndex].selected = true;
+                combinations[nextIndex].cornerRadius = combinations[find].cornerRadius;
+                combinations[nextIndex].letter = combinations[find].letter;
+                count ++;
+            } 
+        }
+        
     }
 }
 
-const rcol = []; 
-for(let c = 0; c < combi; c ++){
-    const randomCol = Math.floor(Math.random() * columns);
-    const randomRow = Math.floor(Math.random() * rows);  
-    const rcolrows = `${randomCol}${randomRow}`;
-    if(rcol.includes(rcolrows)) {
-        c--;
-    }else {
-        rcol.push(rcolrows)
-    }
-    table[randomCol][randomRow] = true; 
-}
-
-// console.log(rcol)
-console.log(table)
+  console.log(combinations)
+ 
