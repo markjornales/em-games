@@ -33,7 +33,7 @@ const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => 
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/20/bingo/front.png"});
+        imageSrc: "/images/20/bingo/frontnew.png"});
     
 
     const {

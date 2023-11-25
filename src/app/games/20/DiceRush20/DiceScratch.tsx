@@ -31,7 +31,7 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
         HEIGHT, 
         WIDTH, 
         scratchArea: { height: y2 - y1, width: x2 - x1 }, 
-        imageSrc: "/images/20/dicerush/front.png",
+        imageSrc: "/images/20/dicerush/frontnew.png",
     });
 
     const {

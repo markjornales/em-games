@@ -7,6 +7,7 @@ import DiceImage from './DiceImage';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
 
+
 type TDiceRollerScratchProps = {
     combinations: (number|undefined)[][]
 }
@@ -29,7 +30,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
     useScratchMethod({
         HEIGHT, WIDTH, x1, y1, 
         scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/50/diceroller/front.png"
+        imageSrc: "/images/50/diceroller/frontnew.png"
     });
 
     const {

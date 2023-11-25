@@ -33,7 +33,7 @@ const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/20/baliindonesia/front.png"});
+        imageSrc: "/images/20/baliindonesia/frontnew.png"});
     
 
     const {

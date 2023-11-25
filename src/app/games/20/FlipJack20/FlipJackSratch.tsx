@@ -34,7 +34,7 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         setScratchDone,
         setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/20/flipjack/front.png"});
+        imageSrc: "/images/20/flipjack/frontnew.png"});
 
     const {
         handleMouseDown, 

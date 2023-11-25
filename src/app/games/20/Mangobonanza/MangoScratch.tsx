@@ -2,13 +2,25 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Mango from './Mango';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';   //eto
+
+// eto siya dapat ilagay
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
+//---
 
 type TMangoScratch = {
     combination: boolean[][]
+     //eto siya dapat ilagay
+     popupwinners: number; 
+     reference: string; 
+     //--/>
 }
 type TMangoRef = {
     isScratchDone: boolean;
@@ -16,7 +28,7 @@ type TMangoRef = {
 }   
 
 const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -33,7 +45,7 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/20/mango/front.png"});
+        imageSrc: "/images/20/mango/frontnew.png"});
     
 
     const {
@@ -104,9 +116,31 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
                 y={y1}
                 /> */}
 
+
+                  {/* eto siya dapat ilagay */}
+                  <Group y={HEIGHT*.02} x={WIDTH*.13}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.83}
+                        height={WIDTH*.14}
+                    />
+                    <Text 
+                        text={reference} 
+                        width={WIDTH*.8} 
+                        height={WIDTH*.15}
+                        align="center"
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                    />
+                </Group>
+            {/*----/> */}
+
+
+
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

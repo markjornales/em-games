@@ -31,7 +31,7 @@ const Lotto50Scratch = React.forwardRef<TLotto50ScratchRef, TLotto50ScratchProps
         setScratchDone,
         setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/50/lotto50/front.png"});
+        imageSrc: "/images/50/lotto50/frontnew.png"});
 
     const {
         handleMouseDown, 
