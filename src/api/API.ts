@@ -69,7 +69,7 @@ export const authentications = async ({
           authenticate: false, 
           message: error.message
         })   
-    } 
+    }
   }
 
   export const afterScratchAuth = async ({
