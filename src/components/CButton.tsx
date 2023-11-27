@@ -35,7 +35,8 @@ function CButton(props: TCButton) {
 
     const handleBackButton = () => {
       setClickBack(false); 
-        router.push(`https://emperorgaming.bet/${url_path}.php`); 
+      const urlredirect = process.env.NEXT_PUBLIC_MAIN_PAGE!
+        router.push(`${urlredirect}/${url_path}.php`); 
     }
 
     const handlePointerUp = () => {
