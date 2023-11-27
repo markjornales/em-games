@@ -27,40 +27,40 @@ function useScratchMethod({HEIGHT, WIDTH, x1, y1, imageSrc, scratchArea, thresho
     const canvasElement = React.useRef<HTMLCanvasElement>();
    
     React.useEffect(() => {
-        // if(!isScratchDone) {
-            if(image) {  
-                canvasElement.current = document.createElement("canvas");
-                context.current = canvasElement.current.getContext("2d");
-                canvasElement.current.width = WIDTH;
-                canvasElement.current.height = HEIGHT; 
-                if(context.current!=undefined) {
-                context.current.lineJoin = "round";
-                context.current.lineCap = "round";
-                context.current.lineWidth = 35;
-                context.current.fillStyle = "#FFFFFF";
-                context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
-                context.current.beginPath()
-                context.current.globalCompositeOperation = "destination-out";
-                if(stagePointerPos.length > 0) {
-                    for(let key in stagePointerPos) {
-                        context.current.moveTo(stagePointerPos[key].moveTo.x, stagePointerPos[key].moveTo.y); 
-                        for(let key2 in stagePointerPos[key].lineTo){
-                            context.current.lineTo(stagePointerPos[key].lineTo[key2].x, stagePointerPos[key].lineTo[key2].y);
-                        }
-                    }
-                } 
-                context.current.stroke();
-                const imageData = context.current.getImageData(x1, y1, scratchArea.width, scratchArea.height); 
-                const arraydata = imageData.data.filter((value, index) => index % 4 === (4 - 1) && value === 0);
-                const maxPixels = scratchArea.width * scratchArea.height;
-                const percentage = (arraydata.length / maxPixels) * 100;  
-                    if(percentage > threshold) { 
-                        setScratchDone(true);
+        if(image) {  
+            canvasElement.current = document.createElement("canvas");
+            context.current = canvasElement.current.getContext("2d");
+            canvasElement.current.width = WIDTH;
+            canvasElement.current.height = HEIGHT; 
+            if(context.current!=undefined) {
+            context.current.lineJoin = "round";
+            context.current.lineCap = "round";
+            context.current.lineWidth = 35;
+            context.current.fillStyle = "#FFFFFF";
+            context.current!.drawImage(image, 0, 0, canvasElement.current.width , canvasElement.current.height); 
+            context.current.beginPath()
+            context.current.globalCompositeOperation = "destination-out";
+            if(stagePointerPos.length > 0) {
+                for(let key in stagePointerPos) {
+                    context.current.moveTo(stagePointerPos[key].moveTo.x, stagePointerPos[key].moveTo.y); 
+                    for(let key2 in stagePointerPos[key].lineTo){
+                        context.current.lineTo(stagePointerPos[key].lineTo[key2].x, stagePointerPos[key].lineTo[key2].y);
                     }
                 }
-                setCanvas(canvasElement.current) 
+            } 
+            context.current.stroke();
+            if(!isScratchDone) {
+            const imageData = context.current.getImageData(x1, y1, scratchArea.width, scratchArea.height); 
+            const arraydata = imageData.data.filter((value, index) => index % 4 === (4 - 1) && value === 0);
+            const maxPixels = scratchArea.width * scratchArea.height;
+            const percentage = (arraydata.length / maxPixels) * 100;  
+                if(percentage > threshold) { 
+                    setScratchDone(true);
+                }
+                }
             }
-        // }
+            setCanvas(canvasElement.current) 
+        } 
     },[
         image, 
         stagePointerPos,

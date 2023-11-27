@@ -85,8 +85,7 @@ export class BingoScratchClass {
     ["letterN"],
     ["letterB", "letterI", "letterN", "letterG", "letterO"]
   ]
-  constructor(private props: TbingoScratchProp) {
-    
+  constructor(private props: TbingoScratchProp) { 
     this.init();
   }
   private init () {
@@ -102,7 +101,7 @@ export class BingoScratchClass {
       for(let find=0; find < this.winnersTable.length; find++){
           if(this.prizesList[combination].length > 1 ) { 
             this.winnersTable[find].selected = true;
-          }else {
+          } else {
               if(this.prizesList[combination][0] == this.winnersTable[find].letter && (this.winnersTable[find + 1] && count != 1)){ 
                 this.winnersTable[find].selected = true;
                   const nextIndex = find + 1;
@@ -115,8 +114,7 @@ export class BingoScratchClass {
       }
     }
   }
-  getValue() {
-    console.log(this.winnersTable)
+  getValue() { 
     return this.winnersTable
   }
 }

@@ -34,7 +34,7 @@ function BalanceBar({  balance_amount, time_played }: TBalanceBarProps) {
     });
     const BalWidth = width*.4; 
     const BalHeight = width*.1;
-    const TfontSize = width*.042
+    const TfontSize = width*.043
    
     React.useEffect(() => {
       resizeFonts()

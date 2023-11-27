@@ -1,6 +1,8 @@
 import { TCardScratchProp } from "@/components/CanvasContext";
+import ThrowException from "./ThrowException";
 
 type TAPIHandlerPost = {
+    baseUrl: string;
     qUid: string,
     dataParams: {
         card_id: number; 
@@ -8,9 +10,8 @@ type TAPIHandlerPost = {
     }
 }
 export default async function APIHandlerPost(props: TAPIHandlerPost) {
-    const { qUid, dataParams } = props; 
+    const { qUid, dataParams, baseUrl } = props; 
     try {
-        const baseUrl = process.env.NEXT_PUBLIC_SCRATCH_STORE!;
         const response = await fetch(baseUrl, {
             method: "post", 
             headers: { 
@@ -42,38 +43,21 @@ export const authentications = async ({
   }: any) => {
 
     try {
+      const baseUrl = process.env.NEXT_PUBLIC_SCRATCH_STORE!;
       const response = await APIHandlerPost({ 
+        baseUrl,
         qUid: search, 
         dataParams: {
           card_id: parseInt(gid), 
           category: null
       }}); 
-      
-      
+      const errorHandler = new ThrowException();
       if(!response.ok && response.status_code == 0) { 
-        if(response.status === 401) {
-          throw {
-            message: "Unauthorize Login, to access this feature, please log in to your account.",
-          }
-        } 
-        if(response.status == 500) {
-          throw {
-            message: "Server is Busy, Please try again later.",
-          }
-        }
-        if(response.status == 400) {
-          throw {
-            message: "System is down please try again later."
-          }
-        }
-      }
-      else if(!gid){
-        throw {
-          message: "Unable to open this game please choose another game or try again click same game. thank you!",
-          status: 401
-        }
+        errorHandler.handleError(response.status);
+      } else if(!gid){
+        errorHandler.handleError(422);
       } else {   
-          const scratchProps: TCardScratchProp = JSON.parse(response.scratch);  
+          const scratchProps: TCardScratchProp = JSON.parse(response.scratch); 
           setCardScratch(scratchProps);
           setPlayed(true);
           if(scratchProps.game_code == "100"){
@@ -86,4 +70,37 @@ export const authentications = async ({
           message: error.message
         })   
     } 
+  }
+
+  export const afterScratchAuth = async ({
+    setAuthenticated, 
+    setCardScratch, 
+    setPlayed, 
+    search,
+    gid
+  }: any) => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_SCRATCH_SUCCESS!;
+      const response = await APIHandlerPost({ 
+        baseUrl,
+        qUid: search, 
+        dataParams: {
+          card_id: parseInt(gid), 
+          category: null
+      }}); 
+      const errorHandler = new ThrowException();
+      if(!response.ok && response.status_code == 0) {
+        errorHandler.handleError(response.status);
+      } 
+      else {   
+          const {e_wallet}: TCardScratchProp = JSON.parse(response.scratch);    
+          setCardScratch((init: TCardScratchProp) => Object.assign(init, { e_wallet }));
+          setPlayed(true); 
+      } 
+    } catch (error: any) {
+       setAuthenticated({
+          authenticate: false, 
+          message: error.message
+        });   
+    }
   }

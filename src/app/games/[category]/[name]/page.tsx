@@ -26,8 +26,7 @@ export type TGameComponents = {
 const PageCanvas = dynamic(() => import("@/components/PageCanvas"), {
   ssr: false
 });
-
-// const WarningModal = dynamic(() => import("@/components/WarningModal"));
+ 
 const BalanceBar = dynamic(() => import("@/components/BalanceBar"));
 
 export default function Home ({params}: THomePageParams) {

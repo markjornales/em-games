@@ -1,15 +1,15 @@
 import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react'
-import { Group, Image, Rect, Text } from 'react-konva' 
-import ScratchHere from '@/components/ScratchHere';
-import PopupAlert from '@/components/PopupAlert';
-import { TCombination, shuffleArrays } from '@/hooks/functions';
-import Bingo from './Bingo';
+import React from 'react';
+import { Group, Image, Rect, Text } from 'react-konva';
+// import ScratchHere from '@/components/ScratchHere'; 
+import { TCombination } from '@/hooks/functions';
 import useFastScratch from '@/hooks/useFastScratch';
+import dynamic from 'next/dynamic';
 import { Poppins } from 'next/font/google';
-
+import Bingo from './Bingo';
+const PopupAlert = dynamic(() => import("@/components/PopupAlert"));
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
@@ -19,6 +19,7 @@ type TBingoScratchProps = {
   combination: TCombination[];
   popupwinners: number;
   reference: string;
+  scratchdone: (done: boolean) => void; 
 }
 type TBingoScratchRef = {
     isScratchDone: boolean;
@@ -26,7 +27,7 @@ type TBingoScratchRef = {
 }
 
 const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((props, ref) => {
-    const {combination, popupwinners, reference} = props;
+    const {combination, popupwinners, reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -50,6 +51,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone])
 
@@ -92,31 +94,26 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />
-                 
-                 {/* <Group y={HEIGHT*.9} x={WIDTH*.03}>
-                    <Rect 
-                        fill="white"
-                        width={WIDTH*.95}
-                        height={WIDTH*.15}
+                /> 
+                 <Group y={HEIGHT*.912} x={WIDTH*.17}>
+                    <Rect
+                        fill="white" 
+                        width={WIDTH*.78}
+                        height={WIDTH*.13}
                     />
-                    <Text 
+                    <Text   
+                        offsetX={WIDTH*.78}
+                        offsetY={WIDTH*.12}
+                        rotationDeg={180}
                         text={reference} 
-                        width={WIDTH*.95} 
-                        height={WIDTH*.15}
+                        width={WIDTH*.78}
+                        height={WIDTH*.13}
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={WIDTH*.06}
                     />
-                </Group> */}
-                  {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
+                </Group> 
             </Group>
             <PopupAlert 
                 statusWinner={popupwinners}
@@ -126,15 +123,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                 onTap={() => {
                     setModalshow(false);
                 }}
-            />
-            {/* <ScratchHere 
-                x={(width-width*.6)/2}
-                y={height*.5}
-                height={height*.2}
-                width={width*.6}
-                BHeight={height}
-                BWidth={width}
-            /> */}
+            /> 
         </Group>
     );
 });

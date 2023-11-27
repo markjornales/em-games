@@ -18,8 +18,6 @@ const poppins = Poppins({
 })
 
 
-
-
 const GroupAnimation:any = animated(Group);
 
 function useImageLists (statusWinner: number) {
@@ -51,7 +49,8 @@ function useImageLists (statusWinner: number) {
         "p200k.png", //index 14
         "p500k.png", //index 15
         "p1m.png", //index 16
-        "p2m.png" //index 17
+        "p2m.png", //index 17,
+        "p2k.png", //index 18
     ];
     return `${path}${imagelists[statusWinner]}`
 }
@@ -63,7 +62,7 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
    const {opacity} = useSpring({
         from: {opacity: 0},
         to: {opacity: visible? 1: 0},
-        config: {duration: 1000}
+        config: {duration: 400}
    });
 
    const onClickStart = () => {

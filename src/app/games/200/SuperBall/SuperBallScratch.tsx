@@ -2,14 +2,23 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert';  
 import SuperBall from './SuperBall';
 import useFastScratch from '@/hooks/useFastScratch';
 import { superBallFunction } from '@/hooks/cards/superBallClass';
+import { Poppins } from 'next/font/google';
+
+const poppinsFont = Poppins({
+    weight: ["500"],
+    subsets: ["latin"],
+});
 
 type TSuperBallScratch = {
-    combination: ((0|1|2)|undefined)[]
+   combination: number;
+   popupwinners: number; 
+   scratchdone: (done: boolean) => void;
+   referenceno: string;
 }
 type TSuperBallBRef = {
     isScratchDone: boolean;
@@ -17,7 +26,7 @@ type TSuperBallBRef = {
 }   
 
 const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners, scratchdone, referenceno } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -51,6 +60,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -65,9 +75,9 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
             setFastScratch(true) 
         }
     }));
-    
+    //
     const superballShows = React.useMemo(() => 
-        superBallFunction(8).map((data,indexRow) => 
+        superBallFunction(combination).map((data,indexRow) => 
             data.map((colors: any, indexColumn) => 
             <Group 
             key={indexColumn+indexRow}
@@ -81,7 +91,8 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                 />
             </Group>
             )
-        ), []);
+        ), [combination]);
+
 
     return (
         <Group>
@@ -96,10 +107,21 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
+                />
+                <Group x={WIDTH*.183} y={WIDTH*.03}> 
+                    <Text 
+                        fontSize={WIDTH*.07}
+                        align="center"
+                        verticalAlign="middle"
+                        width={WIDTH*.796}
+                        height={WIDTH*.127}
+                        text={referenceno}
+                        fontFamily={poppinsFont.style.fontFamily}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-                statusWinner={5}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

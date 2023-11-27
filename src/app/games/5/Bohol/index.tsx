@@ -10,8 +10,7 @@ import { useSearchParams } from 'next/navigation';
 
 import React from 'react';
 import { Group } from 'react-konva';
-import BoholScratch from './BoholScratch';
-
+import BoholScratch from './BoholScratch'; 
 import dynamic from 'next/dynamic';
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
@@ -65,8 +64,7 @@ function Bohol() {
             }}  
             onclickStart={handleButtonMain} />
             <BoholScratch 
-                ref={scratchCardRef}
-
+                ref={scratchCardRef} 
                 //eto siya dapat ilagay
                 reference={isCardScratch.refno}
                 popupwinners={[0,1,2,3,4,5,7,9,12][isCardScratch.combi.replace(/[^1]/g, '').length]}  

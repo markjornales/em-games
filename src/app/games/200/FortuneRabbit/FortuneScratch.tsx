@@ -1,22 +1,32 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import ScratchHere from '@/components/ScratchHere';
+import useFastScratch from '@/hooks/useFastScratch';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import dynamic from 'next/dynamic';
+import React from 'react';
+import { Group, Image, Rect, Text } from 'react-konva';
 import Rabbits from './Rabbits';
-import ScratchHere from '@/components/ScratchHere';
-import PopupAlert from '@/components/PopupAlert';
-import { shuffleArrays } from '@/hooks/functions';
-import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
 
-type TFortuneScratchProps = {combination: boolean[][]}
+const PopupAlert = dynamic(() => import("@/components/PopupAlert"));
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+});
+type TFortuneScratchProps = {
+  combination: boolean[][]
+  popupwinners: number;
+  reference: string;
+  scratchdone: (done: boolean) => void; 
+}
 type TFortuneScratchRef = {
     isScratchDone: boolean;
     reset: () => void
 }
 
 const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps>((props, ref) => {
-    const {combination} = props;
+    const {combination, popupwinners, reference, scratchdone, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -24,8 +34,8 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
     const WIDTH = React.useRef<number>(width*.86).current;
     const [isReset, setReset] = React.useState<boolean>(false);
 
-    const x1 = WIDTH*.26;
-    const x2 = WIDTH*.87;
+    const x1 = WIDTH*.23;
+    const x2 = WIDTH*.92;
     const y1 = HEIGHT*.55;
     const y2 = HEIGHT*.8
     
@@ -36,11 +46,12 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
     const { handleMouseDown, handleMouseMove, handleMouseUp, handleOnPointerLeave, imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
     
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone])
 
@@ -57,7 +68,8 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
         }
     }));
 
-    const ShowRabbits = React.useMemo(() => shuffleArrays(combination).map((data, indexColumn) => 
+    const ShowRabbits = React.useMemo(() => 
+        combination.map((data, indexColumn) => 
         data.map((rabit, indexRow) => 
             <Rabbits 
                 show={rabit}
@@ -68,13 +80,13 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                 width={WIDTH}
             />
         )
-    ),[isReset])
+    ),[combination])
 
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#ececec" width={width*.859} height={HEIGHT*.998}/>
-                {ShowRabbits}
+                {canvas && ShowRabbits}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -83,10 +95,30 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
+                />   
+                <Group x={WIDTH*.03} y={HEIGHT*.468}>
+                    <Rect 
+                        fill="white"
+                        offsetY={WIDTH*.09}
+                        rotationDeg={90} 
+                        width={WIDTH*.72}
+                        height={WIDTH*.09}
+                    />
+                    <Text
+                        fontSize={WIDTH*.062}
+                        rotationDeg={90} 
+                        offsetY={WIDTH*.085}
+                        fontFamily={poppins.style.fontFamily}
+                        width={WIDTH*.72}
+                        height={WIDTH*.09}
+                        text={reference}
+                        align="center"
+                        verticalAlign="middle"
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-                statusWinner={1}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}
@@ -95,7 +127,7 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                 }}
             />
             <ScratchHere 
-                x={(width-width*.6)/2}
+                x={(width-width*.48)/2}
                 y={height*.5}
                 height={height*.2}
                 width={width*.6}
