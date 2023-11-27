@@ -17,20 +17,16 @@ function ProgressBar() {
   const { setPlayed } = React.useContext(CanvasContext);
   const { isCanvasSize, setAuthenticated, setCardScratch } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize; 
-    const [isProgress, setProgress] = React.useState<number>(0); 
-    const searchparams = useSearchParams(); 
-    const search = searchparams.get("q")!;
-    const gid = searchparams.get("gid")!;
-    const bar_width = width * .45;
-    const bar_heigth = width* .05;
-    const minbarX = bar_width *.03
-    const maxbarX = (bar_width - width*.019) - minbarX
-    const [isRender, setRender] = React.useState<boolean>(false);   
+  const [isProgress, setProgress] = React.useState<number>(0); 
+  const searchparams = useSearchParams(); 
+  const search = searchparams.get("q")!;
+  const gid = searchparams.get("gid")!;
+  const bar_width = width * .45;
+  const bar_heigth = width* .05;
+  const minbarX = bar_width *.03
+  const maxbarX = (bar_width - width*.019) - minbarX
+  const [isRender, setRender] = React.useState<boolean>(false);   
     
-  React.useEffect(() => { 
-        handleAuthenticate();
-  },[]);
-
   React.useEffect(() =>{
     if(isRender){
       authentications({
@@ -42,27 +38,27 @@ function ProgressBar() {
         gid
       });  
     }
-  },[isRender])
- 
-  const handleAuthenticate = () => {
+  },[isRender]);
 
-  let minbarx = parseFloat(minbarX.toFixed(2));
-  const frameAnimation = new Konva.Animation(() => {
-    minbarx ++;
-    const progress = Math.min(minbarx, 100);
-    const progessbarwidth = (maxbarX * progress) / 100
-    setProgress(Math.floor(progessbarwidth - 4));
-    if((progessbarwidth + 3) > maxbarX) { 
-      frameAnimation.stop();
-      setTimeout(() => {
-        setRender(true)
-      }, 500)
+  React.useEffect(() => { 
+    const handleAuthenticate = () => {
+      let minbarx = parseFloat(minbarX.toFixed(2));
+      const frameAnimation = new Konva.Animation(() => {
+        minbarx ++;
+        const progress = Math.min(minbarx, 100);
+        const progessbarwidth = (maxbarX * progress) / 100
+        setProgress(Math.floor(progessbarwidth - 4));
+        if((progessbarwidth + 3) > maxbarX) { 
+          frameAnimation.stop();
+          setTimeout(() => {
+            setRender(true)
+          }, 500)
+        }
+      })
+      frameAnimation.start(); 
     }
-  })
-  frameAnimation.start(); 
-}
-
-
+    handleAuthenticate();
+  },[]);
 
   return (
     <Group x={(width-(width*.45))/2} y={height*.8}>
@@ -72,7 +68,6 @@ function ProgressBar() {
               width: width*.45,
               height: width*.05, 
             }}
-            
           />
           {Array.from(new Array(isProgress)).map((_, i) => 
             <ImageLoad 
@@ -86,8 +81,7 @@ function ProgressBar() {
             }}
           />)}
         </Group> 
-        <Group 
-          y={bar_heigth + 10} > 
+        <Group y={bar_heigth + 10} > 
             <Text   
                 fill="white"
                 fontSize={24}
@@ -99,7 +93,7 @@ function ProgressBar() {
             />
         </Group>
   </Group>
-  )
+  );
 }
 
 

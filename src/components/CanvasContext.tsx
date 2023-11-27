@@ -11,19 +11,6 @@ type TCanvasContext = {
     setPlayed: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const CanvasContext = React.createContext<TCanvasContext>({
-    play: false, 
-    setPlayed: () => {}
-});
-
-export const useCanvasContext = () => {
-    const [play, setPlayed] = React.useState<boolean>(false); 
-    return {
-        play, 
-        setPlayed
-    }
-};
-
 export type authenticationProp = {
     message: string;
     authenticate: boolean
@@ -55,3 +42,13 @@ export const CanvasProvider = React.createContext<TCanvasProviderProp>({
     setCanvasSize: () => {},
     setCardScratch: () => {}
 });
+
+export const CanvasContext = React.createContext<TCanvasContext>({
+    play: false, 
+    setPlayed: () => {}
+});
+
+export const useCanvasContext = () => {
+    const [play, setPlayed] = React.useState<boolean>(false); 
+    return { play, setPlayed }
+};

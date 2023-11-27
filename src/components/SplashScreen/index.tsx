@@ -5,20 +5,19 @@ import { Spring, animated } from "@react-spring/konva";
 import React from 'react';
 import { Group } from 'react-konva';
 import ProgressBar from './ProgressBar';
-import AnimateEmperor from './animated/emperor';
-import Konva from 'konva';
+import AnimateEmperor from './emperor';
+
 const GroupImages:any = animated(Group);
 
 function SplashScreen() { 
   const { isCanvasSize } = React.useContext(CanvasProvider);
   const { height, width } = isCanvasSize;
-   
   return (
     <Group>
       <Group y={20}>
         <Spring
           from={{x: width*1.2}}
-          to={{x:  (width-(width*.18))/2}}>
+          to={{x: (width-(width*.18))/2}}>
           {(props) => (
             <GroupImages x={props.x}>
               <ImageLoad

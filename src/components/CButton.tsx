@@ -103,7 +103,6 @@ function CButton(props: TCButton) {
                 fontFamily={outfit.style.fontFamily}
               />
           </Group>
-         
         </Group>
   )
 }
