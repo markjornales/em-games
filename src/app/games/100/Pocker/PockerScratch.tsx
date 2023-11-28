@@ -33,7 +33,7 @@ const PockerScratch = React.forwardRef<TPockerScratchRef, TPockerScratch>((props
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/100/pocker/front.png"});
+        imageSrc: "/images/100/pocker/frontnew.png"});
     
 
     const {

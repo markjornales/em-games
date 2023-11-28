@@ -34,7 +34,7 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
         setScratchDone,
         setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/100/luckyslots/front.png"});
+        imageSrc: "/images/100/luckyslots/frontnew.png"});
 
     const {
         handleMouseDown, 

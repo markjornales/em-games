@@ -35,7 +35,7 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
         setScratchDone,
         setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2 - y1, width: x2 - x1}, 
-        imageSrc: "/images/100/fruitblast/front.png"});
+        imageSrc: "/images/100/fruitblast/frontnew.png"});
 
     const {
         handleMouseDown, 

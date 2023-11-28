@@ -3,11 +3,23 @@ import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva";
+import { Group, Image, Rect, Text } from "react-konva";
 import Burjkhalifaasset from './Burjkhalifaasset';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';   //eto
+
+// eto siya dapat ilagay
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
+//---
 type TBurjkhalifaScratch  = {
     combination: boolean[][]
+     //eto siya dapat ilagay
+     popupwinners: number; 
+     reference: string; 
+     //--/>
 }
 type TBurjkhalifaScratchRef = {
     isScratchDone: boolean;
@@ -15,7 +27,7 @@ type TBurjkhalifaScratchRef = {
 }   
 
 const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifaScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -32,7 +44,7 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/100/burjkhalifa/front.png"});
+        imageSrc: "/images/100/burjkhalifa/frontnew.png"});
     
 
     const {
@@ -96,9 +108,27 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
                     y={y1}
                     x={x1}
                 /> */}
+
+                 {/* eto siya dapat ilagay */}
+                 <Group y={HEIGHT*.02} x={WIDTH*.2}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.78}
+                        height={WIDTH*.12}
+                    />
+                    <Text 
+                        text={reference} 
+                        width={WIDTH*.8} 
+                        height={WIDTH*.12}
+                        align="center"
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-                statusWinner={0}
+                statusWinner={popupwinners}
                 visible={isModalShow}
                 height={height}
                 width={width}

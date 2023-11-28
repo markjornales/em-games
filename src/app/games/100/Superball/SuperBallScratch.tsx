@@ -35,7 +35,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/100/superball/front.png"});
+        imageSrc: "/images/100/superball/frontnew.png"});
     
 
     const {
