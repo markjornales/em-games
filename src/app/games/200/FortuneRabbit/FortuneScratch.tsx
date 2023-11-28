@@ -33,7 +33,7 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
     const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current;
     const [isReset, setReset] = React.useState<boolean>(false);
-
+ 
     const x1 = WIDTH*.23;
     const x2 = WIDTH*.92;
     const y1 = HEIGHT*.55;

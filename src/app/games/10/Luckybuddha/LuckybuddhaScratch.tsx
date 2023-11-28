@@ -15,6 +15,7 @@ type TLuckybuddhaScratch  = {
     combination: boolean[][]
     popupwinners: number; 
     reference: string; 
+    scratchdone: (done: boolean) => void; 
 }
 type TLuckybuddhaScratchRef = {
     isScratchDone: boolean;
@@ -22,7 +23,7 @@ type TLuckybuddhaScratchRef = {
 }   
 
 const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddhaScratch>((props, ref) => {
-    const { combination, popupwinners , reference}  = props;
+    const { combination, popupwinners , reference, scratchdone, }  = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -55,6 +56,7 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

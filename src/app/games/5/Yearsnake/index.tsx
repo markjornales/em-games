@@ -1,5 +1,5 @@
 // fivecards// fivecards
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 import CButton from '@/components/CButton'
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/functions';         
@@ -39,6 +39,19 @@ function Yearsnake() {
         }
     }
 
+    const onScratchDone = (done: boolean) => {
+        if(done) {
+          afterScratchAuth({ 
+            gid,
+            search, 
+            searchparams, 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+          });
+        }
+      }
+
     return (
         <Group>
             <CButton 
@@ -58,6 +71,7 @@ function Yearsnake() {
                 combi: isCardScratch.combi, 
                 rows: 3 
             }).getValues()}
+            scratchdone={onScratchDone}
             />
              {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
         </Group>

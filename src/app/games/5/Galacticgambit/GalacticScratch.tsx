@@ -17,6 +17,7 @@ type TGalacticScratch = {
     combination: boolean[][]
     popupwinners: number; 
     reference: string; 
+    scratchdone: (done: boolean) => void;
 }
 type TGalacticRef = {
     isScratchDone: boolean;
@@ -24,7 +25,7 @@ type TGalacticRef = {
 }   
 
 const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props, ref) => {
-    const { combination, popupwinners , reference } = props;
+    const { combination, popupwinners , reference, scratchdone, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -57,6 +58,7 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

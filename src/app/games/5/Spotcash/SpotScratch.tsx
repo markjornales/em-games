@@ -16,6 +16,7 @@ type TSpotScratch = {
     combination: boolean[][]
     popupwinners: number; 
     reference: string; 
+    scratchdone: (done: boolean) => void;
     
 }
 type TSpotcashRef = {
@@ -24,7 +25,7 @@ type TSpotcashRef = {
 }   
 
 const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) => {
-    const { combination, popupwinners , reference } = props;
+    const { combination, popupwinners , reference, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -57,6 +58,7 @@ const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) =>
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

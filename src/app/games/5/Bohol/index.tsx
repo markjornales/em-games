@@ -1,5 +1,5 @@
 // fivecards
-import { authentications } from '@/api/API'; // eto
+import { afterScratchAuth, authentications } from '@/api/API'; // eto
 import CButton from '@/components/CButton';
 
 // -- eto siya dapat ilagay
@@ -52,16 +52,31 @@ function Bohol() {
         }
     }
 
+    const onfastscratch = () => {
+        if(!scratchCardRef.current.isScratchDone){
+         scratchCardRef.current.fastscratch();   
+       } 
+      }
+
+      const onScratchDone = (done: boolean) => {
+        if(done) {
+          afterScratchAuth({ 
+            gid,
+            search, 
+            searchparams, 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+          });
+        }
+      }
+
     return (
         <Group>
             <CButton 
             label="NEXT CARD" 
             url_path="fivecards"
-            onfastscratch={() =>{
-                if(!scratchCardRef.current.isScratchDone){
-                    scratchCardRef.current.fastscratch();    
-                } 
-            }}  
+            onfastscratch={onfastscratch} 
             onclickStart={handleButtonMain} />
             <BoholScratch 
                 ref={scratchCardRef} 
@@ -72,6 +87,7 @@ function Bohol() {
                     combi: isCardScratch.combi, 
                     rows: 3 
                 }).getValues()}
+                scratchdone={onScratchDone}
                 // -----
             /> 
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 

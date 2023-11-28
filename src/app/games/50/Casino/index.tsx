@@ -5,7 +5,7 @@ import CasinoScratch from './CasinoScratch'
 import dynamic from 'next/dynamic';
 
 // -- eto siya dapat ilagay
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/functions';         
 import { useSearchParams } from 'next/navigation';  
@@ -49,6 +49,20 @@ function Casino() {
       //-- 
       }  
   }
+
+  const onScratchDone = (done: boolean) => {
+    if(done) {
+      afterScratchAuth({ 
+        gid,
+        search, 
+        searchparams, 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+      });
+    }
+  }
+
   return (
     <Group>
          <CButton 
@@ -69,6 +83,7 @@ function Casino() {
               combi: isCardScratch.combi, 
               rows: 3 
           }).getValues()}
+          scratchdone={onScratchDone}
           // -----
             />
              {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

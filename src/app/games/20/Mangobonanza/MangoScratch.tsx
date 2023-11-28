@@ -20,6 +20,7 @@ type TMangoScratch = {
      //eto siya dapat ilagay
      popupwinners: number; 
      reference: string; 
+     scratchdone: (done: boolean) => void; 
      //--/>
 }
 type TMangoRef = {
@@ -28,7 +29,7 @@ type TMangoRef = {
 }   
 
 const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => {
-    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, popupwinners , reference, scratchdone } = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -61,6 +62,7 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
