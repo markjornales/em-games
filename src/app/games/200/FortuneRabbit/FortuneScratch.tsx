@@ -18,7 +18,7 @@ type TFortuneScratchProps = {
   combination: boolean[][]
   popupwinners: number;
   reference: string;
-  scratchdone: (done: boolean) => void; 
+  scratchdone: (done: boolean) => void; //declare
 }
 type TFortuneScratchRef = {
     isScratchDone: boolean;
@@ -26,7 +26,7 @@ type TFortuneScratchRef = {
 }
 
 const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps>((props, ref) => {
-    const {combination, popupwinners, reference, scratchdone, } = props;
+    const {combination, popupwinners, reference, scratchdone /*declare*/, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -51,7 +51,7 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
-            scratchdone(true);
+            scratchdone(true);/*declare*/
         }
     },[isScratchDone])
 

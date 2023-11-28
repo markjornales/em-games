@@ -19,7 +19,7 @@ type TBingoScratchProps = {
   combination: TCombination[];
   popupwinners: number;
   reference: string;
-  scratchdone: (done: boolean) => void; 
+  scratchdone: (done: boolean) => void; // declare
 }
 type TBingoScratchRef = {
     isScratchDone: boolean;
@@ -51,7 +51,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
-            scratchdone(true);
+            scratchdone(true); // declare
         }
     },[isScratchDone])
 

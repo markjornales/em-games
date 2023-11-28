@@ -8,6 +8,7 @@ import React from 'react';
 import { Group } from 'react-konva';
 import FortuneScratch from './FortuneScratch';
 import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners';
+
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function FortuneRabbit() { 
   const scratchCardRef = React.useRef<any>();
@@ -43,7 +44,8 @@ function FortuneRabbit() {
      scratchCardRef.current.fastscratch();   
    } 
   }
-
+  
+  //declare
   const onScratchDone = (done: boolean) => {
     if(done) {
       afterScratchAuth({ 
@@ -68,7 +70,7 @@ function FortuneRabbit() {
         <FortuneScratch 
           ref={scratchCardRef}
           combination={combinations} 
-          scratchdone={onScratchDone}
+          scratchdone={onScratchDone} //declare
           popupwinners={popupWinnerHandle200(isCardScratch.combi)}
           reference={isCardScratch.refno}
         />
