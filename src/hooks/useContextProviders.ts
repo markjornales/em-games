@@ -17,10 +17,11 @@ export default function () {
     const [isCardScratch, setCardScratch] = React.useState<TCardScratchProp>({
         combi: "", 
         e_wallet: 0, 
-        winner: 0,
+        winners: 0,
         message: "", 
         refno: "", 
-        game_code: ""
+        game_code: "", 
+        prize_image: "string"
     });
 
     React.useEffect(() => {

@@ -1,14 +1,14 @@
 import { CanvasProvider } from '@/components/CanvasContext';
-import useScratchMethod from '@/hooks/useScratchMethod';
-import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react';
-import { Group, Image, Rect, Text } from 'react-konva';
-// import ScratchHere from '@/components/ScratchHere'; 
 import { TCombination } from '@/hooks/functions';
 import useFastScratch from '@/hooks/useFastScratch';
+import useScratchMethod from '@/hooks/useScratchMethod';
+import useScratchMotion from '@/hooks/useScratchMotion';
 import dynamic from 'next/dynamic';
 import { Poppins } from 'next/font/google';
+import React from 'react';
+import { Group, Image, Rect, Text } from 'react-konva';
 import Bingo from './Bingo';
+
 const PopupAlert = dynamic(() => import("@/components/PopupAlert"));
 const poppins = Poppins({
     subsets: ["latin"],
@@ -16,8 +16,7 @@ const poppins = Poppins({
 });
 
 type TBingoScratchProps = {
-  combination: TCombination[];
-  popupwinners: number;
+  combination: TCombination[]; 
   reference: string;
   scratchdone: (done: boolean) => void; // declare
 }
@@ -27,7 +26,7 @@ type TBingoScratchRef = {
 }
 
 const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((props, ref) => {
-    const {combination, popupwinners, reference, scratchdone} = props;
+    const {combination, reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -66,8 +65,11 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
             setFastScratch(true) 
         }
     }));
-
  
+    const onTopup = () => {
+        setModalshow(false);
+    }
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
@@ -96,15 +98,11 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     onPointerLeave={handleOnPointerLeave}
                 /> 
                  <Group y={HEIGHT*.912} x={WIDTH*.17}>
-                    <Rect
-                        fill="white" 
-                        width={WIDTH*.78}
-                        height={WIDTH*.13}
-                    />
+                    <Rect fill="white" width={WIDTH*.78} height={WIDTH*.13}/>
                     <Text   
+                        rotation={180}
                         offsetX={WIDTH*.78}
                         offsetY={WIDTH*.12}
-                        rotationDeg={180}
                         text={reference} 
                         width={WIDTH*.78}
                         height={WIDTH*.13}
@@ -115,15 +113,12 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
                     />
                 </Group> 
             </Group>
-            <PopupAlert 
-                statusWinner={popupwinners}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
-            /> 
+                onTap={onTopup}
+            />
         </Group>
     );
 });

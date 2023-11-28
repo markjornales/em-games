@@ -100,13 +100,13 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                     <Rect 
                         fill="white"
                         offsetY={WIDTH*.09}
-                        rotationDeg={90} 
+                        rotation={90} 
                         width={WIDTH*.72}
                         height={WIDTH*.09}
                     />
                     <Text
                         fontSize={WIDTH*.062}
-                        rotationDeg={90} 
+                        rotation={90} 
                         offsetY={WIDTH*.085}
                         fontFamily={poppins.style.fontFamily}
                         width={WIDTH*.72}
@@ -117,22 +117,13 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-                statusWinner={popupwinners}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
                 onTap={() => {
                     setModalshow(false);
                 }}
-            />
-            <ScratchHere 
-                x={(width-width*.48)/2}
-                y={height*.5}
-                height={height*.2}
-                width={width*.6}
-                BHeight={height}
-                BWidth={width}
             />
         </Group>
     );

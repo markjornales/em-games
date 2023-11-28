@@ -155,14 +155,6 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             setModalshow(false);
         }}
      />
-     <ScratchHere 
-        x={(width-width*.6)/2}
-        y={(height-height*.2)*.73}
-        height={height*.2}
-        width={width*.6}
-        BHeight={height}
-        BWidth={width}
-     />
     </Group>
   );
 });

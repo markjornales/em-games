@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic';
 import { BingoScratchClass } from '@/hooks/functions';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
 import { useSearchParams } from 'next/navigation';
-import { afterScratchAuth, authentications } from '@/api/API';
-import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners';
+import { afterScratchAuth, authentications } from '@/api/API'; 
+
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function BingoGame() {
   const scratchCardRef = React.useRef<any>();
@@ -59,20 +59,19 @@ function BingoGame() {
 
   return (
     <Group>
-         <CButton 
+        <CButton 
           label="NEXT CARD" 
           url_path="hundredto"
           onfastscratch={onfastscratch} 
           onclickStart={handleButtonMain}
-         />
-         <BingoScratch 
-            reference={isCardScratch.refno}
-            ref={scratchCardRef} 
-            combination={combinations}
-            scratchdone={onScratchDone}
-            popupwinners={popupWinnerHandle200(isCardScratch.combi)} 
-          />
-         {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+        />
+        <BingoScratch 
+          reference={isCardScratch.refno}
+          ref={scratchCardRef} 
+          combination={combinations}
+          scratchdone={onScratchDone} 
+        />
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
      </Group>
   );
 }

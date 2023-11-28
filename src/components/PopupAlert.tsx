@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
 import { ImageLoad } from '@/components/ImageComponents';
-import { Group, Image, Rect, Text, } from "react-konva"; 
-import useImage from 'use-image';
 import { Poppins } from 'next/font/google';
-import {animated, useSpring} from "react-spring"
+import React from 'react';
+import { Group, Image, Rect, Text, } from "react-konva";
+import { animated, useSpring } from "react-spring";
+import useImage from 'use-image';
+import { CanvasProvider } from './CanvasContext';
 
 export type TPoupAlert = {
     width: number;
-    height: number;
-    statusWinner: number; 
+    height: number; 
     visible: boolean;
     onTap: () => void
 }
@@ -20,45 +20,10 @@ const poppins = Poppins({
 
 const GroupAnimation:any = animated(Group);
 
-function useImageLists (statusWinner: number) {
-    const path = "/images/popup/";
-    const imageList = [
-        "Lose.png",
-        "prize_0.png",
-        "prize_1.png",
-        "prize_2.png",
-        "prize_3.png",
-        "prize_4.png",
-    ];
-    // --- eto siya dapat ilagay
-    const imagelists = [
-        "Lose.png", //index 0
-        "p5.png", //index 1
-        "p10.png", //index 2
-        "p20.png", //index 3
-        "p50.png", //index 4
-        "p100.png", //index 5
-        "p200.png", //index 6
-        "p500.png", //index 7
-        "p1k.png", //index 8
-        "p5k.png", //index 9
-        "p10k.png", //index 10
-        "p20k.png", //index 11
-        "p50k.png", //index 12
-        "p100k.png", //index 13
-        "p200k.png", //index 14
-        "p500k.png", //index 15
-        "p1m.png", //index 16
-        "p2m.png", //index 17,
-        "p2k.png", //index 18
-    ];
-    return `${path}${imagelists[statusWinner]}`
-}
-
-function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPoupAlert) {
-   const [imageModal] = useImage(useImageLists(statusWinner));
-   const [isClicked, setClicked] = React.useState<boolean>(false);
-   const [isVisible, setVisible] = React.useState<boolean>(false);
+function PopupAlert({height, width, visible = false, onTap} : TPoupAlert) {
+   const { isCardScratch } = React.useContext(CanvasProvider); 
+   const [imageModal] = useImage(`/images/popup/${isCardScratch.prize_image}`);
+   const [isClicked, setClicked] = React.useState<boolean>(false); 
    const {opacity} = useSpring({
         from: {opacity: 0},
         to: {opacity: visible? 1: 0},
@@ -72,7 +37,7 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
 
   React.useEffect(() => {
     if(visible) {
-        if( statusWinner > 0) {
+        if( isCardScratch.winners > 0) {
             const audio = new Audio("/sounds/tadaa.mp3");
             audio.play();
         } else {
@@ -80,7 +45,7 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
             audio.play();
         }
     }
-  },[visible])
+  },[visible]);
 
   return (
     <GroupAnimation visible={visible} 
@@ -92,11 +57,7 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
             height={height}
         />
         <Group x={(width-width*.7)/2} y={(height - width*.76)/2}>
-            <Image 
-                image={imageModal}
-                width={width*.7}
-                height={width*.7}
-            />
+            <Image image={imageModal} width={width*.7} height={width*.7}/>
             <Group 
                 y={width*.72} 
                 x={(width*.7 - width*.2)/2} 
@@ -105,10 +66,7 @@ function PopupAlert({height, width, statusWinner, visible = false, onTap} : TPou
                 onPointerUp={onClickStart}> 
                 <ImageLoad
                     src="/images/start.png"
-                    imageProps={{
-                        width: width*.2,
-                        height: width*.07,
-                    }}
+                    imageProps={{ width: width*.2, height: width*.07, }}
                 />
                 <Text
                     fill="#5E1700"

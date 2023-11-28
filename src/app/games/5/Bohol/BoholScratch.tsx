@@ -7,20 +7,16 @@ import PopupAlert from '@/components/PopupAlert';
 import Tarsier from './Tarsier';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';   //eto
-
-// eto siya dapat ilagay
+ 
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
-});
-//---
+}); 
 
 type TBoholScratch = {
-    combination: boolean[][];
-    //eto siya dapat ilagay
-    popupwinners: number; 
-    reference: string; 
-    //--/>
+    combination: boolean[][]; 
+    // popupwinners: number;  // tanggalin mo to
+    reference: string;  
 }
 type TBoholRef = {
     isScratchDone: boolean;
@@ -28,7 +24,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {
-    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, /*popupwinners*/ reference} = props; // tanggalin mo to    
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -130,8 +126,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
             {/*----/> */}
             
             </Group>
-            <PopupAlert 
-                statusWinner={popupwinners}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

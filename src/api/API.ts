@@ -57,7 +57,7 @@ export const authentications = async ({
       } else if(!gid){
         errorHandler.handleError(422);
       } else {   
-          const scratchProps: TCardScratchProp = JSON.parse(response.scratch); 
+          const scratchProps: TCardScratchProp = JSON.parse(response.scratch);  
           setCardScratch(scratchProps);
           setPlayed(true);
           if(scratchProps.game_code == "100"){
@@ -65,10 +65,10 @@ export const authentications = async ({
           }
       } 
     } catch (error: any) {  
-        setAuthenticated({
-          authenticate: false, 
-          message: error.message
-        })   
+      setAuthenticated({
+        authenticate: false, 
+        message: error.message
+      });
     }
   }
 
@@ -92,9 +92,9 @@ export const authentications = async ({
       if(!response.ok && response.status_code == 0) {
         errorHandler.handleError(response.status);
       } 
-      else {   
-          const {e_wallet}: TCardScratchProp = JSON.parse(response.scratch);    
-          setCardScratch((init: TCardScratchProp) => Object.assign(init, { e_wallet }));
+      else {    
+          const { e_wallet }: TCardScratchProp = JSON.parse(response.scratch); 
+          setCardScratch((init: TCardScratchProp) => ({...init, e_wallet }));
           setPlayed(true); 
       } 
     } catch (error: any) {
