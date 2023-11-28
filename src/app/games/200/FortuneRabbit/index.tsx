@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { Group } from 'react-konva';
 import FortuneScratch from './FortuneScratch';
-import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners';
+import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners'; 
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function FortuneRabbit() { 

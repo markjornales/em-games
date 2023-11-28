@@ -17,6 +17,7 @@ type TTreasureScratch = {
     combination: boolean[][]
     popupwinners: number; 
     reference: string; 
+    scratchdone: (done: boolean) => void; 
 }
 type TTreasureRef = {
     isScratchDone: boolean;
@@ -24,7 +25,7 @@ type TTreasureRef = {
 }   
 
 const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props, ref) => {
-    const { combination, popupwinners , reference } = props;
+    const { combination, popupwinners , reference , scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);

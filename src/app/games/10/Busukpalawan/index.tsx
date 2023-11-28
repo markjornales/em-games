@@ -6,7 +6,7 @@ import React from 'react'
 import { Group } from 'react-konva'
 import BugsukScratch from './BugsukScratch';
 import dynamic from 'next/dynamic';
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
@@ -39,6 +39,19 @@ function Busukpalawan() {
         }
     }
 
+    const onScratchDone = (done: boolean) => {
+        if(done) {
+          afterScratchAuth({ 
+            gid,
+            search, 
+            searchparams, 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+          });
+        }
+      }
+
     return (
         <Group>
             <CButton 
@@ -58,6 +71,7 @@ function Busukpalawan() {
                 combi: isCardScratch.combi, 
                 rows: 3 
             }).getValues()}
+            scratchdone={onScratchDone}
             />
              {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
         </Group>

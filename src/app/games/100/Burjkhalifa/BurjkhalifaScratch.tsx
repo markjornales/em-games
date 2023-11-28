@@ -20,6 +20,7 @@ type TBurjkhalifaScratch  = {
      popupwinners: number; 
      reference: string; 
      //--/>
+     scratchdone: (done: boolean) => void; 
 }
 type TBurjkhalifaScratchRef = {
     isScratchDone: boolean;
@@ -27,7 +28,7 @@ type TBurjkhalifaScratchRef = {
 }   
 
 const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifaScratch>((props, ref) => {
-    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, popupwinners , reference, scratchdone} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -59,6 +60,7 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
     React.useEffect(() => {
         if(  isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

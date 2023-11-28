@@ -4,7 +4,7 @@ import { Group } from 'react-konva'
 import BurjkhalifaScratch from './BurjkhalifaScratch'
 import dynamic from 'next/dynamic';
 // -- eto siya dapat ilagay
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/functions';         
 import { useSearchParams } from 'next/navigation';  
@@ -45,6 +45,19 @@ function Burjkhalifa() {
       //-- 
       }  
   }
+
+  const onScratchDone = (done: boolean) => {
+    if(done) {
+      afterScratchAuth({ 
+        gid,
+        search, 
+        searchparams, 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+      });
+    }
+  }
   
   return (
     <Group>
@@ -66,6 +79,7 @@ function Burjkhalifa() {
               combi: isCardScratch.combi, 
               rows: 3 
           }).getValues()}
+          scratchdone={onScratchDone} 
           // -----
           />
            {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

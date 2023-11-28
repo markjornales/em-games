@@ -21,6 +21,7 @@ type TBoholScratch = {
     popupwinners: number; 
     reference: string; 
     //--/>
+    scratchdone: (done: boolean) => void; 
 }
 type TBoholRef = {
     isScratchDone: boolean;
@@ -28,7 +29,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {
-    const { combination, popupwinners , reference} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, popupwinners , reference, scratchdone,} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -61,6 +62,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

@@ -17,6 +17,7 @@ type TRouletteScratch  = {
     combination: boolean[][]
     popupwinners: number; 
      reference: string; 
+     scratchdone: (done: boolean) => void;
 }
 type TRouletteScratchRef = {
     isScratchDone: boolean;
@@ -24,7 +25,7 @@ type TRouletteScratchRef = {
 }   
 
 const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>((props, ref) => {
-    const { combination, popupwinners , reference} = props;
+    const { combination, popupwinners , reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -58,6 +59,7 @@ const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>(
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 

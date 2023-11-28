@@ -3,7 +3,7 @@ import React from 'react'
 import { Group } from 'react-konva'
 import SpotScratch from './SpotScratch'
 import dynamic from 'next/dynamic';
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/functions';         
 import { useSearchParams } from 'next/navigation'; 
@@ -37,6 +37,21 @@ function Spotcash() {
       });
       }  
   }
+
+  const onScratchDone = (done: boolean) => {
+    if(done) {
+      afterScratchAuth({ 
+        gid,
+        search, 
+        searchparams, 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+      });
+    }
+  }
+
+
   return (
     <Group>
          <CButton 
@@ -56,6 +71,7 @@ function Spotcash() {
              combi: isCardScratch.combi, 
              rows: 3 
          }).getValues()}
+         scratchdone={onScratchDone}
             />
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
