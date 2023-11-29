@@ -17,7 +17,7 @@ const poppins = Poppins({
 type TBurjkhalifaScratch  = {
     combination: boolean[][]
      //eto siya dapat ilagay
-     popupwinners: number; 
+    
      reference: string; 
      //--/>
      scratchdone: (done: boolean) => void; 
@@ -28,7 +28,7 @@ type TBurjkhalifaScratchRef = {
 }   
 
 const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifaScratch>((props, ref) => {
-    const { combination, popupwinners , reference, scratchdone} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, reference, scratchdone} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -130,7 +130,7 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
                 </Group>
             </Group>
             <PopupAlert 
-                statusWinner={popupwinners}
+               
                 visible={isModalShow}
                 height={height}
                 width={width}

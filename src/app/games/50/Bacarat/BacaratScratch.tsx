@@ -103,7 +103,7 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
 
             </Group>
             <PopupAlert 
-                statusWinner={0}
+             
                 visible={isModalShow}
                 height={height}
                 width={width}

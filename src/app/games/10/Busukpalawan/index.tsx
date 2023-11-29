@@ -65,7 +65,6 @@ function Busukpalawan() {
             onclickStart={handleButtonMain} />
             <BugsukScratch ref={scratchCardRef} 
             reference={isCardScratch.refno}
-            popupwinners={[0,1,2,4,5,7,8,10,13][isCardScratch.combi.replace(/[^1]/g, '').length]}  
             combination={new GridBooleansCards({ 
                 columns: 3, 
                 combi: isCardScratch.combi, 

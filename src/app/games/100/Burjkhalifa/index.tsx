@@ -73,7 +73,7 @@ function Burjkhalifa() {
          <BurjkhalifaScratch ref={scratchCardRef}
            //eto siya dapat ilagay
           reference={isCardScratch.refno}
-          popupwinners={[0,3,4,5,8,10,13,16][isCardScratch.combi.replace(/[^1]/g, '').length]}  
+       
           combination={new GridBooleansCards({ 
               columns: 3, 
               combi: isCardScratch.combi, 

@@ -97,7 +97,7 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
             />  
         </Group>
         <PopupAlert 
-            statusWinner={2}
+          
             visible={isModalShow}
             height={height}
             width={width}

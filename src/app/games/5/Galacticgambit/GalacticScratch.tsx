@@ -15,7 +15,7 @@ const poppins = Poppins({
 
 type TGalacticScratch = {
     combination: boolean[][]
-    popupwinners: number; 
+  
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -25,7 +25,7 @@ type TGalacticRef = {
 }   
 
 const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props, ref) => {
-    const { combination, popupwinners , reference, scratchdone, } = props;
+    const { combination , reference, scratchdone, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -128,7 +128,7 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
 
             </Group>
             <PopupAlert 
-                statusWinner={popupwinners}
+              
                 visible={isModalShow}
                 height={height}
                 width={width}

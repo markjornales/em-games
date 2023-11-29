@@ -103,7 +103,7 @@ const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => 
 
             </Group>
             <PopupAlert 
-                statusWinner={0}
+              
                 visible={isModalShow}
                 height={height}
                 width={width}

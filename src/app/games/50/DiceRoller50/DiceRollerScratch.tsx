@@ -92,7 +92,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
             />  
         </Group>
         <PopupAlert 
-            statusWinner={0}
+           
             visible={isModalShow}
             height={height}
             width={width}
