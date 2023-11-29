@@ -69,8 +69,7 @@ function SuperBall() {
         <SuperBallScratch 
           ref={scratchCardRef}
           referenceno={isCardScratch.refno} 
-          combination={combination}
-          popupwinners={popupWinnerHandle200(isCardScratch.combi)} 
+          combination={combination} 
           scratchdone={onScratchDone}
         />
         {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

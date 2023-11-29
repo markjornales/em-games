@@ -5,9 +5,9 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import { Poppins } from 'next/font/google';
 import React from 'react';
-import { Group, Image, Rect, Text, } from "react-konva";
-import { WinnerLoseImage } from './AssetLotto';
+import { Group, Image, Rect, Text, } from "react-konva"; 
 import useFastScratch from '@/hooks/useFastScratch';
+import WinnerLoseImage from './AssetLotto';
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -18,17 +18,11 @@ export type TStagePos = {
     x: number;
     y: number;
 } 
-export type gameCombination = [boolean, boolean, boolean, boolean, boolean];
-
-export type TgameCombination = [
-    gameCombination, 
-    gameCombination, 
-    gameCombination, 
-    gameCombination
-  ];
-
+ 
 export type TLottoGames = {
-    gameCombination?: TgameCombination;
+    gameCombination: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 
 export type TLottoGamesRef = {
@@ -37,16 +31,16 @@ export type TLottoGamesRef = {
 }
  
 const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) => {
-    const {gameCombination = []} = props;
+    const {gameCombination, reference, scratchdone,} = props;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
-    const { isCanvasSize, setCanvasSize } = React.useContext(CanvasProvider);
+    const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;   
     
     const WIDTH = width*.862;
     const HEIGHT = height*.75; 
     
-    const x1 = (WIDTH - WIDTH*.8)/2;
-    const x2 = ((WIDTH - WIDTH*.8)/2) + WIDTH*.8
+    const x1 = (WIDTH - WIDTH*.75)/2;
+    const x2 = ((WIDTH - WIDTH*.8)/2) + WIDTH*.866
     const y1 = (HEIGHT-HEIGHT*.35)*.85
     const y2 = (HEIGHT-HEIGHT*.35)*.85 + HEIGHT*.35 
 
@@ -71,9 +65,9 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 30});
     
     React.useEffect(() => {
-        if(isScratchDone){ 
-          
+        if(isScratchDone){  
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone])
 
@@ -87,41 +81,25 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
         fastscratch: () => {
             setFastScratch(true) 
         }
-    }));
-
+    })); 
 
   return (
     <Group>
      <Group y={(height-(height*.8))/2} x={(width-width*.86)/2} >  
         <Rect fill="white" width={width*.86} height={height*.75} cornerRadius={10}/>
-        {canvas && gameCombination.map((data, index) => {
-            const ypos = .097 * index; 
-            return data.map((value, indexValue) => {   
-                const xpos= .17 * indexValue;
-                return (
-                    <WinnerLoseImage key={index + indexValue} {...value? {
-                            y: 0.545 + ypos,
-                            x: 0.11 + xpos,
-                            imgWidth: 0.11,
-                            imgHeight: 2.252,
-                            value,
-                            isScratchDone
-                        }:{
-                            y: 0.545 + ypos,
-                            x: (0.28 + xpos)-0.17,
-                            imgWidth: 0.32,
-                            imgHeight: 2.835,
-                            opacity: 0.6,
-                            value,
-                            isScratchDone
-                        }}
-                        height={HEIGHT} 
-                        width={WIDTH} 
-                        src="/images/200/LottoGame/lottogamesfront.png" 
+        {canvas && gameCombination.map((data, index) => 
+            data.map((value, indexValue) => 
+                <Group key={index + indexValue} 
+                    y={HEIGHT*(.536 + (0.096* index))} 
+                    x={WIDTH*(.09 + (0.17* indexValue))}>
+                    <WinnerLoseImage 
+                        size={WIDTH}
+                        isScratchDone={isScratchDone}
+                        value={value}   
                     /> 
-                );
-            })
-        })}
+                </Group>
+            )
+        )}
         <Image
             cornerRadius={10} 
             ref={imageRef}
@@ -130,14 +108,13 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             onPointerUp={handleMouseUp}
             onPointerMove={handleMouseMove}
             onPointerLeave={handleOnPointerLeave}
-        />  
-
+        />   
         <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
             <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
             <Text
                 width={WIDTH*.9}
                 height={WIDTH*.10}
-                text="123-4567-890"
+                text={reference}
                 align="center"
                 letterSpacing={3}
                 verticalAlign="middle"
@@ -146,8 +123,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
             />
         </Group>
      </Group>
-     <PopupAlert 
-        statusWinner={1}
+     <PopupAlert  
         visible={isModalShow}
         height={height}
         width={width}

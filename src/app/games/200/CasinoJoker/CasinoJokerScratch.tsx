@@ -2,14 +2,21 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert';
 import Joker from './Joker';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
 
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+});
 
 type TCasinoJokerScratch = {
-    combination: boolean[][]
+    combination: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 type TCasinoJokerRef = {
     isScratchDone: boolean;
@@ -17,16 +24,16 @@ type TCasinoJokerRef = {
 }   
 
 const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, reference, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false); 
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.4;
+    const x1 = WIDTH*.35;
     const y1 = HEIGHT*.56;
-    const x2 = WIDTH*.88;
-    const y2 = HEIGHT*.86
+    const x2 = WIDTH*.92;
+    const y2 = HEIGHT*.85
     
     const { canvas, isScratchDone, setScratchDone, setStagePointerPos } = useScratchMethod({
         HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, imageSrc: "/images/200/casinojoker/front.png", 
@@ -46,6 +53,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -60,6 +68,10 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
             setFastScratch(true) 
         }
     }));
+
+    const handleOnTap = () => {
+        setModalshow(false);
+    }
     
     return (
         <Group>
@@ -89,16 +101,35 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />
+                /> 
+                <Group x={WIDTH*.853} y={WIDTH*.07}>
+                    <Rect   
+                        offsetX={WIDTH*.805} 
+                        rotation={-90}
+                        fill="white"
+                        width={WIDTH*.805}
+                        height={WIDTH*.092}
+                    />
+                    <Text 
+                        width={WIDTH*.805}
+                        height={WIDTH*.092}
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.07}
+                        text={reference}
+                        rotation={-90} 
+                        offsetX={WIDTH*.805}
+                        wrap="word"
+                        align="center"
+                        verticalAlign="middle"
+                        x={3}
+                    />
+                </Group>
             </Group>
-            <PopupAlert 
-                statusWinner={0}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleOnTap}
             />
         </Group>
     );

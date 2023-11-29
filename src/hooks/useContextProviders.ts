@@ -13,7 +13,7 @@ export default function () {
       authenticate: true,
       message: ""
     }); 
-  
+    const [blur, setBlur] = React.useState<boolean>(false);
     const [isCardScratch, setCardScratch] = React.useState<TCardScratchProp>({
         combi: "", 
         e_wallet: 0, 
@@ -46,6 +46,8 @@ export default function () {
       isCanvasSize, 
       isAuthenticated, 
       isCardScratch, 
+      blur, 
+      setBlur,
       setAuthenticated, 
       setCanvasSize,
       setCardScratch

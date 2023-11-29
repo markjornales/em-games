@@ -1,6 +1,6 @@
 'use client';
 
-import { shuffleArrays } from "../functions";
+import { shuffleArrays } from "../methods";
 
 export function superBallFunction (combination: number)  {
     const colors = ["blue", "green", "orange", "red", "violet"]

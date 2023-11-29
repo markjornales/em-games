@@ -4,9 +4,9 @@ import { Group } from 'react-konva'
 import CasinoJokerScratch from './CasinoJokerScratch'
 import dynamic from 'next/dynamic';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
-import { authentications } from '@/api/API';
+import { afterScratchAuth, authentications } from '@/api/API';
 import { useSearchParams } from 'next/navigation';
-import { GridBooleansCards } from '@/hooks/functions';
+import { GridBooleansCards } from '@/hooks/methods';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal")); // eto
 
@@ -19,6 +19,12 @@ function CasinoJoker() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!;  
+    const combinations = new GridBooleansCards({ 
+        rows: 2,
+        columns: 3, 
+        combi: isCardScratch.combi, 
+      }).getValues();
+  
 
     const handleButtonMain = () => { 
         setWarningShow(false); // eto
@@ -39,22 +45,39 @@ function CasinoJoker() {
         }  
     }
     
+    const onfastscratch = () => {
+        if(!scratchCardRef.current.isScratchDone){
+         scratchCardRef.current.fastscratch();   
+       } 
+      }
+  
+  
+    const onScratchDone = (done: boolean) => {
+        if(done) {
+          afterScratchAuth({ 
+            gid,
+            search, 
+            searchparams, 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+          });
+        }
+      }
 
   return (
     <Group>
         <CButton 
             label="NEXT CARD" 
             url_path="hundredto" 
-            onfastscratch={() =>{
-                if(!scratchCardRef.current.isScratchDone){
-                    scratchCardRef.current.fastscratch();   
-                } 
-            }} 
+            onfastscratch={onfastscratch} 
             onclickStart={handleButtonMain} 
         />
         <CasinoJokerScratch 
             ref={scratchCardRef} 
-            combination={new GridBooleansCards({ columns: 3, combi: isCardScratch.combi, rows: 2 }).getValues()}
+            combination={combinations}
+            reference={isCardScratch.refno}
+            scratchdone={onScratchDone} 
         />
         {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>

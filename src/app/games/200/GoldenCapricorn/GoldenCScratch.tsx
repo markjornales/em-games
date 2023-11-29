@@ -17,15 +17,11 @@ const outfit = Poppins({
     subsets: ["latin"],
     weight: "500"
 })
-
-const sampledata = [
-    [false, false, false],
-    [false, false, false],
-    [true, false , false]
-]
-
+ 
 type TGoldenScratch = {
-
+    combination: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 type TGoldenRef = {
     isScratchDone: boolean;
@@ -33,6 +29,7 @@ type TGoldenRef = {
 }   
 
 const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) => {
+    const {combination, reference, scratchdone, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -79,6 +76,10 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
             setFastScratch(true) 
         }
     }));
+
+    const handleonTap = () => {
+        setModalshow(false);
+    } 
     
     return (
         <Group>
@@ -89,7 +90,7 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                     width={width*.859}
                     height={HEIGHT}
                 />
-                {sampledata.map((column, indexColumn) => 
+                {canvas && combination.map((column, indexColumn) => 
                     column.map((row, indexRow) => 
                         <StarDefault 
                             star={row}
@@ -115,14 +116,13 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                 />
                 <Group y={(HEIGHT - 10)*.928} x={WIDTH*.1}>
                     <Rect 
-                        fill="white" 
-                        // stroke="black"
+                        fill="white"  
                         width={WIDTH*.8} 
                         height={WIDTH*.12}
                     />
                     <Text 
                         align="center"
-                        text="123-456-789-0" 
+                        text={reference}
                         verticalAlign="middle"
                         width={WIDTH*.8} 
                         height={WIDTH*.11}
@@ -131,14 +131,11 @@ const GoldenCSCratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref)
                     />
                 </Group> 
             </Group>
-            <PopupAlert 
-                statusWinner={1}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

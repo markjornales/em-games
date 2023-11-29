@@ -22,11 +22,19 @@ type TWarningmodal = {
 }
 
 function WarningModal({textstring}: TWarningmodal) {
-    const { isCanvasSize } = React.useContext(CanvasProvider);
+    const { isCanvasSize, setBlur } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isClicked, setClicked] = React.useState<boolean>(false);
     const [isVisible, setVisible] = React.useState<boolean>(true);
    
+    React.useEffect(() => {
+      if(isVisible){
+        setTimeout(() => {
+          setBlur(true);
+        }, 500)
+      }
+    }, [isVisible]);
+
     const animatedSpring = useSpring({
         from: {opacity: 0},
         to: {opacity: 1},
@@ -36,6 +44,7 @@ function WarningModal({textstring}: TWarningmodal) {
     const handleOnclickOkUp = () => {
       setClicked(false);
       setVisible(false);
+      setBlur(false);
     }
     const handleOnclickOkDown = () => {
       setClicked(true);
@@ -44,54 +53,42 @@ function WarningModal({textstring}: TWarningmodal) {
   return (
     <AnimationGroup opacity={animatedSpring.opacity} visible={isVisible}>
       <Rect fill="black" opacity={0.3} {...isCanvasSize}/>
-      <Group x={(width-(width*.45))/2} y={(height-(width*.6))/2}>
-        <Rect
-          fill="white"  
-          cornerRadius={10}
-          width={width*.45}
-          height={width/2}
-        />
-        <Text
-          y={20}
-          width={width*.45}
-          align="center" 
-          text="REMINDERS!"
-          fontFamily={lato.style.fontFamily}
-          fontSize={18}
-        />
+      <Group x={(width-(width*.5))/2} y={(height-(width*.6))/2}>
+        <Rect fill="white" cornerRadius={10} width={width*.5} height={width/2}/>
+        <Text y={20} width={width*.5} align="center" text="REMINDERS!" fontFamily={lato.style.fontFamily} fontSize={18}/>
         <ImageLoad
           src="/images/warning.png"
           imageProps={{
-            width: width*.2,
-            height: width*.2,
-            x: (width*.45 - width*.2)/2,
-            y: (width*.45 - width*.3)/2
+            width: width*.16,
+            height: width*.16,
+            x: (width*.5 - width*.16)/2,
+            y: (width*.5 - width*.26)/2
           }}
         />
         <Text 
-          padding={12}
+          padding={20}
           y={(width/2)/2}
-          width={width*.45} 
-          fontSize={width*.028}
+          width={width*.5} 
+          fontSize={width*.04}
           fontFamily={lato2.style.fontFamily} 
           text={textstring} 
           align="center"
         />
         <Group
-          x={(width*.45 - (width*.45/2))/2}
-          y={width/2 - width*.13}
+          x={(width*.5 - (width*.5/2))/2}
+          y={width/2 - width*.12}
           onPointerUp={handleOnclickOkUp}
           onPointerDown={handleOnclickOkDown}
           opacity={isClicked? 0.3: 1}>
           <Rect  
             shadowBlur={2}
             fill="#979797"
-            width={width*.45/2}
+            width={width*.5/2}
             height={width*.08}
             cornerRadius={5}
           />
           <Text 
-            width={width*.45/2}
+            width={width*.5/2}
             height={width*.08}
             align="center"
             verticalAlign="middle"

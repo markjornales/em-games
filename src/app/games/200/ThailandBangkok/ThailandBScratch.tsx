@@ -2,13 +2,21 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import GoldBars from './GoldBars';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 type TThailandBScratch = {
-    combination: boolean[][]
+    combination: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 type TThailandBRef = {
     isScratchDone: boolean;
@@ -16,15 +24,15 @@ type TThailandBRef = {
 }   
 
 const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, reference, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.25;
+    const x1 = WIDTH*.21;
     const y1 = HEIGHT*.53;
-    const x2 = WIDTH*.74;
+    const x2 = WIDTH*.78;
     const y2 = HEIGHT*.83
     
     const {
@@ -44,11 +52,12 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -63,6 +72,10 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
             setFastScratch(true) 
         }
     }));
+    
+    const handleonTap = () => {
+        setModalshow(false);
+    } 
     
     return (
         <Group>
@@ -92,17 +105,35 @@ const ThailandBScratch = React.forwardRef<TThailandBRef, TThailandBScratch>((pro
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
-                 
+                />
+                <Group x={WIDTH*.186} y={HEIGHT*.918}>
+                    <Rect
+                        fill="white" 
+                        offsetX={WIDTH*.63}
+                        offsetY={WIDTH*.12}
+                        rotation={180}
+                        width={WIDTH*.63}
+                        height={WIDTH*.12}
+                    />
+                    <Text  
+                        text={reference}
+                        width={WIDTH*.63}
+                        height={WIDTH*.12}
+                        rotation={180}
+                        offsetX={WIDTH*.64}
+                        offsetY={WIDTH*.11}
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.06}
+                        align="center"
+                        verticalAlign="middle"
+                    />
+                </Group>
             </Group>
-            <PopupAlert 
-                statusWinner={0}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

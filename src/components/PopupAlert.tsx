@@ -21,7 +21,7 @@ const poppins = Poppins({
 const GroupAnimation:any = animated(Group);
 
 function PopupAlert({height, width, visible = false, onTap} : TPoupAlert) {
-   const { isCardScratch } = React.useContext(CanvasProvider); 
+   const { isCardScratch, setBlur } = React.useContext(CanvasProvider); 
    const [imageModal] = useImage(`/images/popup/${isCardScratch.prize_image}`);
    const [isClicked, setClicked] = React.useState<boolean>(false); 
    const {opacity} = useSpring({
@@ -32,6 +32,7 @@ function PopupAlert({height, width, visible = false, onTap} : TPoupAlert) {
 
    const onClickStart = () => {
     setClicked(false);  
+    setBlur(false);
     onTap();
   }
 
@@ -46,6 +47,12 @@ function PopupAlert({height, width, visible = false, onTap} : TPoupAlert) {
         }
     }
   },[visible]);
+
+  React.useEffect(() => {
+    if(visible){
+      setBlur(true); 
+    }
+  }, [visible]);
 
   return (
     <GroupAnimation visible={visible} 

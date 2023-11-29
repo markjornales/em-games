@@ -15,8 +15,7 @@ const poppinsFont = Poppins({
 });
 
 type TSuperBallScratch = {
-   combination: number;
-   popupwinners: number; 
+   combination: number; 
    scratchdone: (done: boolean) => void;
    referenceno: string;
 }
@@ -26,7 +25,7 @@ type TSuperBallBRef = {
 }   
 
 const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((props, ref) => {
-    const { combination, popupwinners, scratchdone, referenceno } = props;
+    const { combination, scratchdone, referenceno } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -98,7 +97,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {superballShows} 
+                {canvas && superballShows} 
                  <Image
                     ref={imageRef}
                     image={canvas} 
@@ -120,8 +119,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-                statusWinner={popupwinners}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

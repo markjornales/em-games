@@ -26,8 +26,6 @@ function CButton(props: TCButton) {
     const [isClickBack, setClickBack] = React.useState<boolean>(false);
     const [isFastScratchClick, setFastScratchClick] = React.useState<boolean>(false)
 
-    const fontSizeDefault = width*.04;
-
     const onClickStart = () => {
       setClicked(false);
       onclickStart();
@@ -77,7 +75,7 @@ function CButton(props: TCButton) {
                 verticalAlign="middle"
                 width={width*.35}
                 height={width*.09}
-                fontSize={fontSizeDefault}
+                fontSize={(width*.09)*.4}
                 fontFamily={outfit.style.fontFamily}
               />
           </Group>
@@ -100,7 +98,7 @@ function CButton(props: TCButton) {
                 verticalAlign="middle"
                 width={width*.35}
                 height={width*.09}
-                fontSize={fontSizeDefault}
+                fontSize={(width*.09)*.4}
                 fontFamily={outfit.style.fontFamily}
               />
           </Group>

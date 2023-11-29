@@ -31,9 +31,10 @@ export default function RootLayout({
         <meta name='description' content='Description' />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className} > 
+      <body className={inter.className} >
+        <div className={classNames("h-screen w-screen bg-black/70 absolute ", providers.blur? "visible": "hidden")}/>
         <CanvasProvider.Provider value={providers}>
-          <div className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center")}> 
+          <div className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center lg:items-center")}> 
               <div className={classNames("flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]")} ref={canvasParent}>
                 {children}
             </div>

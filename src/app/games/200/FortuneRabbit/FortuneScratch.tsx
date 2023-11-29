@@ -15,8 +15,7 @@ const poppins = Poppins({
     subsets: ["latin"]
 });
 type TFortuneScratchProps = {
-  combination: boolean[][]
-  popupwinners: number;
+  combination: boolean[][] 
   reference: string;
   scratchdone: (done: boolean) => void; //declare
 }
@@ -26,7 +25,7 @@ type TFortuneScratchRef = {
 }
 
 const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps>((props, ref) => {
-    const {combination, popupwinners, reference, scratchdone /*declare*/, } = props;
+    const {combination, reference, scratchdone /*declare*/, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -80,7 +79,11 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                 width={WIDTH}
             />
         )
-    ),[combination])
+    ),[combination]);
+
+    const handleonTap = () => {
+        setModalshow(false);
+    }
 
     return (
         <Group>
@@ -121,9 +124,7 @@ const FortuneScratch = React.forwardRef<TFortuneScratchRef, TFortuneScratchProps
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

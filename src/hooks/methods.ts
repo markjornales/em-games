@@ -67,11 +67,11 @@ type TbingoScratchProp = {
 type TPrizeList = (string|string[])[]
 export class BingoScratchClass {
   private winnersTable: TCombination[] = [
-    {x: 0.35, y: 1.26, cornerRadius: 0, selected: false, letter: "letterB"},
-    {x: 0.35, y: 1.07, cornerRadius: 0, selected: false, letter: "letterI"},
-    {x: 0.35, y: 0.88, cornerRadius: 0, selected: false, letter: "letterN"},
-    {x: 0.55, y: 1.185, cornerRadius: 0.1, selected: false, letter: "letterG"},
-    {x: 0.55, y:0.94, cornerRadius:0.1, selected: false, letter: "letterO"}
+    {x: 0.35, y: 0.71, cornerRadius: 0, selected: false, letter: "letterB"},
+    {x: 0.35, y: 0.6, cornerRadius: 0, selected: false, letter: "letterI"},
+    {x: 0.35, y: 0.49, cornerRadius: 0, selected: false, letter: "letterN"},
+    {x: 0.55, y: 0.665, cornerRadius: 0.1, selected: false, letter: "letterG"},
+    {x: 0.55, y:0.52, cornerRadius:0.1, selected: false, letter: "letterO"}
   ];
   private prizesList: TPrizeList = [
     "none",

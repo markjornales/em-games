@@ -1,13 +1,12 @@
-import CButton from '@/components/CButton'
-import React from 'react'
-import { Group } from 'react-konva' 
-import LuckyJackScratch from './LuckyJackScratch'
-import dynamic from 'next/dynamic';
-import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
-import { useSearchParams } from 'next/navigation';
-import { GridBooleansCards } from '@/hooks/functions';
 import { afterScratchAuth, authentications } from '@/api/API';
-import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners';
+import CButton from '@/components/CButton';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { GridBooleansCards } from '@/hooks/methods';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
+import { Group } from 'react-konva';
+import LuckyJackScratch from './LuckyJackScratch';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function LuckyJack() {
@@ -77,8 +76,7 @@ function LuckyJack() {
           ref={scratchCardRef} 
           combination={combinations}
           reference={isCardScratch.refno}
-          scratchdone={onScratchDone}
-          popupwinners={popupWinnerHandle200(isCardScratch.combi)}
+          scratchdone={onScratchDone} 
         />
          {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>

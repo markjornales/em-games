@@ -3,7 +3,7 @@ import { Group } from 'react-konva'
 import BingoScratch from './BingoScratch';
 import React from "react";
 import dynamic from 'next/dynamic';
-import { BingoScratchClass } from '@/hooks/functions';
+import { BingoScratchClass } from '@/hooks/methods';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
 import { useSearchParams } from 'next/navigation';
 import { afterScratchAuth, authentications } from '@/api/API'; 

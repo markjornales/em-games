@@ -1,5 +1,5 @@
 import { CanvasProvider } from '@/components/CanvasContext';
-import { TCombination } from '@/hooks/functions';
+import { TCombination } from '@/hooks/methods';
 import useFastScratch from '@/hooks/useFastScratch';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
@@ -75,7 +75,7 @@ const BingoScratch = React.forwardRef<TBingoScratchRef, TBingoScratchProps>((pro
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#d4d4d4" width={width*.859} height={HEIGHT*.998}/> 
                 {combination.map((position, index) => 
-                  <Group x={WIDTH*position.x} y={WIDTH*position.y} key={index}>
+                  <Group x={WIDTH*position.x} y={HEIGHT*position.y} key={index}>
                     <Bingo
                       selected={position.selected}
                       key={index}

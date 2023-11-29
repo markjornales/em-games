@@ -1,13 +1,12 @@
 import { afterScratchAuth, authentications } from '@/api/API';
 import CButton from '@/components/CButton';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
-import { GridBooleansCards } from '@/hooks/functions';
+import { GridBooleansCards } from '@/hooks/methods';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { Group } from 'react-konva';
 import FortuneScratch from './FortuneScratch';
-import { popupWinnerHandle200 } from '@/hooks/cards/popupWinners'; 
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function FortuneRabbit() { 
@@ -18,7 +17,9 @@ function FortuneRabbit() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!; 
-  const combinations = new GridBooleansCards({ columns: 3, combi: isCardScratch.combi, rows: 3}).getValues();
+  const combinations = React.useMemo(() => 
+    new GridBooleansCards({ columns: 3, combi: isCardScratch.combi, rows: 3})
+    .getValues(), [isCardScratch.combi]);
 
   const handleButtonMain = () => { 
     setWarningShow(false);
@@ -70,8 +71,7 @@ function FortuneRabbit() {
         <FortuneScratch 
           ref={scratchCardRef}
           combination={combinations} 
-          scratchdone={onScratchDone} //declare
-          popupwinners={popupWinnerHandle200(isCardScratch.combi)}
+          scratchdone={onScratchDone} //declare 
           reference={isCardScratch.refno}
         />
         {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

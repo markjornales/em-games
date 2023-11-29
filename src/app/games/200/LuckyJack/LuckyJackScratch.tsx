@@ -11,7 +11,6 @@ import useFastScratch from '@/hooks/useFastScratch';
 type TLuckyJackScratch = {
     combination: boolean[][];
     scratchdone: (done: boolean) => void; 
-    popupwinners: number;
     reference: string;
 }
 type TLuckyJackRef = {
@@ -20,7 +19,7 @@ type TLuckyJackRef = {
 }   
 
 const LuckyJackScratch = React.forwardRef<TLuckyJackRef, TLuckyJackScratch>((props, ref) => {
-    const { combination, scratchdone, popupwinners, reference } = props;
+    const { combination, scratchdone, reference } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -69,6 +68,10 @@ const LuckyJackScratch = React.forwardRef<TLuckyJackRef, TLuckyJackScratch>((pro
         }
     }));
     
+    const handleonTap = () => {
+        setModalshow(false);
+    } 
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
@@ -99,14 +102,11 @@ const LuckyJackScratch = React.forwardRef<TLuckyJackRef, TLuckyJackScratch>((pro
                     onPointerLeave={handleOnPointerLeave}
                 /> 
             </Group>
-            <PopupAlert 
-                statusWinner={popupwinners}
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

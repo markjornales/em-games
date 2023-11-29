@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 // -- eto siya dapat ilagay
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/functions';         
+import { GridBooleansCards } from '@/hooks/methods';         
 import { useSearchParams } from 'next/navigation';  
 //------/>
 
