@@ -33,7 +33,7 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
     const x1 = WIDTH*.35;
     const y1 = HEIGHT*.56;
     const x2 = WIDTH*.92;
-    const y2 = HEIGHT*.85
+    const y2 = HEIGHT*.82
     
     const { canvas, isScratchDone, setScratchDone, setStagePointerPos } = useScratchMethod({
         HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, imageSrc: "/images/200/casinojoker/front.png", 
@@ -101,23 +101,23 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                /> 
-                <Group x={WIDTH*.853} y={WIDTH*.07}>
+                />  
+                <Group x={WIDTH*.853} y={HEIGHT*.04}>
                     <Rect   
-                        offsetX={WIDTH*.805} 
                         rotation={-90}
-                        fill="white"
-                        width={WIDTH*.805}
+                        fill="white" 
+                        offsetX={WIDTH*.73}  
+                        width={WIDTH*.73}
                         height={WIDTH*.092}
                     />
                     <Text 
-                        width={WIDTH*.805}
+                        width={WIDTH*.73}
                         height={WIDTH*.092}
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={(WIDTH*.73)*.09}
                         text={reference}
                         rotation={-90} 
-                        offsetX={WIDTH*.805}
+                        offsetX={WIDTH*.73}  
                         wrap="word"
                         align="center"
                         verticalAlign="middle"

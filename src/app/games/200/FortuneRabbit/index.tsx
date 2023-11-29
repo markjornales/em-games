@@ -46,7 +46,6 @@ function FortuneRabbit() {
    } 
   }
   
-  //declare
   const onScratchDone = (done: boolean) => {
     if(done) {
       afterScratchAuth({ 
@@ -71,7 +70,7 @@ function FortuneRabbit() {
         <FortuneScratch 
           ref={scratchCardRef}
           combination={combinations} 
-          scratchdone={onScratchDone} //declare 
+          scratchdone={onScratchDone}  
           reference={isCardScratch.refno}
         />
         {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

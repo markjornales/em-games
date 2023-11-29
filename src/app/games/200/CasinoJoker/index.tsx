@@ -19,11 +19,11 @@ function CasinoJoker() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!;  
-    const combinations = new GridBooleansCards({ 
+    const combinations = React.useMemo(() => new GridBooleansCards({ 
         rows: 2,
         columns: 3, 
         combi: isCardScratch.combi, 
-      }).getValues();
+      }).getValues(),[isCardScratch.combi]);
   
 
     const handleButtonMain = () => { 
