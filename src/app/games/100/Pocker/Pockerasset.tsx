@@ -29,16 +29,6 @@ function Pockerasset(props: TPockerassetProps) {
         }
         renderImages();
     },[isCardRender, pockername]);
-
-    if(!pockername) {
-        return (
-            <Image 
-                image={isCardRender}
-                width={imageWidth}
-                height={imageHeight}
-            />
-        )
-    }  
     
     return (
     <Group> 
@@ -62,7 +52,7 @@ function Pockerasset(props: TPockerassetProps) {
             />
          </Group>
          <Group 
-            rotationDeg={Math.PI*56} 
+            rotation={Math.PI*56} 
             offsetX={imageWidth*.45} 
             offsetY={imageHeight*.14}
             x={imageWidth*.45} 
@@ -88,6 +78,17 @@ function Pockerasset(props: TPockerassetProps) {
          </Group>
     </Group>
   )
+}
+
+
+export const PockerNoRender = (props: Pick<TPockerassetProps, "imageHeight"|"imageWidth">) => {
+    const { imageHeight , imageWidth} = props;
+    const [isCardRender] = useImage('/images/100/pocker/pocker-card.png'); 
+    return <Image 
+        image={isCardRender}
+        width={imageWidth}
+        height={imageHeight}
+    />
 }
 
 export default Pockerasset

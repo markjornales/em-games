@@ -30,9 +30,9 @@ const HorseScratch = React.forwardRef<THorseScratchRef, THorseScratch>((props, r
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.22;
+    const x1 = WIDTH*.18;
     const y1 = HEIGHT*.66;
-    const x2 = WIDTH*.63;
+    const x2 = WIDTH*.65;
     const y2 = HEIGHT*.945
     
     const {
@@ -77,7 +77,7 @@ const HorseScratch = React.forwardRef<THorseScratchRef, THorseScratch>((props, r
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
+                {canvas && combination.map((data, indexRow) => 
                     data.map((values, indexColumn) =>  
                     <Group 
                         opacity={values ? 1: 0.4}
@@ -100,8 +100,7 @@ const HorseScratch = React.forwardRef<THorseScratchRef, THorseScratch>((props, r
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
-
+                />   
                  <Group y={HEIGHT*.01} x={WIDTH*.2}>
                     <Rect 
                         fill="white"
@@ -115,12 +114,11 @@ const HorseScratch = React.forwardRef<THorseScratchRef, THorseScratch>((props, r
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={(WIDTH*.8)*.08}
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-               
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

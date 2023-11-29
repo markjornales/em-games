@@ -13,24 +13,26 @@ import { useSearchParams } from 'next/navigation';
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Burjkhalifa() {
-  const scratchCardRef = React.useRef<any>()
-   // -- eto siya dapat ilagay
+   const scratchCardRef = React.useRef<any>() 
    const { setPlayed } = React.useContext(CanvasContext);     
-   const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
-  // --- />
-  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);  
-   // -- eto siya dapat ilagay
+   const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);  
+   const [isWarningShow, setWarningShow] = React.useState<boolean>(false);   
    const searchparams = useSearchParams(); 
    const search = searchparams.get("q")!;
-   const gid = searchparams.get("gid")!; 
-   // -- />
-  
+   const gid = searchparams.get("gid")!;  
+   const combination = React.useMemo(() => new GridBooleansCards({ 
+      columns: 3, 
+      combi: isCardScratch.combi, 
+      rows: 3 
+  }).getValues(),
+  [isCardScratch.combi]);
+
+
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
       setWarningShow(true)
-      } else {
-         // --- eto siya dapat ilagay
+      } else { 
          authentications({ 
           setAuthenticated, 
           setCardScratch, 
@@ -41,11 +43,16 @@ function Burjkhalifa() {
       })
       .then(() => {
           scratchCardRef.current.reset();
-      });
-      //-- 
+      }); 
       }  
   }
 
+  const onfastscratch = () => {
+    if(!scratchCardRef.current.isScratchDone){
+     scratchCardRef.current.fastscratch();   
+   } 
+  }
+ 
   const onScratchDone = (done: boolean) => {
     if(done) {
       afterScratchAuth({ 
@@ -64,25 +71,15 @@ function Burjkhalifa() {
          <CButton 
          label="NEXT CARD" 
          url_path="hundredcards" 
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
+         onfastscratch={onfastscratch} 
          onclickStart={handleButtonMain} /> 
-         <BurjkhalifaScratch ref={scratchCardRef}
-           //eto siya dapat ilagay
-          reference={isCardScratch.refno}
-       
-          combination={new GridBooleansCards({ 
-              columns: 3, 
-              combi: isCardScratch.combi, 
-              rows: 3 
-          }).getValues()}
-          scratchdone={onScratchDone} 
-          // -----
+         <BurjkhalifaScratch 
+            ref={scratchCardRef} 
+            reference={isCardScratch.refno} 
+            combination={combination}
+            scratchdone={onScratchDone}  
           />
-           {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+          {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

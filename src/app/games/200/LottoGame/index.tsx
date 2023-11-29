@@ -10,9 +10,9 @@ import ScratchGame from './ScratchGames';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));   
 function MainGames() {
-  const {  setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
   const scratchCardRef = React.useRef<any>() 
   const [isWarningShow, setWarningShow] = React.useState<boolean>(false);  
+  const { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
   const { setPlayed } = React.useContext(CanvasContext); 
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
@@ -69,8 +69,8 @@ function MainGames() {
           /> 
           <ScratchGame 
             gameCombination={combinations} 
-            reference={isCardScratch.refno}
             ref={scratchCardRef}
+            reference={isCardScratch.refno}
             scratchdone={onScratchDone} 
           />  
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>}

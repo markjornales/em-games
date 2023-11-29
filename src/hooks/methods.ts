@@ -1,3 +1,5 @@
+import { TPockernames } from "@/app/games/100/Pocker/Pockerasset";
+
 export function shuffleArrays(array: boolean[][]) {
     let currentIndex = array.length,  randomIndex;
   
@@ -116,5 +118,102 @@ export class BingoScratchClass {
   }
   getValue() { 
     return this.winnersTable
+  }
+}
+
+export class PockerPrizeClass {
+  private pockerPrizeLegend = [
+      {pocker: "clubs", pcs: 1},
+      {pocker: "clubs", pcs: 2},
+      {pocker: "heart", pcs: 3},
+      {pocker: "heart", pcs: 4},
+      {pocker: "spades", pcs: 3},
+      {pocker: "spades", pcs: 5},
+      {pocker: "diamond", pcs: 5},
+  ];
+  private tablePrizes: any = [];
+
+  constructor(private props: TbingoScratchProp) {
+    this.tablePrizes = Array.from(new Array(3)).map(() => 
+        Array.from(new Array(2)).fill(undefined).map((value) => value) 
+    ); 
+    this.init();
+  }
+  
+  private init() {
+    const combi = this.props.combi.replace(/[^1]/g, "").length;
+    if( combi > 0){
+      const selectePrizes = this.pockerPrizeLegend[combi >= this.pockerPrizeLegend.length ? this.pockerPrizeLegend.length - 1: (combi - 1)];
+      const duplicate = [];
+      const rowDupl:number[] = [];  
+      for(let tpRow = 0; tpRow < this.tablePrizes.length; tpRow ++){
+        const randomRow = Math.floor(Math.random() * this.tablePrizes.length);
+        const coldupl:number[] = [];
+        if(!rowDupl.includes(randomRow)) {
+            for(let tpCol=0; tpCol < this.tablePrizes[tpRow].length; tpCol ++){
+                const randomCol = Math.floor(Math.random() * this.tablePrizes[tpRow].length);  
+                if(!coldupl.includes(randomCol)) {
+                    if(selectePrizes.pcs > duplicate.length) {
+                        this.tablePrizes[randomRow][randomCol] = selectePrizes.pocker 
+                        coldupl.push(randomCol) 
+                    }
+                    duplicate.push(randomCol);
+                }
+                else {
+                    tpCol--;
+                }
+            }
+            rowDupl.push(randomRow)
+        }else {
+            tpRow--;
+        }
+      }
+    }
+  }
+  public getValue() { 
+    return this.tablePrizes;
+  } 
+}
+
+type TCombinationFruits = "strawberry" | "avocado" | "cherry" | "banana" | "apple" | undefined;
+type TPrizeLegend = {
+  fruits: TCombinationFruits,
+  pcs: number
+}
+export class FruitBlashClass {
+  private tablePrizes: TCombinationFruits[][] = [];
+  private prizeLegend: TPrizeLegend[] = [
+    {fruits: "strawberry", pcs: 1},
+    {fruits: "avocado", pcs: 2},
+    {fruits: "cherry", pcs: 3},
+    {fruits: "banana", pcs: 4},
+    {fruits: "apple", pcs: 5},
+    {fruits: "apple", pcs: 6},
+    {fruits: "cherry", pcs: 7},
+];
+  constructor(private props: TbingoScratchProp){
+    this.tablePrizes = Array.from(new Array(4)).map(() => Array.from(new Array(4)).fill(undefined).map((value) => value));
+    this.init();
+  }
+  private init () {
+    const combi = this.props.combi.replace(/[^1]/g, "").length;
+    if(combi > 0) {
+      const collectDuplicates:string[] = [];
+      const selectePrizes = this.prizeLegend[combi > this.prizeLegend.length? this.prizeLegend.length - 1: (combi - 1)];
+      for(let fruits = 0; fruits < selectePrizes.pcs; fruits ++ ){
+          const randomRows = Math.floor(Math.random() * this.tablePrizes.length);
+          const randomColumns = Math.floor(Math.random() * this.tablePrizes[randomRows].length);
+          const positions = `rows=${randomRows},cols=${randomColumns}`;
+          if(!collectDuplicates.includes(positions)) {
+              this.tablePrizes[randomRows][randomColumns] = selectePrizes.fruits;
+              collectDuplicates.push(positions);
+          }else {
+              fruits --;
+          }
+      }
+    }
+  }
+  getValue() {
+    return this.tablePrizes
   }
 }

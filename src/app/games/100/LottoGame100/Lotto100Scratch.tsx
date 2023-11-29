@@ -3,27 +3,35 @@ import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react';
-import { Group, Image, Rect } from 'react-konva';
+import { Group, Image, Rect, Text } from 'react-konva';
 import PrizeFind from './PrizeFind';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 
 type TLotto100ScratchProps = {
-    combinations: boolean[][]
+    combinations: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 type TLotto100ScratchRef = {}
 
 const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchProps>((props, ref) => {
-    const {combinations = []} = props;
+    const {combinations = [], reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
 
-    const x1 = WIDTH*.13;
-    const x2 = WIDTH*.88;
+    const x1 = WIDTH*.11;
+    const x2 = WIDTH*.89;
     const y1 = HEIGHT*.57;
-    const y2 = HEIGHT*.90
+    const y2 = HEIGHT*.85
     
     const {
         canvas, 
@@ -46,6 +54,7 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone])
 
@@ -62,24 +71,27 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
     }));
 
 
+    const lottocombination = React.useMemo(() => 
+        combinations.map((data, indexRow) => 
+            data.map((value, indexColumn) => 
+                <PrizeFind
+                    key={indexColumn + indexRow}
+                    dheight={HEIGHT}
+                    dwidth={WIDTH}
+                    iconHeight={WIDTH*.13}
+                    iconWeight={WIDTH*.13}
+                    y={HEIGHT*(.552 + (0.084 * indexRow))}
+                    x={WIDTH*(.13 + (0.153 * indexColumn))} 
+                    name={value? "pesos": "fire"}
+                />
+            )
+        ),[combinations]);
+
     return (
     <Group>
         <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
-            {combinations.map((data, indexRow) => 
-                data.map((value, indexColumn) => 
-                    <PrizeFind
-                        key={indexColumn + indexRow}
-                        dheight={HEIGHT}
-                        dwidth={WIDTH}
-                        iconHeight={WIDTH*.16}
-                        iconWeight={WIDTH*.16}
-                        y={HEIGHT*(.53 + (0.1 * indexRow))}
-                        x={WIDTH*(.09 + (0.17 * indexColumn))}
-                        name={value? "pesos": "fire"}
-                    />
-                )
-            )}
+            {canvas && lottocombination}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -88,11 +100,22 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
                 onPointerUp={handleMouseUp}
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
-            /> 
-
+            />
+            <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
+            <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
+                <Text
+                    width={WIDTH*.9}
+                    height={WIDTH*.10}
+                    text={reference}
+                    align="center"
+                    letterSpacing={3}
+                    verticalAlign="middle"
+                    fontFamily={poppins.style.fontFamily}
+                    fontSize={WIDTH*.07}
+                />
+            </Group>
         </Group>
-        <PopupAlert 
-           
+        <PopupAlert  
             visible={isModalShow}
             height={height}
             width={width}

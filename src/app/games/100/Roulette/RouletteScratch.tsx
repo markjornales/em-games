@@ -14,8 +14,7 @@ const poppins = Poppins({
 });
 
 type TRouletteScratch  = {
-    combination: boolean[][]
-   
+    combination: boolean[][];
      reference: string; 
      scratchdone: (done: boolean) => void;
 }
@@ -31,10 +30,10 @@ const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>(
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.29;
+    const x1 = WIDTH*.24;
     const y1 = HEIGHT*.06;
-    const x2 = WIDTH*.77;
-    const y2 = HEIGHT*.385
+    const x2 = WIDTH*.79;
+    const y2 = HEIGHT*.38
     
     const {
         canvas, 
@@ -75,24 +74,26 @@ const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>(
         }
     }));
     
+    const rouletteCombi = React.useMemo(() => combination.map((data, indexRow) => 
+        data.map((values, indexColumn) =>  
+        <Group 
+            key={indexRow + indexColumn}
+            opacity={values? 1: 0.4}
+            x={WIDTH*(.238 + (0.194 * indexColumn))} 
+            y={HEIGHT*(.052 + (0.119 * indexRow))}>
+            <Roulette
+            imageHeight={WIDTH*.20}
+            imageWidth={WIDTH*.18}
+            />
+        </Group>
+        )
+    ),[combination])
+
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        key={indexRow + indexColumn}
-                        opacity={values? 1: 0.4}
-                        x={WIDTH*(.238 + (0.194 * indexColumn))} 
-                        y={HEIGHT*(.052 + (0.119 * indexRow))}>
-                        <Roulette
-                        imageHeight={WIDTH*.20}
-                        imageWidth={WIDTH*.18}
-                        />
-                    </Group>
-                    )
-                )}
+                {canvas && rouletteCombi}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -117,11 +118,9 @@ const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>(
                         fontFamily={poppins.style.fontFamily}
                         fontSize={WIDTH*.07}
                     />
-                </Group>
-                
+                </Group> 
             </Group>
             <PopupAlert 
-             
                 visible={isModalShow}
                 height={height}
                 width={width}

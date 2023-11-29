@@ -2,13 +2,22 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import { Group, Image, Rect, Text } from 'react-konva'
 import Fruits from './Fruits';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
+
 type TCombination = "strawberry" | "avocado" | "cherry" | "banana" | "apple" | undefined
 type TFruitBlastScratchProps = {
-    combinations: TCombination[][]
+    combinations: TCombination[][];
+    reference: string;  
+    scratchdone: (done: boolean) => void; 
 }
 type TFruitBlastScratchRef = {
     isScratchDone: boolean;
@@ -17,16 +26,16 @@ type TFruitBlastScratchRef = {
 
 
 const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScratchProps>((props, ref) => {
-    const { combinations = [] } = props;
+    const { combinations = [], reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = React.useRef<number>(height*.75).current;
     const WIDTH = React.useRef<number>(width*.86).current;
 
-    const x1 = WIDTH*.16;
-    const x2 = WIDTH*.84;
-    const y1 = HEIGHT*.58;
+    const x1 = WIDTH*.14;
+    const x2 = WIDTH*.87;
+    const y1 = HEIGHT*.59;
     const y2 = HEIGHT*.84;
     
     const {
@@ -50,6 +59,7 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -66,25 +76,28 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
     }));
 
 
+    const combinationFruitBlast = React.useMemo(() => 
+        combinations.map((data, indexRow) => 
+            data.map((value, indexColumn) => 
+                <Fruits
+                    key={indexColumn + indexRow}
+                    dwidth={WIDTH} 
+                    dheight={HEIGHT} 
+                    iconHeight={WIDTH*.12}
+                    iconWidth={width*.11} 
+                    fruitName={value}
+                    y={HEIGHT*(.572 + (0.07 * indexRow))}
+                    x={WIDTH*(.15 + (0.19 * indexColumn))}
+                />
+        )
+    ),[combinations]);
+
+
     return (
     <Group>
         <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#ececec" width={width*.859} height={HEIGHT*.998}/>
-            {canvas && combinations.map((data, indexRow) => 
-                data.map((value, indexColumn) => 
-                    <Fruits
-                        key={indexColumn + indexRow}
-                        dwidth={WIDTH} 
-                        dheight={HEIGHT} 
-                        iconHeight={WIDTH*.12}
-                        iconWidth={width*.11} 
-                        fruitName={value}
-                        y={HEIGHT*(.572 + (0.07 * indexRow))}
-                        x={WIDTH*(.15 + (0.19 * indexColumn))}
-                    />
-                )
-            )}
-           
+            {canvas && combinationFruitBlast} 
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -94,9 +107,26 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             /> 
+            <Group y={HEIGHT*.92} x={WIDTH*.23}>
+                <Rect
+                    stroke="black"
+                    strokeWidth={0.9}
+                    fill="white"
+                    width={WIDTH*.73}
+                    height={WIDTH*.09}
+                />
+                <Text 
+                    text={reference}
+                    fontFamily={poppins.style.fontFamily}
+                    width={WIDTH*.73}
+                    height={WIDTH*.09}
+                    fontSize={(WIDTH*.73) * .08}
+                    align="center"
+                    verticalAlign="middle"                    
+                />
+            </Group> 
         </Group>
-        <PopupAlert 
-           
+        <PopupAlert  
             visible={isModalShow}
             height={height}
             width={width}

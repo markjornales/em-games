@@ -2,21 +2,29 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import { Group, Image, Rect, Text } from 'react-konva'
 import SlotSeven from './SlotSeven';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 export type TCombinations = "dollar"|"seven";
 type TLuckySlotsScratchProps = {
-    combinations: TCombinations[][]
+    combinations: boolean[][];
+    reference: string;  
+    scratchdone: (done: boolean) => void; 
 }
 type TLuckySlotsScratchRef = {}
 
-
+ 
 
 const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScratchProps>((props, ref) => {
-    const { combinations } = props;
+    const { combinations, reference, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -49,6 +57,7 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone])
 
@@ -64,28 +73,30 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
         }
     }));
 
-        
+    const luckyslotcombination = React.useMemo(() => 
+        combinations.map((datacombi, indexRow) =>
+        datacombi.map((valuecombi, indexColumn) => 
+        <Group 
+            opacity={!valuecombi ? 0.3: 1}
+            y={HEIGHT*(.596 + (0.076 * indexRow))} 
+            x={WIDTH*(.13 + (0.185 * indexColumn))} 
+            key={indexRow + indexColumn}>
+            <SlotSeven
+                width={WIDTH}
+                height={HEIGHT}
+                slotsname={valuecombi? "seven": "dollar"}
+                slotHeight={WIDTH*.14}
+                slotWidth={WIDTH*.14}
+            />
+        </Group>
+        )
+    ),[combinations]); 
+
     return (
     <Group>
         <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#e7e1c8" width={width*.859} height={HEIGHT*.998}/>
-            {combinations.map((datacombi, indexRow) =>
-                datacombi.map((valuecombi, indexColumn) => 
-                <Group 
-                    opacity={valuecombi == "dollar" ? 0.3: 1}
-                    y={HEIGHT*(.596 + (0.076 * indexRow))} 
-                    x={WIDTH*(.13 + (0.185 * indexColumn))} 
-                    key={indexRow + indexColumn}>
-                    <SlotSeven
-                        width={WIDTH}
-                        height={HEIGHT}
-                        slotsname={valuecombi}
-                        slotHeight={WIDTH*.14}
-                        slotWidth={WIDTH*.14}
-                    />
-                </Group>
-                )
-            )}
+            {canvas && luckyslotcombination}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -95,9 +106,25 @@ const LuckySlotsScratch = React.forwardRef<TLuckySlotsScratchRef, TLuckySlotsScr
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             />  
+            <Group x={WIDTH*.23} y={HEIGHT*.943}>
+                <Rect
+                    fill="white"
+                    width={WIDTH*.73}
+                    height={WIDTH*.065}
+                />
+                <Text
+                    y={2}
+                    width={WIDTH*.73}
+                    height={WIDTH*.065}
+                    text={reference}
+                    fontFamily={poppins.style.fontFamily}
+                    align="center"
+                    verticalAlign="middle"
+                    fontSize={(WIDTH*.73) *.075}
+                />
+            </Group>
         </Group>
-        <PopupAlert 
-          
+        <PopupAlert  
             visible={isModalShow}
             height={height}
             width={width}

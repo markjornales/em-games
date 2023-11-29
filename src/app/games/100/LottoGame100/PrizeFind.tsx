@@ -16,8 +16,8 @@ function PrizeFind(props: TPrizeFindProp) {
     const {dheight, dwidth, iconHeight, iconWeight, name, x, y} = props;
     const [drawImage] = useImage("/images/100/lotto100/front.png");
     const [isImageDraw, setImageDraw] = React.useState<HTMLCanvasElement>();
+    
     React.useEffect(() => {
-
         if(drawImage){
             const canvasElement = document.createElement("canvas");
             const context = canvasElement.getContext("2d")!;
@@ -28,12 +28,10 @@ function PrizeFind(props: TPrizeFindProp) {
                 fire: {sx: dwidth*.32, sy: dwidth*2.849}
             }
             context.drawImage(drawImage, imageList[name].sx, imageList[name].sy, 150, 150, 0, 0, canvasElement.width, canvasElement.height);
-           
             setImageDraw(canvasElement);
         }
 
     },[drawImage, name]);
-
 
     return (
     <Group x={x} y={y}>

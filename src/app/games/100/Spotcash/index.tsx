@@ -19,6 +19,12 @@ function Spotcash() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;
+  const combination = React.useMemo(() => new GridBooleansCards({ 
+      columns: 3, 
+      combi: isCardScratch.combi, 
+      rows: 3 
+  }).getValues(),
+  [isCardScratch.combi]);
 
   const handleButtonMain = () => { 
     setWarningShow(false);
@@ -37,6 +43,12 @@ function Spotcash() {
         scratchCardRef.current.reset();
     });
     } 
+  }
+
+  const onfastscratch = () => {
+    if(!scratchCardRef.current.isScratchDone){
+     scratchCardRef.current.fastscratch();   
+   } 
   }
 
   const onScratchDone = (done: boolean) => {
@@ -58,22 +70,14 @@ function Spotcash() {
         <CButton 
         label="NEXT CARD" 
         url_path="hundredcards" 
-        onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
+        onfastscratch={onfastscratch} 
         onclickStart={handleButtonMain} />
-        <SpotcashScratch ref={scratchCardRef} 
-         reference={isCardScratch.refno}
-          
-         combination={new GridBooleansCards({ 
-             columns: 3, 
-             combi: isCardScratch.combi, 
-             rows: 3 
-         }).getValues()}
-         scratchdone={onScratchDone}
-            />
+        <SpotcashScratch 
+          ref={scratchCardRef} 
+          reference={isCardScratch.refno} 
+          combination={combination}
+          scratchdone={onScratchDone}
+        />
              {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
      </Group>
   )
