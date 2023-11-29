@@ -64,7 +64,7 @@ function Riderfortune() {
          onclickStart={handleButtonMain} /> 
          <RidersScratch ref={scratchCardRef} 
         reference={isCardScratch.refno}
-        popupwinners={[0,1,2,3,4,5,6,7,8,9,12,15][isCardScratch.combi.replace(/[^1]/g, '').length]}  
+    
         combination={new GridBooleansCards({ 
             columns: 3, 
             combi: isCardScratch.combi, 

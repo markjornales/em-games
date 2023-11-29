@@ -96,7 +96,7 @@ const FruitBlastScratch = React.forwardRef<TFruitBlastScratchRef, TFruitBlastScr
             /> 
         </Group>
         <PopupAlert 
-            statusWinner={1}
+           
             visible={isModalShow}
             height={height}
             width={width}

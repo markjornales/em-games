@@ -16,9 +16,7 @@ const poppins = Poppins({
 type TBoholScratch = {
     combination: boolean[][]; 
     // popupwinners: number;  // tanggalin mo to
-    reference: string;   
-    //eto siya dapat ilagay
-    popupwinners: number;  
+    reference: string;    
     //--/>
     scratchdone: (done: boolean) => void; 
 }
@@ -28,7 +26,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {  
-    const { combination,  /*popupwinners*/ reference, scratchdone,} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, reference, scratchdone,} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);

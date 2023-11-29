@@ -106,7 +106,7 @@ const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
 
             </Group>
             <PopupAlert 
-                statusWinner={0}
+               
                 visible={isModalShow}
                 height={height}
                 width={width}

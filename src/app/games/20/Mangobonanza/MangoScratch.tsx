@@ -18,7 +18,7 @@ const poppins = Poppins({
 type TMangoScratch = {
     combination: boolean[][]
      //eto siya dapat ilagay
-     popupwinners: number; 
+   
      reference: string; 
      scratchdone: (done: boolean) => void; 
      //--/>
@@ -29,7 +29,7 @@ type TMangoRef = {
 }   
 
 const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => {
-    const { combination, popupwinners , reference, scratchdone } = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, reference, scratchdone } = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -142,7 +142,7 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
 
             </Group>
             <PopupAlert 
-                statusWinner={popupwinners}
+             
                 visible={isModalShow}
                 height={height}
                 width={width}

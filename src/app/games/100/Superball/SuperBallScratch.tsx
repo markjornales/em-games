@@ -99,7 +99,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                 />  
             </Group>
             <PopupAlert 
-                statusWinner={5}
+              
                 visible={isModalShow}
                 height={height}
                 width={width}

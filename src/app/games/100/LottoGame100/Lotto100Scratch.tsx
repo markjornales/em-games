@@ -92,7 +92,7 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
 
         </Group>
         <PopupAlert 
-            statusWinner={1}
+           
             visible={isModalShow}
             height={height}
             width={width}

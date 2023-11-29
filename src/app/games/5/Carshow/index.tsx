@@ -68,8 +68,7 @@ function Carshow() {
             onclickStart={handleButtonMain} />
             <CarScratch 
                 ref={scratchCardRef} 
-                reference={isCardScratch.refno}
-                popupwinners={[0,1,2,3,4,5,7,9,12][isCardScratch.combi.replace(/[^1]/g, '').length]}  
+                reference={isCardScratch.refno} 
                 combination={new GridBooleansCards({ 
                     columns: 3, 
                     combi: isCardScratch.combi, 

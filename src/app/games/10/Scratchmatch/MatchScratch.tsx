@@ -13,7 +13,7 @@ const poppins = Poppins({
 });
 type TMatchScratch  = {
     combination: boolean[][]
-    popupwinners: number; 
+   
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -23,7 +23,7 @@ type TMatchScratchRef = {
 }   
 
 const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, ref) => {
-    const { combination, popupwinners , reference, scratchdone} = props; 
+    const { combination , reference, scratchdone} = props; 
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -118,7 +118,7 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
                 </Group>
             </Group>
             <PopupAlert 
-                statusWinner={popupwinners}
+               
                 visible={isModalShow}
                 height={height}
                 width={width}

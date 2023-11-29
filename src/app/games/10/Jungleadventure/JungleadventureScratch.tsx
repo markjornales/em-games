@@ -93,7 +93,7 @@ const JungleadventureScratch = React.forwardRef<TJungleadventureScratchRef, TJun
                 />    
             </Group>
             <PopupAlert 
-                statusWinner={0}
+             
                 visible={isModalShow}
                 height={height}
                 width={width}

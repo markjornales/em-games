@@ -15,7 +15,7 @@ const poppins = Poppins({
 
 type TRidersScratch = {
     combination: boolean[][]
-    popupwinners: number; 
+    
     reference: string; 
     scratchdone: (done: boolean) => void; 
 }
@@ -25,7 +25,7 @@ type TRidersRef = {
 }   
 
 const RidersScratch = React.forwardRef<TRidersRef, TRidersScratch>((props, ref) => {
-    const { combination, popupwinners , reference, scratchdone} = props; 
+    const { combination , reference, scratchdone} = props; 
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -129,7 +129,7 @@ const RidersScratch = React.forwardRef<TRidersRef, TRidersScratch>((props, ref) 
 
             </Group>
             <PopupAlert 
-                statusWinner={popupwinners}
+             
                 visible={isModalShow}
                 height={height}
                 width={width}

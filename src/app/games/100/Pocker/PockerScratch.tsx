@@ -95,7 +95,7 @@ const PockerScratch = React.forwardRef<TPockerScratchRef, TPockerScratch>((props
                 />
             </Group>
             <PopupAlert 
-                statusWinner={0}
+              
                 visible={isModalShow}
                 height={height}
                 width={width}
