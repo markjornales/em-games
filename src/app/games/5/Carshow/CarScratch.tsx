@@ -52,7 +52,7 @@ const CarScratch = React.forwardRef<TCarRef, TCarScratch>((props, ref) => {
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -72,22 +72,26 @@ const CarScratch = React.forwardRef<TCarRef, TCarScratch>((props, ref) => {
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.25 + (0.16 * indexColumn)) } 
+                y={HEIGHT*(.08 + (0.15 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Car imageHeight={WIDTH*.2} imageWidth={WIDTH*.1}/>
+            </Group>
+            )
+        )
+    },[combination])
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.25 + (0.16 * indexColumn)) } 
-                        y={HEIGHT*(.08 + (0.15 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Car imageHeight={WIDTH*.2} imageWidth={WIDTH*.1}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -96,35 +100,29 @@ const CarScratch = React.forwardRef<TCarRef, TCarScratch>((props, ref) => {
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
-                 {/* <Group y={HEIGHT*.9} x={WIDTH*.03}>
+                />    
+                <Group x={WIDTH*.872} y={HEIGHT*.075}>
                     <Rect 
-                        fill="white"
-                        width={WIDTH*.95}
-                        height={WIDTH*.15}
+                        rotation={90}
+                        offsetY={WIDTH*.1}
+                        fill="white" 
+                        width={WIDTH*.66}
+                        height={WIDTH*.1}
                     />
                     <Text 
-                        text={reference} 
-                        width={WIDTH*.95} 
-                        height={WIDTH*.15}
+                        x={2}
+                        rotation={-90}
+                        offsetX={WIDTH*.66}
+                        width={WIDTH*.66}
+                        height={WIDTH*.1}
+                        text={reference}
+                        fontFamily={poppins.style.fontFamily}
+                        fontStyle={poppins.style.fontStyle}
                         align="center"
                         verticalAlign="middle"
-                        fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={(WIDTH*.66) *.09}
                     />
-                </Group> */}
-
+                </Group>
             </Group>
             <PopupAlert  
                 visible={isModalShow}

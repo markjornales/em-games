@@ -2,7 +2,7 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Treasure from './Treasure';
 import useFastScratch from '@/hooks/useFastScratch';
@@ -52,7 +52,7 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -72,21 +72,25 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
         }
     }));
     
+    const handlecombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.28 + (0.15 * indexColumn)) } 
+                y={HEIGHT*(.09 + (0.1 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Treasure imageHeight={WIDTH*.15} imageWidth={WIDTH*.1}/>
+            </Group>
+            )
+        )
+    },[combination])
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.28 + (0.15 * indexColumn)) } 
-                        y={HEIGHT*(.09 + (0.1 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Treasure imageHeight={WIDTH*.15} imageWidth={WIDTH*.1}/>
-                    </Group>
-                    )
-                )}
+                { canvas && handlecombinations }
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -95,18 +99,29 @@ const TreasureScratch = React.forwardRef<TTreasureRef, TTreasureScratch>((props,
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                />  
+                <Group x={WIDTH*.88} y={HEIGHT*.475}>
+                    <Rect 
+                        rotation={90}
+                        offsetY={WIDTH*.08}
+                        fill="white" 
+                        width={WIDTH*.64}
+                        height={WIDTH*.08}
+                    />
+                    <Text 
+                        x={2}
+                        rotation={-90}
+                        offsetX={WIDTH*.64}
+                        text={reference}
+                        width={WIDTH*.64}
+                        height={WIDTH*.08}
+                        fontFamily={poppins.style.fontFamily}
+                        fontStyle={poppins.style.fontStyle}
+                        fontSize={(WIDTH*.64)*.09}
+                        align="center"
+                        verticalAlign="middle"  
+                    />
+                </Group>  
             </Group>
             <PopupAlert 
                 visible={isModalShow}

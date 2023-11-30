@@ -31,9 +31,9 @@ const GoldenScratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) 
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.25;
+    const x1 = WIDTH*.32;
     const y1 = HEIGHT*.07;
-    const x2 = WIDTH*.80;
+    const x2 = WIDTH*.7;
     const y2 = HEIGHT*.47
     
     const {
@@ -53,7 +53,7 @@ const GoldenScratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
 
     React.useEffect(() => {
@@ -75,21 +75,25 @@ const GoldenScratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) 
         }
     }));
     
+    const handlecombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.34 + (0.17 * indexColumn)) } 
+            y={HEIGHT*(.07 + (0.11 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Golden imageHeight={WIDTH*.14} imageWidth={WIDTH*.14}/>
+        </Group>
+        )
+    )
+    }, [combination]);
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.3 + (0.25 * indexColumn)) } 
-                        y={HEIGHT*(.08 + (0.15 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Golden imageHeight={WIDTH*.17} imageWidth={WIDTH*.17}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handlecombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -99,17 +103,6 @@ const GoldenScratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) 
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
                  <Group y={HEIGHT*.93} x={WIDTH*.24}>
                     <Rect 
                         fill="white"
@@ -125,8 +118,7 @@ const GoldenScratch = React.forwardRef<TGoldenRef, TGoldenScratch>((props, ref) 
                         fontFamily={poppins.style.fontFamily}
                         fontSize={WIDTH*.06}
                     />
-                </Group>
-
+                </Group> 
             </Group>
             <PopupAlert 
                 visible={isModalShow}

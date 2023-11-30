@@ -1,12 +1,12 @@
-import CButton from '@/components/CButton'
-import React from 'react'
-import { Group } from 'react-konva'
-import MangoScratch from './MangoScratch'
-import dynamic from 'next/dynamic';
 import { afterScratchAuth, authentications } from '@/api/API';
-import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { BingoBonanzaClass, GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';  
+import CButton from '@/components/CButton';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { BingoBonanzaClass } from '@/hooks/methods';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
+import { Group } from 'react-konva';
+import MangoScratch from './MangoScratch';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function Mangobonanza() {

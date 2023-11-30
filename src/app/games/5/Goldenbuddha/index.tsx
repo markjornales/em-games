@@ -12,65 +12,70 @@ import dynamic from 'next/dynamic';
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Goldenbuddha() {
-    const scratchCardRef = React.useRef<any>();
+    const scratchCardRef = React.useRef<any>()
     const { setPlayed } = React.useContext(CanvasContext);     
-    const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
-    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
+    const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);  
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);   
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
-    const gid = searchparams.get("gid")!; 
+    const gid = searchparams.get("gid")!;  
+    const combination = React.useMemo(() => 
+      new GridBooleansCards({ 
+        columns: 4, 
+        combi: isCardScratch.combi, 
+        rows: 2
+    }).getValues(),
+    [isCardScratch.combi]);
+
 
     const handleButtonMain = () => {
         setWarningShow(false);
-        if (!scratchCardRef.current.isScratchDone) {
-            setWarningShow(true) 
-        } else {
+        if(!scratchCardRef.current.isScratchDone) {
+        setWarningShow(true)
+        } else { 
             authentications({ 
-                setAuthenticated, 
-                setCardScratch, 
-                setPlayed, 
-                searchparams, 
-                search, 
-                gid 
-            })
-            .then(() => {
-                scratchCardRef.current.reset();
-            });
-        }
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+            searchparams, 
+            search, 
+            gid 
+        })
+        .then(() => {
+            scratchCardRef.current.reset();
+        }); 
+        }  
+    }
+
+    const onfastscratch = () => {
+        if(!scratchCardRef.current.isScratchDone){
+        scratchCardRef.current.fastscratch();   
+        } 
     }
 
     const onScratchDone = (done: boolean) => {
         if(done) {
-          afterScratchAuth({ 
+        afterScratchAuth({ 
             gid,
             search, 
             searchparams, 
             setAuthenticated, 
             setCardScratch, 
             setPlayed, 
-          });
+        });
         }
-      }
-
+    }
     return (
         <Group>
             <CButton 
             label="NEXT CARD" 
             url_path="fivecards" 
-            onfastscratch={() =>{
-                if(!scratchCardRef.current.isScratchDone){
-                    scratchCardRef.current.fastscratch();   
-                } 
-            }} 
-            onclickStart={handleButtonMain} />
+            onfastscratch={onfastscratch} 
+            onclickStart={handleButtonMain}/>
             <GoldenScratch 
-                ref={scratchCardRef} 
-                reference={isCardScratch.refno}
-                combination={new GridBooleansCards({ 
-                    columns: 3, 
-                    combi: isCardScratch.combi, 
-                    rows: 3 
-                }).getValues()}
+                ref ={scratchCardRef}
+                reference={isCardScratch.refno}  
+                combination={combination}
                 scratchdone={onScratchDone}
             />
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 

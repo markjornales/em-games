@@ -14,10 +14,8 @@ const poppins = Poppins({
 }); 
 
 type TBoholScratch = {
-    combination: boolean[][]; 
-    // popupwinners: number;  // tanggalin mo to
-    reference: string;    
-    //--/>
+    combination: boolean[][];  
+    reference: string;     
     scratchdone: (done: boolean) => void; 
 }
 type TBoholRef = {
@@ -26,7 +24,7 @@ type TBoholRef = {
 }   
 
 const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {  
-    const { combination, reference, scratchdone,} = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, reference, scratchdone,} = props;    
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -54,7 +52,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({ setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({ setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -74,22 +72,26 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexrow) => 
+            data.map((values, indexcolumn) => 
+            <Group 
+                opacity={values? 1: 0.4}
+                key={indexrow + indexcolumn} 
+                x={WIDTH*(.4 + (0.153 * indexcolumn))} 
+                y={HEIGHT*(.454 + (0.108 * indexrow))}>
+                <Tarsier imageHeight={WIDTH*.16} imageWidth={WIDTH*.16}/>
+            </Group>
+            )
+        )
+    },[combination])
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexrow) => 
-                    data.map((values, indexcolumn) => 
-                    <Group 
-                        opacity={values? 1: 0.4}
-                        key={indexrow + indexcolumn} 
-                        x={WIDTH*(.4 + (0.153 * indexcolumn))} 
-                        y={HEIGHT*(.454 + (0.108 * indexrow))}>
-                        <Tarsier imageHeight={WIDTH*.18} imageWidth={WIDTH*.18}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,18 +100,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-               
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-            /> */}
-
-
-            {/* eto siya dapat ilagay */}
+                />    
                 <Group y={HEIGHT*.9} x={WIDTH*.03}>
                     <Rect 
                         fill="white"
@@ -125,9 +116,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                         fontFamily={poppins.style.fontFamily}
                         fontSize={WIDTH*.07}
                     />
-                </Group>
-            {/*----/> */}
-            
+                </Group> 
             </Group>
             <PopupAlert  
                 visible={isModalShow}

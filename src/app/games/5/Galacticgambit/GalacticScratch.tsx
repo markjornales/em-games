@@ -53,7 +53,7 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -74,21 +74,25 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
         }
     }));
     
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.38 + (0.16 * indexColumn)) } 
+            y={HEIGHT*(.49 + (0.11 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Galactic imageHeight={WIDTH*.1} imageWidth={WIDTH*.1}/>
+        </Group>
+        )
+        )
+    },[combination]);
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.38 + (0.16 * indexColumn)) } 
-                        y={HEIGHT*(.49 + (0.11 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Galactic imageHeight={WIDTH*.1} imageWidth={WIDTH*.1}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -97,18 +101,7 @@ const GalacticScratch = React.forwardRef<TGalacticRef, TGalacticScratch>((props,
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                />    
                   <Group y={HEIGHT*.9} x={WIDTH*.2}>
                     <Rect 
                         fill="white"

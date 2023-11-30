@@ -52,7 +52,7 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -72,22 +72,26 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.43 + (0.165 * indexColumn)) } 
+                y={HEIGHT*(.18 + (0.1 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Love imageHeight={WIDTH*.15} imageWidth={WIDTH*.15}/>
+            </Group>
+            )
+        )
+    }, [combination])
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.43 + (0.165 * indexColumn)) } 
-                        y={HEIGHT*(.18 + (0.1 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Love imageHeight={WIDTH*.15} imageWidth={WIDTH*.15}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,16 +102,6 @@ const LoveScratch = React.forwardRef<TLoveRef, TLoveScratch>((props, ref) => {
                     onPointerLeave={handleOnPointerLeave}
                 />   
                 
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
                  <Group y={HEIGHT*.015} x={WIDTH*.18}>
                     <Rect 
                         fill="white"

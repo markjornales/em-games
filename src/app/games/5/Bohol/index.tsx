@@ -1,13 +1,9 @@
 // fivecards
 import { afterScratchAuth, authentications } from '@/api/API'; // eto
-import CButton from '@/components/CButton';
-
-// -- eto siya dapat ilagay
+import CButton from '@/components/CButton'; 
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';                
-//------/>
-
+import { useSearchParams } from 'next/navigation';           
 import React from 'react';
 import { Group } from 'react-konva';
 import BoholScratch from './BoholScratch'; 
@@ -15,80 +11,71 @@ import dynamic from 'next/dynamic';
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Bohol() {
-    const scratchCardRef = React.useRef<any>();
-
-     // -- eto siya dapat ilagay
+    const scratchCardRef = React.useRef<any>()
     const { setPlayed } = React.useContext(CanvasContext);     
-    const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
-   // --- />
-
-    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
-
-    // -- eto siya dapat ilagay
+    const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);  
+    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);   
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
-    const gid = searchparams.get("gid")!; 
-    // -- />
+    const gid = searchparams.get("gid")!;  
+    const combination = React.useMemo(() => 
+      new GridBooleansCards({ 
+        columns: 3, 
+        combi: isCardScratch.combi, 
+        rows: 3
+    }).getValues(),
+    [isCardScratch.combi]);
+
 
     const handleButtonMain = () => {
         setWarningShow(false);
-        if (!scratchCardRef.current.isScratchDone) {
-            setWarningShow(true)
-        } else {
-
-            // --- eto siya dapat ilagay
+        if(!scratchCardRef.current.isScratchDone) {
+        setWarningShow(true)
+        } else { 
             authentications({ 
-                setAuthenticated, 
-                setCardScratch, 
-                setPlayed, 
-                searchparams, 
-                search, 
-                gid 
-            })
-            .then(() => {
-                scratchCardRef.current.reset();
-            });
-            //-- 
-        }
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+            searchparams, 
+            search, 
+            gid 
+        })
+        .then(() => {
+            scratchCardRef.current.reset();
+        }); 
+        }  
     }
 
     const onfastscratch = () => {
         if(!scratchCardRef.current.isScratchDone){
-         scratchCardRef.current.fastscratch();   
-       } 
-      }
+        scratchCardRef.current.fastscratch();   
+        } 
+    }
 
-      const onScratchDone = (done: boolean) => {
+    const onScratchDone = (done: boolean) => {
         if(done) {
-          afterScratchAuth({ 
+        afterScratchAuth({ 
             gid,
             search, 
             searchparams, 
             setAuthenticated, 
             setCardScratch, 
             setPlayed, 
-          });
+        });
         }
-      }
-
+    }
     return (
         <Group>
             <CButton 
             label="NEXT CARD" 
             url_path="fivecards"
             onfastscratch={onfastscratch} 
-            onclickStart={handleButtonMain} />
+            onclickStart={handleButtonMain}/>
             <BoholScratch 
-                ref={scratchCardRef} 
-                //eto siya dapat ilagay
-                reference={isCardScratch.refno} 
-                combination={new GridBooleansCards({ 
-                    columns: 3, 
-                    combi: isCardScratch.combi, 
-                    rows: 3 
-                }).getValues()}
+                ref ={scratchCardRef}
+                reference={isCardScratch.refno}  
+                combination={combination}
                 scratchdone={onScratchDone}
-                // -----
             /> 
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
         </Group>

@@ -7,13 +7,13 @@ import { Group, Image, Rect, Text } from "react-konva";
 import Spotasset from './Spotasset';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
+
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
 });
 type TSpotcashScratch  = {
-    combination: boolean[][]
-    
+    combination: boolean[][] 
     reference: string; 
     scratchdone: (done: boolean) => void;
 }

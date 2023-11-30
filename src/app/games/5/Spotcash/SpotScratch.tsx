@@ -7,6 +7,7 @@ import PopupAlert from '@/components/PopupAlert';
 import Spotcash from './Spotcash';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
+
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
@@ -30,10 +31,10 @@ const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) =>
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.27;
-    const y1 = HEIGHT*.15;
-    const x2 = WIDTH*.90;
-    const y2 = HEIGHT*.52
+    const x1 = WIDTH*.24;
+    const y1 = HEIGHT*.16;
+    const x2 = WIDTH*.92;
+    const y2 = HEIGHT*.5
     
     const {
         canvas, 
@@ -52,7 +53,7 @@ const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) =>
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -73,21 +74,25 @@ const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) =>
         }
     }));
     
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.33 + (0.22 * indexColumn)) } 
+            y={HEIGHT*(.16 + (0.13 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Spotcash imageHeight={WIDTH*.15} imageWidth={WIDTH*.1}/>
+        </Group>
+        )
+        )
+    }, [combination])
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.33 + (0.22 * indexColumn)) } 
-                        y={HEIGHT*(.16 + (0.13 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Spotcash imageHeight={WIDTH*.15} imageWidth={WIDTH*.1}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,16 +103,6 @@ const SpotScratch = React.forwardRef<TSpotcashRef, TSpotScratch>((props, ref) =>
                     onPointerLeave={handleOnPointerLeave}
                 />   
                 
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
                <Group y={HEIGHT*.015} x={WIDTH*.14}>
                     <Rect 
                         fill="white"
