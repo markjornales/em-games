@@ -31,10 +31,10 @@ const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.28;
+    const x1 = WIDTH*.25;
     const y1 = HEIGHT*.11;
-    const x2 = WIDTH*.71;
-    const y2 = HEIGHT*.43
+    const x2 = WIDTH*.75;
+    const y2 = HEIGHT*.4
     
     const {
         canvas, 
@@ -53,7 +53,7 @@ const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -74,21 +74,25 @@ const BugsukScratch = React.forwardRef<TBugsukScratchRef, TBugsukScratchScratch>
         }
     }));
     
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+                <Group 
+                    opacity={values? 1 : 0.2} 
+                    key={indexColumn + indexRow} 
+                    x={WIDTH*(.24 + (0.167 * indexColumn))} 
+                    y={HEIGHT*(.11 + (0.105 * indexRow))}>
+                    <Bugsuk imageHeight={WIDTH*.18} imageWidth={WIDTH*.18}/>
+                </Group> 
+            )
+        )
+    }, [combination]);
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                        <Group 
-                            opacity={values? 1 : 0.2} 
-                            key={indexColumn + indexRow} 
-                            x={WIDTH*(.24 + (0.167 * indexColumn))} 
-                            y={HEIGHT*(.11 + (0.105 * indexRow))}>
-                            <Bugsuk imageHeight={WIDTH*.18} imageWidth={WIDTH*.18}/>
-                        </Group> 
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 

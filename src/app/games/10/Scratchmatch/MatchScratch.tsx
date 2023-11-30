@@ -13,7 +13,6 @@ const poppins = Poppins({
 });
 type TMatchScratch  = {
     combination: boolean[][]
-   
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -51,7 +50,7 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -71,25 +70,29 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                key={indexColumn+ indexRow}
+                opacity={values? 1: 0.3}
+                x={WIDTH*(.27 + (0.155 *indexColumn))} 
+                y={HEIGHT*(.22 + (0.112 * indexRow))} >
+                <Goldencoin
+                    imageHeight={WIDTH*.145}
+                    imageWidth={WIDTH*.145}
+                /> 
+            </Group>
+            )
+        )
+    }, [combination]);
     
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        key={indexColumn+ indexRow}
-                        opacity={values? 1: 0.3}
-                        x={WIDTH*(.27 + (0.155 *indexColumn))} 
-                        y={HEIGHT*(.22 + (0.112 * indexRow))} >
-                        <Goldencoin
-                            imageHeight={WIDTH*.145}
-                            imageWidth={WIDTH*.145}
-                        /> 
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -118,7 +121,6 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
                 </Group>
             </Group>
             <PopupAlert 
-               
                 visible={isModalShow}
                 height={height}
                 width={width}

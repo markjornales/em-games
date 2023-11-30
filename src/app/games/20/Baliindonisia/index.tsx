@@ -64,6 +64,7 @@ function Baliindonisia() {
      });
    }
  }
+ 
   return (
     <Group>
          <CButton 

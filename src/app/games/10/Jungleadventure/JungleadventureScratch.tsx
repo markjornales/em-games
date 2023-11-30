@@ -3,12 +3,21 @@ import PopupAlert from '@/components/PopupAlert';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva";
+import { Group, Image, Rect, Text } from "react-konva";
 import Banana from './Banana';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 type TJungleadventureScratch  = {
-    combination: boolean[][]
+    combination: boolean[][];
+    reference: string; 
+    scratchdone: (done: boolean) => void;
 }
 type TJungleadventureScratchRef = {
     isScratchDone: boolean;
@@ -16,7 +25,7 @@ type TJungleadventureScratchRef = {
 }   
 
 const JungleadventureScratch = React.forwardRef<TJungleadventureScratchRef, TJungleadventureScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination = [], reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -49,6 +58,7 @@ const JungleadventureScratch = React.forwardRef<TJungleadventureScratchRef, TJun
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -64,24 +74,28 @@ const JungleadventureScratch = React.forwardRef<TJungleadventureScratchRef, TJun
         }
     }));
     
+    const handleCombinations = React.useMemo(() =>{
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                opacity={values? 1: 0.3}
+                key={indexColumn + indexRow} 
+                y={HEIGHT*(.44 + (0.173 * indexRow))} 
+                x={WIDTH*(.21 + (0.21 * indexColumn))}>
+                <Banana
+                    imageHeight={WIDTH*.24} 
+                    imageWidth={WIDTH*.21}
+                />
+            </Group>
+            )
+        )
+    }, [combination])
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                     <Group 
-                        opacity={values? 1: 0.3}
-                        key={indexColumn + indexRow} 
-                        y={HEIGHT*(.44 + (0.173 * indexRow))} 
-                        x={WIDTH*(.21 + (0.21 * indexColumn))}>
-                        <Banana
-                            imageHeight={WIDTH*.24} 
-                            imageWidth={WIDTH*.21}
-                        />
-                    </Group>
-                    )
-                )} 
+                {canvas && handleCombinations} 
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -90,10 +104,30 @@ const JungleadventureScratch = React.forwardRef<TJungleadventureScratchRef, TJun
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />    
+                />
+                <Group x={WIDTH*.165} y={HEIGHT*.02}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.77}
+                        height={WIDTH*.085}
+                    />
+                    <Text
+                        y={-2}
+                        rotation={-180}
+                        offsetX={WIDTH*.77}
+                        offsetY={WIDTH*.085}
+                        width={WIDTH*.77}
+                        height={WIDTH*.085}
+                        text={reference}
+                        fontFamily={poppins.style.fontFamily}
+                        fontStyle={poppins.style.fontStyle}
+                        align="center"
+                        verticalAlign="middle"
+                        fontSize={(WIDTH*.77)*.08}
+                    /> 
+                </Group>  
             </Group>
-            <PopupAlert 
-             
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

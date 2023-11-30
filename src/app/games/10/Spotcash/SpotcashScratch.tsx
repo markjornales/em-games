@@ -29,10 +29,10 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.3;
-    const y1 = HEIGHT*.15;
-    const x2 = WIDTH*.88;
-    const y2 = HEIGHT*.52
+    const x1 = WIDTH*.24;
+    const y1 = HEIGHT*.16;
+    const x2 = WIDTH*.92;
+    const y2 = HEIGHT*.5
     
     const {
         canvas, 
@@ -51,7 +51,7 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 20});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -72,25 +72,29 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
         }
     }));
     
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                opacity={values? 1: 0.2}
+                x={WIDTH*(.27 + (0.21 * indexColumn))} 
+                y={HEIGHT*(.15 + (0.137 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Spotasset
+                    assetname={values? "cash": "bag"}
+                    imageHeight={WIDTH*.18}
+                    imageWidth={WIDTH*.18}
+                />
+            </Group>
+            )
+        )
+    }, [combination])
+
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        opacity={values? 1: 0.2}
-                        x={WIDTH*(.27 + (0.21 * indexColumn))} 
-                        y={HEIGHT*(.15 + (0.137 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Spotasset
-                            assetname={values? "cash": "bag"}
-                            imageHeight={WIDTH*.18}
-                            imageWidth={WIDTH*.18}
-                        />
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -99,8 +103,7 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />  
-
+                />   
                  <Group y={HEIGHT*.015} x={WIDTH*.14}>
                     <Rect 
                         fill="white"
@@ -118,8 +121,7 @@ const SpotcashScratch = React.forwardRef<TSpotcashScratchRef, TSpotcashScratch>(
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-              
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

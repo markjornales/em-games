@@ -52,7 +52,7 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -73,22 +73,26 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
         }
     }));
     
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                key={indexRow + indexColumn} 
+                x={WIDTH*(.27 + (0.16 * indexColumn))} 
+                y={HEIGHT*(.29 + (0.15 * indexRow))}
+                opacity={values? 1 : 0.3}
+            >
+                <Luckydragon imageHeight={WIDTH*.19} imageWidth={WIDTH*.19}/>
+            </Group>     
+            )
+        )
+    },[combination])
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        key={indexRow + indexColumn} 
-                        x={WIDTH*(.27 + (0.16 * indexColumn))} 
-                        y={HEIGHT*(.29 + (0.15 * indexRow))}
-                        opacity={values? 1 : 0.3}
-                    >
-                        <Luckydragon imageHeight={WIDTH*.19} imageWidth={WIDTH*.19}/>
-                    </Group>     
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,7 +102,6 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 /> 
-
                  <Group y={HEIGHT*.01} x={WIDTH*.03}>
                     <Rect 
                         fill="white"

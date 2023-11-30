@@ -51,7 +51,7 @@ const PandaScratch = React.forwardRef<TPandaScratchRef, TPandaScratch>((props, r
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -71,25 +71,29 @@ const PandaScratch = React.forwardRef<TPandaScratchRef, TPandaScratch>((props, r
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                opacity={values? 1: 0.3}
+                key={indexRow + indexColumn} 
+                x={WIDTH*(.27 + (0.14 * indexColumn))} 
+                y={HEIGHT*(.578 + (0.108 * indexRow))}>
+                <Coinpanda
+                    imageHeight={WIDTH*.15}
+                    imageWidth={WIDTH*.15}
+                />
+            </Group>
+            )
+        )
+    },[combination])
     
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        opacity={values? 1: 0.3}
-                        key={indexRow + indexColumn} 
-                        x={WIDTH*(.27 + (0.14 * indexColumn))} 
-                        y={HEIGHT*(.578 + (0.108 * indexRow))}>
-                        <Coinpanda
-                            imageHeight={WIDTH*.15}
-                            imageWidth={WIDTH*.15}
-                        />
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,8 +102,7 @@ const PandaScratch = React.forwardRef<TPandaScratchRef, TPandaScratch>((props, r
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />    
-
+                />     
                  <Group y={HEIGHT*.01} x={WIDTH*.03}>
                     <Rect 
                         fill="white"

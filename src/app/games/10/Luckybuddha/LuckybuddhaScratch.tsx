@@ -13,7 +13,6 @@ const poppins = Poppins({
 });
 type TLuckybuddhaScratch  = {
     combination: boolean[][]
-   
     reference: string; 
     scratchdone: (done: boolean) => void; 
 }
@@ -29,9 +28,9 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.3;
+    const x1 = WIDTH*.28;
     const y1 = HEIGHT*.08;
-    const x2 = WIDTH*.72;
+    const x2 = WIDTH*.75;
     const y2 = HEIGHT*.42
     
     const {
@@ -51,7 +50,7 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -71,25 +70,29 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinations = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) =>  
+            <Group 
+                key={indexRow + indexColumn}
+                opacity={values? 1: 0.2}
+                x={WIDTH*(.268 + (0.17 * indexColumn))} 
+                y={HEIGHT*(.072 + (0.127 * indexRow))}>
+                <Dollar
+                    imageHeight={WIDTH*.15}
+                    imageWidth={WIDTH*.15}
+                />
+            </Group>
+            )
+        )
+    },[combination])
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        key={indexRow + indexColumn}
-                        opacity={values? 1: 0.2}
-                        x={WIDTH*(.268 + (0.17 * indexColumn))} 
-                        y={HEIGHT*(.072 + (0.127 * indexRow))}>
-                        <Dollar
-                            imageHeight={WIDTH*.15}
-                            imageWidth={WIDTH*.15}
-                        />
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinations}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -118,7 +121,6 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
                     </Group>
             </Group>
             <PopupAlert 
-              
                 visible={isModalShow}
                 height={height}
                 width={width}

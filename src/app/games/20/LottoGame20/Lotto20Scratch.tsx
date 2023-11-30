@@ -72,19 +72,19 @@ const Lotto20Scratch = React.forwardRef<TLotto20ScratchRef, TLotto20ScratchProps
     }));
         
     const lottocombination = React.useMemo(() => 
-    combinations.map((data, indexRow) => 
-        data.map((value, indexColumn) => 
-            <PrizeFind
-                key={indexColumn + indexRow}
-                dheight={HEIGHT}
-                dwidth={WIDTH}
-                iconHeight={WIDTH*.13}
-                iconWeight={WIDTH*.13}
-                y={HEIGHT*(.552 + (0.084 * indexRow))}
-                x={WIDTH*(.13 + (0.153 * indexColumn))} 
-                name={value? "pesos": "fire"}
-            />
-        )
+        combinations.map((data, indexRow) => 
+            data.map((value, indexColumn) => 
+                <PrizeFind
+                    key={indexColumn + indexRow}
+                    dheight={HEIGHT}
+                    dwidth={WIDTH}
+                    iconHeight={WIDTH*.13}
+                    iconWeight={WIDTH*.13}
+                    y={HEIGHT*(.552 + (0.084 * indexRow))}
+                    x={WIDTH*(.13 + (0.153 * indexColumn))} 
+                    name={value? "pesos": "fire"}
+                />
+            )
     ),[combinations]);
 
     return (

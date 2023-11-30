@@ -3,20 +3,66 @@ import React from 'react'
 import { Group } from 'react-konva'
 import JungleadventureScratch from './JungleadventureScratch';
 import dynamic from 'next/dynamic';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { useSearchParams } from 'next/navigation';
+import { GridBooleansCards } from '@/hooks/methods';
+import { afterScratchAuth, authentications } from '@/api/API';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Jungleadventure() {
-    const scratchCardRef = React.useRef<any>();
-    const [isWarningShow, setWarningShow] = React.useState<boolean>(false);  
+      const scratchCardRef = React.useRef<any>()
+      const { setPlayed } = React.useContext(CanvasContext);     
+      const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);  
+      const [isWarningShow, setWarningShow] = React.useState<boolean>(false);   
+      const searchparams = useSearchParams(); 
+      const search = searchparams.get("q")!;
+      const gid = searchparams.get("gid")!;  
+      const combination = React.useMemo(() => 
+        new GridBooleansCards({ 
+          columns: 3, 
+          combi: isCardScratch.combi, 
+          rows: 2
+      }).getValues(),
+    [isCardScratch.combi]);
+
 
     const handleButtonMain = () => {
-        setWarningShow(false);
-        if (!scratchCardRef.current.isScratchDone) {
-            setWarningShow(true)
-        } else {
-            scratchCardRef.current.reset()
-        }
+      setWarningShow(false);
+      if(!scratchCardRef.current.isScratchDone) {
+        setWarningShow(true)
+        } else { 
+            authentications({ 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+            searchparams, 
+            search, 
+            gid 
+        })
+        .then(() => {
+            scratchCardRef.current.reset();
+        }); 
+        }  
+    }
+
+    const onfastscratch = () => {
+      if(!scratchCardRef.current.isScratchDone){
+        scratchCardRef.current.fastscratch();   
+      } 
+    }
+
+    const onScratchDone = (done: boolean) => {
+      if(done) {
+        afterScratchAuth({ 
+          gid,
+          search, 
+          searchparams, 
+          setAuthenticated, 
+          setCardScratch, 
+          setPlayed, 
+        });
+      }
     }
 
     return (
@@ -24,17 +70,14 @@ function Jungleadventure() {
             <CButton 
             label="NEXT CARD" 
             url_path="tencards" 
-            onfastscratch={() =>{
-                if(!scratchCardRef.current.isScratchDone){
-                    scratchCardRef.current.fastscratch();   
-                } 
-            }} 
-            onclickStart={handleButtonMain} />
-            <JungleadventureScratch ref={scratchCardRef} combination={[
-                [true, false],
-                [false, false],
-                [false, false],
-            ]}/>
+            onfastscratch={onfastscratch} 
+            onclickStart={handleButtonMain}/>
+            <JungleadventureScratch 
+                ref={scratchCardRef} 
+                reference={isCardScratch.refno}  
+                combination={combination}
+                scratchdone={onScratchDone}
+            />
             {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
         </Group>
     )
