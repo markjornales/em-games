@@ -4,37 +4,74 @@ import React from 'react'
 import { Group } from 'react-konva'
 import FlipJackScratch from './FlipJackSratch'
 import dynamic from 'next/dynamic';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext'
+import { useSearchParams } from 'next/navigation'
+import { GridBooleansCards } from '@/hooks/methods'
+import { afterScratchAuth, authentications } from '@/api/API'
 
 const WarningModal = dynamic(() => import("@/components/WarningModal")); 
 
 function FlipJack20() {
   const scratchCardRef = React.useRef<any>();
-  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);  
+  const { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
+  const { setPlayed } = React.useContext(CanvasContext); 
+  const searchparams = useSearchParams(); 
+  const search = searchparams.get("q")!;
+  const gid = searchparams.get("gid")!; 
+  const combinations = React.useMemo(() => 
+      new GridBooleansCards({ rows: 3, columns: 2, combi: isCardScratch.combi, }).getValues(), 
+  [isCardScratch.combi]);
 
-  const handleButtonMain = () => { 
+  const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      setWarningShow(true)
-    } else {
-      scratchCardRef.current.reset() 
+        setWarningShow(true)
+      } else {
+        authentications({ 
+            setAuthenticated, 
+            setCardScratch, 
+            setPlayed, 
+            searchparams, 
+            search, 
+            gid 
+        })
+        .then(() => {
+            scratchCardRef.current.reset();
+        });
     } 
-  }
+}
+const onfastscratch = () => {
+    if(!scratchCardRef.current.isScratchDone){
+     scratchCardRef.current.fastscratch();   
+   } 
+}
+
+const onScratchDone = (done: boolean) => {
+    if(done) {
+      afterScratchAuth({ 
+        gid,
+        search, 
+        searchparams, 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+      });
+    }
+}
 
   return (
     <Group>
          <CButton 
          label="NEXT CARD" 
          url_path="twentycards" 
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
-         onclickStart={handleButtonMain} /> 
-          <FlipJackScratch ref={scratchCardRef} combination={[
-            ["jack", undefined, "jack"],
-            [undefined, undefined, undefined], 
-          ]}/>
+         onfastscratch={onfastscratch} 
+         onclickStart={handleButtonMain}/> 
+          <FlipJackScratch 
+            ref={scratchCardRef} 
+            combinations={combinations}
+            reference={isCardScratch.refno}
+            scratchdone={onScratchDone}/>
            {isWarningShow && <WarningModal textstring="Please Scratch first"/>} 
     </Group>
   )

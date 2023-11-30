@@ -1,19 +1,25 @@
 import { CanvasProvider } from '@/components/CanvasContext';
-import useScratchMethod from '@/hooks/useScratchMethod';
-import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
-import DiceImage from './DiceImage';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
-
+import useScratchMethod from '@/hooks/useScratchMethod';
+import useScratchMotion from '@/hooks/useScratchMotion';
+import { Poppins } from 'next/font/google';
+import React from 'react';
+import { Group, Image, Rect, Text } from 'react-konva';
+import DiceImage from './DiceImage';
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+}) 
 type TDiceScratchProps = {
-    combination: (number|null)[][]
+    combination: (number|undefined)[][];
+    scratchdone: (done: boolean) => void;
+    referenceno: string;
 }
 type TDiceScratchRef = {}
 
 const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props, ref) => {
-    const {combination} = props;
+    const {combination = [], referenceno, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -42,11 +48,12 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -62,24 +69,28 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
         }
     }));
     
+    const handleDiceRushshow = React.useMemo(() => {
+        return combination.map((dataArray, indexRow) => 
+            dataArray.map((values, indexColumn) => 
+                <DiceImage
+                    key={indexRow + indexColumn}
+                    dheight={HEIGHT}
+                    dwidth={WIDTH}
+                    imageHeight={WIDTH*.2}
+                    imageWidth={WIDTH*.2}
+                    y={WIDTH*(.88 + (0.21 * indexRow))}
+                    x={WIDTH*(.32 + (0.3 * indexColumn))}
+                    dicesValue={values}
+                />
+            )
+        )
+    }, [combination]);
+
     return (
     <Group>
         <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="#464646" width={width*.859} height={HEIGHT*.998}/>
-            {canvas && combination.map((dataArray, indexRow) => 
-                dataArray.map((values, indexColumn) => 
-                    <DiceImage
-                        key={indexRow + indexColumn}
-                        dheight={HEIGHT}
-                        dwidth={WIDTH}
-                        imageHeight={WIDTH*.2}
-                        imageWidth={WIDTH*.2}
-                        y={WIDTH*(.88 + (0.21 * indexRow))}
-                        x={WIDTH*(.32 + (0.3 * indexColumn))}
-                        dicesValue={values}
-                    />
-                )
-            )}
+            {canvas && handleDiceRushshow}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -89,9 +100,29 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             /> 
+            <Group x={WIDTH*.025} y={HEIGHT*.46}>
+                <Rect 
+                    fill="white"
+                    rotation={90} 
+                    offsetY={WIDTH*.1}
+                    width={WIDTH*.66}
+                    height={WIDTH*.1}
+                />
+                <Text 
+                    width={WIDTH*.66}
+                    height={WIDTH*.1}
+                    text={referenceno}
+                    fontFamily={poppins.style.fontFamily}
+                    fontStyle={poppins.style.fontStyle}
+                    fontSize={(WIDTH*.66) * .08}
+                    align="center"
+                    verticalAlign="middle"
+                    rotation={-90}
+                    offsetX={WIDTH*.66}
+                /> 
+            </Group>
         </Group>
-        <PopupAlert 
-           
+        <PopupAlert            
             visible={isModalShow}
             height={height}
             width={width}

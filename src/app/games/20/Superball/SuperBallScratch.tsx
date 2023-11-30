@@ -2,14 +2,22 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert';  
 import SuperBall from './SuperBall';
 import useFastScratch from '@/hooks/useFastScratch';
 import { superBallFunction } from '@/hooks/cards/superBallClass';
+import { Poppins } from 'next/font/google';
+
+const poppinsFont = Poppins({
+    weight: ["500"],
+    subsets: ["latin"],
+});
 
 type TSuperBallScratch = {
-    combination: ((0|1|2)|undefined)[]
+    combination: number; 
+    scratchdone: (done: boolean) => void;
+    referenceno: string;
 }
 type TSuperBallBRef = {
     isScratchDone: boolean;
@@ -17,7 +25,7 @@ type TSuperBallBRef = {
 }   
 
 const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, referenceno, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -51,6 +59,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -67,7 +76,7 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
     }));
     
     const superballShows = React.useMemo(() => 
-        superBallFunction(8).map((data,indexRow) => 
+        superBallFunction(combination).map((data,indexRow) => 
             data.map((colors: any, indexColumn) => 
             <Group 
                 key={indexColumn+indexRow}
@@ -81,13 +90,18 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                 />
             </Group>
             )
-        ), []);
+        ), [combination]);
+
+        const handleonTap = () => {
+            setModalshow(false);
+        }
+    
 
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {superballShows} 
+                {canvas && superballShows} 
                  <Image
                     ref={imageRef}
                     image={canvas} 
@@ -97,15 +111,28 @@ const SuperBallScratch = React.forwardRef<TSuperBallBRef, TSuperBallScratch>((pr
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />  
+                <Group x={WIDTH*.183} y={WIDTH*.03}> 
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.796}
+                        height={WIDTH*.1}
+                    />
+                    <Text 
+                        fontSize={WIDTH*.07}
+                        align="center"
+                        verticalAlign="middle"
+                        width={WIDTH*.796}
+                        height={WIDTH*.127}
+                        text={referenceno}
+                        fontFamily={poppinsFont.style.fontFamily}
+                    />
+                </Group>
             </Group>
-            <PopupAlert 
-              
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

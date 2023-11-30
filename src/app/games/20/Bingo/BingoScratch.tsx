@@ -2,13 +2,22 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Bingo from './Bingo';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+});
 
 type TBingoScratch = {
-    combination: boolean[][]
+    combination:  ("b"|"i"|"n"|"g"|"o")[][]; 
+    scratchdone: (done: boolean) => void;
+    referenceno: string;
 }
 type TBingoRef = {
     isScratchDone: boolean;
@@ -16,7 +25,7 @@ type TBingoRef = {
 }   
 
 const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, referenceno, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -44,11 +53,12 @@ const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 15});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -64,24 +74,27 @@ const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => 
         }
     }));
     
+    const handlebingoShows = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => {
+            const listletters = ["b", "i", "n", "g", "o"];
+            const randomLetters = listletters[Math.floor(Math.random() * listletters.length)];
+            return <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.36 + (0.18 * indexColumn)) } 
+                y={HEIGHT*(.1 + (0.15 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Bingo imageHeight={WIDTH*.19} assetname={values || randomLetters} imageWidth={WIDTH*.16}/>
+            </Group>
+        })
+    );
+    }, [combination]);
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
-
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.36 + (0.18 * indexColumn)) } 
-                        y={HEIGHT*(.1 + (0.15 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Bingo imageHeight={WIDTH*.19} assetname='i' imageWidth={WIDTH*.16}/>
-                    </Group>
-                    )
-                )}
-                
-                
+                {canvas && handlebingoShows}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -90,23 +103,30 @@ const BingoScratch = React.forwardRef<TBingoRef, TBingoScratch>((props, ref) => 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-               
-
-
-
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                /> 
+                <Group x={WIDTH*.2} y={HEIGHT*.917}>
+                    <Rect
+                        fill="white"
+                        width={WIDTH*.745}
+                        height={WIDTH*.115}
+                    />
+                    <Text   
+                        y={-2}
+                        offsetX={WIDTH*.745}
+                        offsetY={WIDTH*.115}
+                        rotation={180}
+                        width={WIDTH*.745}
+                        height={WIDTH*.115}
+                        text={referenceno}
+                        fontFamily={poppins.style.fontFamily}
+                        fontStyle={poppins.style.fontStyle}
+                        align="center"
+                        verticalAlign="middle"
+                        fontSize={(WIDTH*.745)*.08}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-               
                 visible={isModalShow}
                 height={height}
                 width={width}

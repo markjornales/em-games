@@ -1,23 +1,14 @@
-import { TPockernames } from "@/app/games/100/Pocker/Pockerasset";
 
 export function shuffleArrays(array: boolean[][]) {
     let currentIndex = array.length,  randomIndex;
-  
-    // While there remain elements to shuffle.
     while (currentIndex > 0) {
-  
-      // Pick a remaining element.
       randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
+      currentIndex--; 
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
-  
     return array;
-  }
-  
+  } 
 
 type TGridCards = {
   combi: string;
@@ -219,29 +210,38 @@ export class FruitBlashClass {
 }
 
 type TPrizeBingoLegend = {[key: string]: number};
+type TBingoProps = {
+  rows?: number;
+  cols?: number;
+  prizeLegend?: TPrizeBingoLegend[];
+}
 export class BingoBonanzaClass {
   private bingoTables: any = [];
   private prizeLegend: TPrizeBingoLegend[] = [];
-  constructor(private props: TbingoScratchProp){
-    this.prizeLegend = [
-      {b: 1, i:0, n: 0, g: 0, o: 0},
-      {b: 3, i:0, n: 0, g: 0, o: 0},
-      {b: 0, i:3, n: 0, g: 0, o: 0},
-      {b: 0, i:0, n: 3, g: 0, o: 0},
-      {b: 0, i:0, n: 0, g: 3, o: 0},
-      {b: 0, i:0, n: 0, g: 0, o: 3},
-      {b: 3, i:0, n: 0, g: 0, o: 0},
-      {b: 1, i:1, n: 0, g: 0, o: 0},
-      {b: 1, i:1, n: 1, g: 0, o: 0},
-      {b: 1, i:1, n: 1, g: 1, o: 0},
-      {b: 1, i:1, n: 1, g: 1, o: 1},
-    ];
-    this.bingoTables = [...new Array(3)].map(() => [...new Array(2)]);
+  constructor(private props: TbingoScratchProp & TBingoProps){
+    if(this.props.prizeLegend) {
+      this.prizeLegend =  this.props.prizeLegend
+    } else {
+      this.prizeLegend = [
+        {b: 1, i:0, n: 0, g: 0, o: 0},
+        {b: 3, i:0, n: 0, g: 0, o: 0},
+        {b: 0, i:3, n: 0, g: 0, o: 0},
+        {b: 0, i:0, n: 3, g: 0, o: 0},
+        {b: 0, i:0, n: 0, g: 3, o: 0},
+        {b: 0, i:0, n: 0, g: 0, o: 3},
+        {b: 3, i:0, n: 0, g: 0, o: 0},
+        {b: 1, i:1, n: 0, g: 0, o: 0},
+        {b: 1, i:1, n: 1, g: 0, o: 0},
+        {b: 1, i:1, n: 1, g: 1, o: 0},
+        {b: 1, i:1, n: 1, g: 1, o: 1},
+      ];
+    }
+    this.bingoTables = [...new Array(this.props.rows)].map(() => [...new Array(this.props.cols)]);
     this.init();
   }
 
   private init() {
-    const combi = this.props.combi.replace(/[^1]/g, "").length;
+    const combi = this.props.combi.replace(/[^1]/g, "").length;  
     if(combi > 0) {
       const collectPos: string[] = [];
       const selectePrizes = this.prizeLegend[combi > this.prizeLegend.length? this.prizeLegend.length - 1: combi - 1];
@@ -260,9 +260,8 @@ export class BingoBonanzaClass {
           }
       } 
     }
-  }
-
-  getValues () {
+  } 
+  getValues () {   
     return this.bingoTables;
   }
 }

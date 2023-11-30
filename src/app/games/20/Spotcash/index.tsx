@@ -13,29 +13,41 @@ const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function Spotcash() {
   const scratchCardRef = React.useRef<any>()
   const { setPlayed } = React.useContext(CanvasContext);     
-  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);  
-  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
+  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);   
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
-  const gid = searchparams.get("gid")!; 
-  
-  const handleButtonMain = () => {
-    setWarningShow(false); 
+  const gid = searchparams.get("gid")!;
+  const combination = React.useMemo(() => new GridBooleansCards({ 
+      columns: 4, 
+      combi: isCardScratch.combi, 
+      rows: 3 
+  }).getValues(),
+  [isCardScratch.combi]);
+
+  const handleButtonMain = () => { 
+    setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      setWarningShow(true) 
-      } else {
-        authentications({ 
-          setAuthenticated, 
-          setCardScratch, 
-          setPlayed, 
-          searchparams, 
-          search, 
-          gid 
-      })
-      .then(() => {
-          scratchCardRef.current.reset();
-      });
-      }  
+      setWarningShow(true)
+    } else {
+      authentications({ 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+        searchparams, 
+        search, 
+        gid 
+    })
+    .then(() => {
+        scratchCardRef.current.reset();
+    });
+    } 
+  }
+
+  const onfastscratch = () => {
+    if(!scratchCardRef.current.isScratchDone){
+     scratchCardRef.current.fastscratch();   
+   } 
   }
 
   const onScratchDone = (done: boolean) => {
@@ -50,30 +62,20 @@ function Spotcash() {
       });
     }
   }
-
   return (
     <Group>
          <CButton 
          label="NEXT CARD" 
          url_path="twentycards" 
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
-         onclickStart={handleButtonMain}  /> 
-         <SpotScratch ref={scratchCardRef} 
-         reference={isCardScratch.refno}
-       
-         combination={new GridBooleansCards({ 
-             columns: 3, 
-             combi: isCardScratch.combi, 
-             rows: 3 
-         }).getValues()}
-         scratchdone={onScratchDone}
-            />
-
-{isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+         onfastscratch={onfastscratch} 
+         onclickStart={handleButtonMain}
+         /> 
+         <SpotScratch  
+            ref={scratchCardRef}  
+            reference={isCardScratch.refno} 
+            combination={combination}
+            scratchdone={onScratchDone}/>
+          {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

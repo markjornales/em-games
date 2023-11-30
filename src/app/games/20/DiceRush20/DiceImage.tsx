@@ -9,7 +9,7 @@ type TDiceImage = {
     y?: number;
     imageHeight: number;
     imageWidth: number;
-    dicesValue: number|null;
+    dicesValue: number|undefined;
 }
 
 function DiceImage(props: TDiceImage) {
@@ -32,7 +32,7 @@ function DiceImage(props: TDiceImage) {
                 {sx: dwidth*1.682, sy: dwidth*2.521},
             ];
             
-            context.drawImage(drawImages, dices[dicesValue|| 0].sx, dices[dicesValue|| 0].sy, 155, 155, 0, 0, canvasElement.width, canvasElement.height);
+            context.drawImage(drawImages, dices[dicesValue || 0].sx, dices[dicesValue || 0].sy, 155, 155, 0, 0, canvasElement.width, canvasElement.height);
             setImageShow(canvasElement);
         }
     },[drawImages, dicesValue]);
@@ -40,7 +40,7 @@ function DiceImage(props: TDiceImage) {
     return (
         <Group y={y} x={x}>
             <Image 
-                opacity={dicesValue != null? 1: 0.2}
+                opacity={dicesValue != undefined? 1: 0.2}
                 image={isImageShow}
                 width={imageWidth}
                 height={imageHeight}

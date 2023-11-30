@@ -1,14 +1,22 @@
 import { CanvasProvider } from '@/components/CanvasContext';
+import PopupAlert from '@/components/PopupAlert';
+import useFastScratch from '@/hooks/useFastScratch';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
+import { Poppins } from 'next/font/google';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
-import PopupAlert from '@/components/PopupAlert'; 
+import { Group, Image, Rect, Text } from "react-konva";
 import Bali from './Bali';
-import useFastScratch from '@/hooks/useFastScratch';
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 type TBaliScratch = {
-    combination: boolean[][]
+    combination: boolean[][];
+    reference: string; 
+    scratchdone: (done: boolean) => void;
 }
 type TBaliRef = {
     isScratchDone: boolean;
@@ -16,16 +24,16 @@ type TBaliRef = {
 }   
 
 const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination = [], reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.29;
-    const y1 = HEIGHT*.17;
-    const x2 = WIDTH*.72;
-    const y2 = HEIGHT*.53
+    const x1 = WIDTH*.27;
+    const y1 = HEIGHT*.18;
+    const x2 = WIDTH*.75
+    const y2 = HEIGHT*.5
     
     const {
         canvas, 
@@ -44,11 +52,12 @@ const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -64,24 +73,30 @@ const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
         }
     }));
     
+    const handleBaliindonisia = React.useMemo(() => {
+        
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.33 + (0.14 * indexColumn)) } 
+                y={HEIGHT*(.144 + (0.099 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Bali imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
+            </Group>
+            )
+        )
+    }, [combination])
+
+    const handleonTap = () => {
+        setModalshow(false);
+    }
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
-
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.36 + (0.18 * indexColumn)) } 
-                        y={HEIGHT*(.15 + (0.13 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Bali imageHeight={WIDTH*.19} imageWidth={WIDTH*.16}/>
-                    </Group>
-                    )
-                )}
-                
-                
+                {canvas && handleBaliindonisia}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -90,29 +105,31 @@ const BaliScratch = React.forwardRef<TBaliRef, TBaliScratch>((props, ref) => {
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-               
-
-
-
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                />    
+                <Group x={WIDTH*.234} y={HEIGHT*.01}>
+                    <Rect 
+                        fill="white"
+                        width={WIDTH*.73}
+                        height={WIDTH*.104}
+                    />
+                    <Text 
+                        y={2}
+                        width={WIDTH*.73}
+                        height={WIDTH*.104}
+                        text={reference}
+                        fontFamily={poppins.style.fontFamily}
+                        fontStyle={poppins.style.fontStyle}
+                        align="center"
+                        verticalAlign="middle"
+                        fontSize={(WIDTH*.73) *.08}
+                    />
+                </Group>
             </Group>
             <PopupAlert 
-               
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

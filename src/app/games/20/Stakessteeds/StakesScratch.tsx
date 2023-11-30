@@ -14,8 +14,7 @@ const poppins = Poppins({
 });
 
 type TStakesScratch = {
-    combination: boolean[][]
-  
+    combination: boolean[][];
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -31,10 +30,10 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.37;
+    const x1 = WIDTH*.36;
     const y1 = HEIGHT*.12;
-    const x2 = WIDTH*.90;
-    const y2 = HEIGHT*.5
+    const x2 = WIDTH*.935;
+    const y2 = HEIGHT*.45
     
     const {
         canvas, 
@@ -53,7 +52,7 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -73,22 +72,26 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinationStakes = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.38 + (0.14 * indexColumn)) } 
+            y={HEIGHT*(.14 + (0.11 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Stakes imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
+        </Group>
+        )
+    )
+    },[combination]);
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.43 + (0.16 * indexColumn)) } 
-                        y={HEIGHT*(.12 + (0.131 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Stakes imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinationStakes}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,17 +101,6 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
                 <Group y={HEIGHT*.9} x={WIDTH*.03}>
                     <Rect 
                         fill="white"
@@ -122,7 +114,7 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={(WIDTH*.9) * .08}
                     />
                 </Group>
 

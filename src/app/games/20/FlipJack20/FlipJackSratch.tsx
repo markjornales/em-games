@@ -2,21 +2,29 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
+import { Group, Image, Rect, Text } from 'react-konva'
 import JackImage from './JackImage';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
 
 export type TCombination = "jack"
 
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
+
 type TFlipJackScratchProps = {
-    combination: (TCombination|undefined)[][]
+    combinations: boolean[][];
+    scratchdone: (done: boolean) => void; 
+    reference: string;
 }
 type TFlipJackScratchRef = {
 }
 
 const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchProps>((props, ref) => {
-    const { combination } = props;
+    const { combinations, reference, scratchdone} = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -44,7 +52,7 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -64,26 +72,29 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
         }
     }));
 
+    const handleCombinations = React.useMemo(() => {
+        return combinations.map((dataArray, indexRow) => 
+        dataArray.map((jack, indexColumn) => 
+            <JackImage
+                key={indexRow + indexColumn}
+                value={jack? "jack": undefined}
+                dwidth={WIDTH}
+                dheight={HEIGHT}
+                imageWidth={WIDTH*.18}
+                imageHeight={WIDTH*.27}
+                x={WIDTH*(.148 + (0.256 * indexColumn))}
+                y={HEIGHT*(.53 + (0.19 * indexRow))}
+            />
+        
+        )
+    )
+    }, [combinations]);
         
     return (
     <Group>
         <Group  x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
-            {combination.map((dataArray, indexRow) => 
-                dataArray.map((jack, indexColumn) => 
-                    <JackImage
-                        key={indexRow + indexColumn}
-                        value={jack}
-                        dwidth={WIDTH}
-                        dheight={HEIGHT}
-                        imageWidth={WIDTH*.18}
-                        imageHeight={WIDTH*.27}
-                        x={WIDTH*(.148 + (0.256 * indexColumn))}
-                        y={HEIGHT*(.53 + (0.19 * indexRow))}
-                    />
-                
-                )
-            )}
+            {canvas && handleCombinations}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -93,9 +104,26 @@ const FlipJackScratch = React.forwardRef<TFlipJackScratchRef, TFlipJackScratchPr
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             /> 
+            <Group x={WIDTH*.21} y={HEIGHT*.94}>
+                <Rect
+                    fill="white" 
+                    width={WIDTH*.73}
+                    height={WIDTH*.08}
+                />
+                <Text 
+                    y={2}
+                    width={WIDTH*.73}
+                    height={WIDTH*.08}
+                    fontFamily={poppins.style.fontFamily}
+                    fontStyle={poppins.style.fontStyle}
+                    text={reference}
+                    align="center"
+                    verticalAlign="middle"
+                    fontSize={(WIDTH*.73) * .08}
+                />
+            </Group>
         </Group>
-        <PopupAlert 
-         
+        <PopupAlert        
             visible={isModalShow}
             height={height}
             width={width}

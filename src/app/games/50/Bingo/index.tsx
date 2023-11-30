@@ -19,7 +19,7 @@ function Bingo() {
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
   const combination = React.useMemo(() => {
-    const bingobonanza = new BingoBonanzaClass({combi: isCardScratch.combi});
+    const bingobonanza = new BingoBonanzaClass({ cols: 2, rows: 3, combi: isCardScratch.combi});
     return bingobonanza.getValues();
   }, [isCardScratch.combi]);
   const handleButtonMain = () => {

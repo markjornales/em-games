@@ -3,49 +3,63 @@ import React from 'react'
 import { Group } from 'react-konva'
 import MangoScratch from './MangoScratch'
 import dynamic from 'next/dynamic';
-// -- eto siya dapat ilagay
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
+import { BingoBonanzaClass, GridBooleansCards } from '@/hooks/methods';         
 import { useSearchParams } from 'next/navigation';  
-//------/>
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 function Mangobonanza() {
   const scratchCardRef = React.useRef<any>()
-
-   // -- eto siya dapat ilagay
-   const { setPlayed } = React.useContext(CanvasContext);     
-   const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
-  // --- />
-
   const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
-
-   // -- eto siya dapat ilagay
-   const searchparams = useSearchParams(); 
-   const search = searchparams.get("q")!;
-   const gid = searchparams.get("gid")!; 
-   // -- />
-  
+  const { setPlayed } = React.useContext(CanvasContext);     
+  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
+  const searchparams = useSearchParams(); 
+  const search = searchparams.get("q")!;
+  const gid = searchparams.get("gid")!;  
+  const combination = React.useMemo(() => {
+    const prizeLegend = [
+      {apple: 1, melon: 0, orange: 0, grape: 0, mango: 0},
+      {apple: 0, melon: 1, orange: 0, grape: 0, mango: 0},
+      {apple: 0, melon: 0, orange: 1, grape: 0, mango: 0},
+      {apple: 0, melon: 0, orange: 0, grape: 1, mango: 0},
+      {apple: 0, melon: 0, orange: 0, grape: 0, mango: 1},
+      {apple: 3, melon: 0, orange: 0, grape: 0, mango: 0},
+      {apple: 0, melon: 3, orange: 0, grape: 0, mango: 0},
+      {apple: 0, melon: 0, orange: 3, grape: 0, mango: 0},
+      {apple: 0, melon: 0, orange: 0, grape: 3, mango: 0},
+      {apple: 0, melon: 0, orange: 0, grape: 0, mango: 3},
+    ];
+    const bingobonanza = new BingoBonanzaClass({
+      combi: isCardScratch.combi, 
+      cols: 3, 
+      rows: 4,
+      prizeLegend
+    });
+    return bingobonanza.getValues();
+  }, [isCardScratch.combi]);
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      setWarningShow(true)
-      } else {
-        // --- eto siya dapat ilagay
-        authentications({ 
-          setAuthenticated, 
-          setCardScratch, 
-          setPlayed, 
-          searchparams, 
-          search, 
-          gid 
+        setWarningShow(true)
+    } else {
+      authentications({ 
+        setAuthenticated, 
+        setCardScratch, 
+        setPlayed, 
+        searchparams, 
+        search, 
+        gid 
       })
       .then(() => {
-          scratchCardRef.current.reset();
+        scratchCardRef.current.reset();
       });
-      //-- 
-      }  
+    }  
+  }
+  const onfastscratch = () => {
+    if(!scratchCardRef.current.isScratchDone){
+     scratchCardRef.current.fastscratch();   
+   } 
   }
 
   const onScratchDone = (done: boolean) => {
@@ -61,32 +75,20 @@ function Mangobonanza() {
     }
   }
 
-
   return (
     <Group>
          <CButton 
          label="NEXT CARD" 
          url_path="twentycards" 
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
-         onclickStart={handleButtonMain}  /> 
-          <MangoScratch ref={scratchCardRef} 
-           //eto siya dapat ilagay
-           reference={isCardScratch.refno}
-        
-           combination={new GridBooleansCards({ 
-               columns: 3, 
-               combi: isCardScratch.combi, 
-               rows: 3 
-           }).getValues()}
-           // -----
-           scratchdone={onScratchDone}
+         onfastscratch={onfastscratch} 
+         onclickStart={handleButtonMain}/> 
+          <MangoScratch 
+            ref={scratchCardRef}  
+            reference={isCardScratch.refno} 
+            combination={combination} 
+            scratchdone={onScratchDone}
             />
-
-{isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

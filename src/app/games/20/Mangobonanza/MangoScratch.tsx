@@ -7,21 +7,17 @@ import PopupAlert from '@/components/PopupAlert';
 import Mango from './Mango';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';   //eto
-
-// eto siya dapat ilagay
+ 
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
-});
-//---
+}); 
+type TMangoProps = "apple"|"melon"|"orange"|"grape"|"mango"
 
 type TMangoScratch = {
-    combination: boolean[][]
-     //eto siya dapat ilagay
-   
+     combination: (TMangoProps|undefined)[][]  
      reference: string; 
-     scratchdone: (done: boolean) => void; 
-     //--/>
+     scratchdone: (done: boolean) => void;  
 }
 type TMangoRef = {
     isScratchDone: boolean;
@@ -29,7 +25,7 @@ type TMangoRef = {
 }   
 
 const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => {
-    const { combination, reference, scratchdone } = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination = [], reference, scratchdone } = props;   
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -57,7 +53,7 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -77,25 +73,28 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
             setFastScratch(true) 
         }
     }));
+
+    const handleMangobonanza = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => {
+            const listletters: TMangoProps[] = ["apple", "melon", "orange", "grape", "mango"];
+            const randomLetters = listletters[Math.floor(Math.random() * listletters.length)];
+            return <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.21 + (0.2 * indexColumn)) } 
+                y={HEIGHT*(.165 + (0.1 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Mango imageHeight={WIDTH*.16} assetname={values || randomLetters} imageWidth={WIDTH*.2}/>
+            </Group>
+            })
+        )
+    },[combination]);
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
-
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.25 + (0.19 * indexColumn)) } 
-                        y={HEIGHT*(.15 + (0.15 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Mango imageHeight={WIDTH*.16} assetname='mango' imageWidth={WIDTH*.18}/>
-                    </Group>
-                    )
-                )}
-                
-                
+                {canvas && handleMangobonanza}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -104,22 +103,8 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-               
+                    />    
 
-
-
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
-
-                  {/* eto siya dapat ilagay */}
                   <Group y={HEIGHT*.02} x={WIDTH*.13}>
                     <Rect 
                         fill="white"
@@ -135,14 +120,9 @@ const MangoScratch = React.forwardRef<TMangoRef, TMangoScratch>((props, ref) => 
                         fontFamily={poppins.style.fontFamily}
                         fontSize={WIDTH*.07}
                     />
-                </Group>
-            {/*----/> */}
-
-
-
+                </Group> 
             </Group>
             <PopupAlert 
-             
                 visible={isModalShow}
                 height={height}
                 width={width}

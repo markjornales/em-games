@@ -84,6 +84,7 @@ const Lotto50Scratch = React.forwardRef<TLotto50ScratchRef, TLotto50ScratchProps
             />
         )
     ),[combinations]);
+    
     return (
     <Group>
         <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
