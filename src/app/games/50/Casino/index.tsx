@@ -2,39 +2,31 @@ import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva'
 import CasinoScratch from './CasinoScratch'
-import dynamic from 'next/dynamic';
-
-// -- eto siya dapat ilagay
+import dynamic from 'next/dynamic'; 
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';  
-//------/>
+import { useSearchParams } from 'next/navigation';   
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Casino() {
-  const scratchCardRef = React.useRef<any>()
-
-  // -- eto siya dapat ilagay
+  const scratchCardRef = React.useRef<any>() 
   const { setPlayed } = React.useContext(CanvasContext);     
-  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
- // --- />
-
-  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);   
-
-  // -- eto siya dapat ilagay
+  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
-  const gid = searchparams.get("gid")!; 
-  // -- />
-  
+  const gid = searchparams.get("gid")!;  
+  const combinations = React.useMemo(() => 
+      new GridBooleansCards({ columns: 3, combi: isCardScratch.combi, rows: 3}).getValues(), 
+    [isCardScratch.combi]);
+
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
       setWarningShow(true)
-      } else {
-         // --- eto siya dapat ilagay
+      } else { 
         authentications({ 
           setAuthenticated, 
           setCardScratch, 
@@ -45,9 +37,14 @@ function Casino() {
       })
       .then(() => {
           scratchCardRef.current.reset();
-      });
-      //-- 
+      }); 
       }  
+  }
+
+  const handleFastScratch = () =>{
+    if(!scratchCardRef.current.isScratchDone){
+        scratchCardRef.current.fastscratch();   
+    } 
   }
 
   const onScratchDone = (done: boolean) => {
@@ -66,27 +63,18 @@ function Casino() {
   return (
     <Group>
          <CButton 
-         label="NEXT CARD" 
-         url_path="fiftycards"  
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-           }} 
-         onclickStart={handleButtonMain} /> 
-         <CasinoScratch ref={scratchCardRef}
-          //eto siya dapat ilagay
-          reference={isCardScratch.refno}
-     
-          combination={new GridBooleansCards({ 
-              columns: 3, 
-              combi: isCardScratch.combi, 
-              rows: 3 
-          }).getValues()}
-          scratchdone={onScratchDone}
-          // -----
-            />
-             {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+          label="NEXT CARD" 
+          url_path="fiftycards"  
+          onfastscratch={handleFastScratch} 
+          onclickStart={handleButtonMain}
+        /> 
+         <CasinoScratch 
+            ref={scratchCardRef} 
+            reference={isCardScratch.refno} 
+            combination={combinations}
+            scratchdone={onScratchDone} 
+          />
+          {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

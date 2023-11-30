@@ -2,13 +2,21 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import Bacarat from './Bacarat';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 type TBacaratScratch = {
-    combination: boolean[][]
+    combination: boolean[][];
+    reference: string;  
+    scratchdone: (done: boolean) => void; 
 }
 type TBacaratRef = {
     isScratchDone: boolean;
@@ -16,16 +24,16 @@ type TBacaratRef = {
 }   
 
 const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, ref) => {
-    const { combination } = props;
+    const { combination, reference, scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.38;
+    const x1 = WIDTH*.36;
     const y1 = HEIGHT*.04;
-    const x2 = WIDTH*.8;
-    const y2 = HEIGHT*.5
+    const x2 = WIDTH*.81;
+    const y2 = HEIGHT*.48
     
     
     const {
@@ -45,11 +53,12 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -64,23 +73,28 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
             setFastScratch(true) 
         }
     }));
+
+    const handleBaracatShow = React.useMemo(() => combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.39 + (0.22 * indexColumn)) } 
+            y={HEIGHT*(.04 + (0.11 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Bacarat imageHeight={WIDTH*.18} imageWidth={WIDTH*.2}/>
+        </Group>
+        )
+    ),[combination]);
+
+    const handleonTap = () => {
+        setModalshow(false);
+    }
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.39 + (0.22 * indexColumn)) } 
-                        y={HEIGHT*(.04 + (0.11 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Bacarat imageHeight={WIDTH*.18} imageWidth={WIDTH*.2}/>
-                    </Group>
-                    )
-                )}
-
+                {canvas && handleBaracatShow} 
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -89,27 +103,34 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
+                />  
+                <Group x={WIDTH*.85} y={HEIGHT*.02}>
+                    <Rect
+                        fill="white" 
+                        rotation={90}
+                        offsetY={WIDTH*.13}
+                        width={WIDTH*.79}
+                        height={WIDTH*.13}
+                    />
+                    <Text
+                        x={3}
+                        rotation={-90}
+                        offsetX={WIDTH*.79} 
+                        width={WIDTH*.79}
+                        height={WIDTH*.13}
+                        fontFamily={poppins.style.fontFamily}
+                        align="center"
+                        verticalAlign="middle"
+                        text={reference}
+                        fontSize={(WIDTH*.79) *.09}
+                    />
+                </Group>   
             </Group>
-            <PopupAlert 
-             
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}
-                onTap={() => {
-                    setModalshow(false);
-                }}
+                onTap={handleonTap}
             />
         </Group>
     );

@@ -102,7 +102,7 @@ const Lotto100Scratch = React.forwardRef<TLotto100ScratchRef, TLotto100ScratchPr
                 onPointerLeave={handleOnPointerLeave}
             />
             <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.994)-WIDTH*.1}>
-            <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
+                 <Rect fill="white" width={WIDTH*.9} height={WIDTH*.09}/>
                 <Text
                     width={WIDTH*.9}
                     height={WIDTH*.10}

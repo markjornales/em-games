@@ -12,8 +12,7 @@ const poppins = Poppins({
     weight: "500"
 });
 type TUsaScratch = {
-    combination: boolean[][]
-  
+    combination: boolean[][];
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -29,10 +28,10 @@ const UsaScratch = React.forwardRef<TUsaRef, TUsaScratch>((props, ref) => {
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.19;
+    const x1 = WIDTH*.17;
     const y1 = HEIGHT*.14;
-    const x2 = WIDTH*.73;
-    const y2 = HEIGHT*.48
+    const x2 = WIDTH*.75;
+    const y2 = HEIGHT*.46
     
     const {
         canvas, 
@@ -51,7 +50,7 @@ const UsaScratch = React.forwardRef<TUsaRef, TUsaScratch>((props, ref) => {
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 14});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -71,22 +70,26 @@ const UsaScratch = React.forwardRef<TUsaRef, TUsaScratch>((props, ref) => {
             setFastScratch(true) 
         }
     }));
+
+    const handleCombinationUsa = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.17 + (0.2 * indexColumn)) } 
+                y={HEIGHT*(.13 + (0.096 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Usa imageHeight={WIDTH*.15} imageWidth={WIDTH*.2}/>
+            </Group>
+            )
+        );
+    }, [combination])
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.15 + (0.2 * indexColumn)) } 
-                        y={HEIGHT*(.147 + (0.112 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Usa imageHeight={WIDTH*.15} imageWidth={WIDTH*.2}/>
-                    </Group>
-                    )
-                )}
+                {canvas && handleCombinationUsa}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -96,37 +99,27 @@ const UsaScratch = React.forwardRef<TUsaRef, TUsaScratch>((props, ref) => {
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
-                 {/* <Group y={HEIGHT*.92} x={WIDTH*.04}>
-                    <Rect 
+                 <Group y={HEIGHT*.01} x={WIDTH*.22}>
+                    <Rect  
                         fill="white"
-                        width={WIDTH*.83}
-                        height={WIDTH*.11}
+                        width={WIDTH*.712}
+                        height={WIDTH*.1}
                     />
                     <Text 
+                        x={2}
+                        y={2}
                         text={reference} 
-                        width={WIDTH*.8} 
-                        height={WIDTH*.12}
+                        width={WIDTH*.712}
+                        height={WIDTH*.1}
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontStyle={poppins.style.fontStyle}
+                        fontSize={(WIDTH*.712)*.08}
                     />
-                </Group> */}
-
+                </Group>
             </Group>
             <PopupAlert 
-              
                 visible={isModalShow}
                 height={height}
                 width={width}

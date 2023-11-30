@@ -1,29 +1,32 @@
-import CButton from '@/components/CButton'
-import React from 'react'
-import { Group } from 'react-konva'
-import RidersScratch from './RidersScratch'
-import dynamic from 'next/dynamic';
 import { afterScratchAuth, authentications } from '@/api/API';
-import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';  
+import CButton from '@/components/CButton';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { GridBooleansCards } from '@/hooks/methods';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
+import { Group } from 'react-konva';
+import RidersScratch from './RidersScratch';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
 function Riderfortune() {
   const scratchCardRef = React.useRef<any>()
   const { setPlayed } = React.useContext(CanvasContext);     
-  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);   
-  const [isWarningShow, setWarningShow] = React.useState<boolean>(false);
+  const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider); 
+  const [isWarningShow, setWarningShow] = React.useState<boolean>(false); 
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
-  const gid = searchparams.get("gid")!; 
-  
+  const gid = searchparams.get("gid")!;  
+  const combinations = React.useMemo(() => 
+      new GridBooleansCards({ columns: 4, combi: isCardScratch.combi, rows: 3}).getValues(), 
+    [isCardScratch.combi]);
+
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
-      setWarningShow(true) 
-      } else {
+      setWarningShow(true)
+      } else { 
         authentications({ 
           setAuthenticated, 
           setCardScratch, 
@@ -34,8 +37,14 @@ function Riderfortune() {
       })
       .then(() => {
           scratchCardRef.current.reset();
-      });
+      }); 
       }  
+  }
+
+  const handleFastScratch = () =>{
+    if(!scratchCardRef.current.isScratchDone){
+        scratchCardRef.current.fastscratch();   
+    } 
   }
 
   const onScratchDone = (done: boolean) => {
@@ -54,25 +63,18 @@ function Riderfortune() {
   return (
     <Group>
          <CButton 
-         label="NEXT CARD" 
-         url_path="fiftycards"  
-         onfastscratch={() =>{
-          if(!scratchCardRef.current.isScratchDone){
-              scratchCardRef.current.fastscratch();   
-          } 
-      }} 
-         onclickStart={handleButtonMain} /> 
-         <RidersScratch ref={scratchCardRef} 
-        reference={isCardScratch.refno}
-    
-        combination={new GridBooleansCards({ 
-            columns: 3, 
-            combi: isCardScratch.combi, 
-            rows: 3 
-        }).getValues()}
-        scratchdone={onScratchDone}
-            />
-              {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
+            label="NEXT CARD" 
+            url_path="fiftycards"  
+            onfastscratch={handleFastScratch} 
+            onclickStart={handleButtonMain}
+          /> 
+         <RidersScratch 
+            ref={scratchCardRef} 
+            reference={isCardScratch.refno}
+            combination={combinations}
+            scratchdone={onScratchDone}
+          />
+        {isWarningShow && <WarningModal textstring="Please Scratch first"/>}
     </Group>
   )
 }

@@ -116,8 +116,7 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-               
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

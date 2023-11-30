@@ -1,20 +1,27 @@
 import { CanvasProvider } from '@/components/CanvasContext';
-import useScratchMethod from '@/hooks/useScratchMethod';
-import useScratchMotion from '@/hooks/useScratchMotion';
-import React from 'react'
-import { Group, Image, Rect } from 'react-konva'
-import DiceImage from './DiceImage';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
+import useScratchMethod from '@/hooks/useScratchMethod';
+import useScratchMotion from '@/hooks/useScratchMotion';
+import { Poppins } from 'next/font/google';
+import React from 'react';
+import { Group, Image, Rect, Text } from 'react-konva';
+import DiceImage from './DiceImage';
 
+const poppins = Poppins({
+    weight: "500",
+    subsets: ["latin"]
+})
 
 type TDiceRollerScratchProps = {
-    combinations: (number|undefined)[][]
+    combinations: (number|undefined)[][];
+    reference: string; 
+    scratchdone: (done: boolean) => void;
 }
 type TDiceRollerScratchRef = {}
 
 const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScratchProps>((props, ref) => {
-    const { combinations } = props;
+    const { combinations, reference, scratchdone, } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -41,11 +48,12 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
             setModalshow(true);
+            scratchdone(true);
         }
     },[isScratchDone]);
 
@@ -74,13 +82,13 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
                     indexDices={dicenumber} 
                 /> 
             )
-    ),[]);
+    ),[combinations]);
 
     return (
     <Group>
         <Group  x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
-            {showResults}
+            {canvas && showResults}
             <Image
                 ref={imageRef}
                 image={canvas} 
@@ -90,9 +98,31 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
             />  
+            <Group x={WIDTH*.87} y={HEIGHT*.47}>
+                <Rect 
+                    fill="white" 
+                    rotation={90}
+                    offsetY={WIDTH*.08}
+                    width={WIDTH*.692}
+                    height={WIDTH*.08}
+                />
+                <Text
+                    x={-2}
+                    text={reference}
+                    width={WIDTH*.692}
+                    height={WIDTH*.08}
+                    fontFamily={poppins.style.fontFamily}
+                    fontStyle={poppins.style.fontStyle}
+                    fontSize={(WIDTH*.692) * .08}
+                    align="center"
+                    verticalAlign="middle"
+                    rotation={90}
+                    offsetY={WIDTH*.08}   
+                />
+            </Group>
+
         </Group>
         <PopupAlert 
-           
             visible={isModalShow}
             height={height}
             width={width}

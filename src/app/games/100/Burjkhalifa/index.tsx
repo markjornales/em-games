@@ -2,13 +2,11 @@ import CButton from '@/components/CButton'
 import React from 'react'
 import { Group } from 'react-konva' 
 import BurjkhalifaScratch from './BurjkhalifaScratch'
-import dynamic from 'next/dynamic';
-// -- eto siya dapat ilagay
+import dynamic from 'next/dynamic'; 
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
 import { GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';  
-//------/>
+import { useSearchParams } from 'next/navigation';   
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 

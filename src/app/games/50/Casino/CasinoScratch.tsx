@@ -6,21 +6,16 @@ import { Group, Image, Rect, Text } from "react-konva";
 import PopupAlert from '@/components/PopupAlert'; 
 import Casino from './Casino';
 import useFastScratch from '@/hooks/useFastScratch';
-import { Poppins } from 'next/font/google';   //eto
-
-// eto siya dapat ilagay
+import { Poppins } from 'next/font/google';   
+ 
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
-});
-//---
+}); 
 
 type TCasinoScratch = {
-    combination: boolean[][]
-     //eto siya dapat ilagay
-    
-     reference: string; 
-     //--/>
+    combination: boolean[][]  
+     reference: string;  
      scratchdone: (done: boolean) => void; 
 }
 type TCasinoRef = {
@@ -29,7 +24,7 @@ type TCasinoRef = {
 }   
 
 const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) => {
-    const { combination, reference, scratchdone } = props;   /**eto siya dapat ilagay  ang popupwinners at reference*/
+    const { combination, reference, scratchdone } = props;   
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
@@ -77,23 +72,24 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
             setFastScratch(true) 
         }
     }));
+
+    const handleCasinoShow = React.useMemo(() => combination.map((data, indexRow) => 
+        data.map((values, indexColumn) => 
+        <Group 
+            opacity={values ? 1: 0.4}
+            x={WIDTH*(.33 + (0.16 * indexColumn)) } 
+            y={HEIGHT*(.08 + (0.131 * indexRow))} 
+            key={indexRow + indexColumn}>
+            <Casino imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
+        </Group>
+        )
+    ), [combination]);
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.33 + (0.16 * indexColumn)) } 
-                        y={HEIGHT*(.08 + (0.131 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Casino imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
-                    </Group>
-                    )
-                )}
-
+                {canvas && handleCasinoShow} 
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -102,9 +98,7 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />    
-
-                {/* eto siya dapat ilagay */}
+                />     
                 <Group y={HEIGHT*.92} x={WIDTH*.04}>
                     <Rect 
                         fill="white"
@@ -122,8 +116,7 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
                     />
                 </Group>
             </Group>
-            <PopupAlert 
-              
+            <PopupAlert  
                 visible={isModalShow}
                 height={height}
                 width={width}

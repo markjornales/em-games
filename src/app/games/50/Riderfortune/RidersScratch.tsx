@@ -53,7 +53,7 @@ const RidersScratch = React.forwardRef<TRidersRef, TRidersScratch>((props, ref) 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 10});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -73,23 +73,26 @@ const RidersScratch = React.forwardRef<TRidersRef, TRidersScratch>((props, ref) 
             setFastScratch(true) 
         }
     }));
+
+    const handleRiderFortune = React.useMemo(() => {
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.35 + (0.15 * indexColumn)) } 
+                y={HEIGHT*(.37 + (0.13 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Riders imageHeight={WIDTH*.17} imageWidth={WIDTH*.16}/>
+            </Group>
+            )
+        )
+    }, [combination]);
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) => 
-                    <Group 
-                        opacity={values ? 1: 0.4}
-                        x={WIDTH*(.33 + (0.155 * indexColumn)) } 
-                        y={HEIGHT*(.4 + (0.167 * indexRow))} 
-                        key={indexRow + indexColumn}>
-                        <Riders imageHeight={WIDTH*.2} imageWidth={WIDTH*.16}/>
-                    </Group>
-                    )
-                )}
-
+                {canvas && handleRiderFortune}
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -98,35 +101,26 @@ const RidersScratch = React.forwardRef<TRidersRef, TRidersScratch>((props, ref) 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />   
-                
-                
-                
-                {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
-
-                <Group y={HEIGHT*.02} x={WIDTH*.04}>
+                />    
+                <Group y={HEIGHT*.02} x={WIDTH*.06}>
                     <Rect 
                         fill="white"
-                        width={WIDTH*.83}
-                        height={WIDTH*.11}
+                        width={WIDTH*.9}
+                        height={WIDTH*.13}
                     />
                     <Text 
+                        x={5}
+                        y={3}
                         text={reference} 
                         width={WIDTH*.9} 
-                        height={WIDTH*.12}
+                        height={WIDTH*.13}
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontStyle={poppins.style.fontStyle}
+                        fontSize={(WIDTH*.9)*.09}
                     />
-                </Group>
-
+                </Group> 
             </Group>
             <PopupAlert 
              
