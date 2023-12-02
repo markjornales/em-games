@@ -52,7 +52,7 @@ const ScratchGames = React.forwardRef<TLottoGamesRef, TLottoGames>((props, ref) 
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {
         height: HEIGHT*.35,
         width: WIDTH*.8
-    }, imageSrc: '/images/200/LottoGame/lottogamesfront.png', });
+    }, imageSrc: '/images/200/Lottogame/lottogamesfront.png', });
 
     const {
         imageRef,

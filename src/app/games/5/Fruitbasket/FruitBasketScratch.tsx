@@ -105,14 +105,6 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
                 /> 
-
-            {/* <Rect 
-                fill="red"
-                width={x2-x1}
-                height={y2-y1}
-                x={x1}
-                y={y1}
-                /> */}
         </Group>
         <PopupAlert 
             visible={isModalShow}
