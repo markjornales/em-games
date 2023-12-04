@@ -44,7 +44,7 @@ export default function RootLayout({ children }: TRootProps) {
       <body className={inter.className} >
         <div className={classNames("h-screen w-screen bg-black/70 absolute ", providers.blur? "visible": "hidden")}/>
         <CanvasProvider.Provider value={providers}>
-          <div onClick={onclick} id="game-element" className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center lg:items-center")}> 
+          <div onClick={onclick} id="game-element" className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center items-center")}> 
               <div className={classNames("flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]")} ref={canvasParent}>
                 {children}
             </div>
