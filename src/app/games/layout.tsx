@@ -16,13 +16,23 @@ const NoSsrs = dynamic(() => Promise.resolve(NoSsr), { ssr: false })
 
 const classNames = (...classNamees: string[]) => classNamees.filter(Boolean).join(" "); 
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+type TRootProps =  { children: React.ReactNode }
+
+export default function RootLayout({ children }: TRootProps) {
   const {canvasParent, isAuthenticated, providers } = useContextProviders();
   
+  React.useEffect(() => {
+    // console.log(document)
+     
+  },[]);
+
+
+  const onclick = () => {
+    const element = document.getElementById("game-element");
+     element?.requestFullscreen().catch((err) => {
+      console.log(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`,)
+     })
+  }
   
   return (
     <html lang="en"> 
@@ -34,7 +44,7 @@ export default function RootLayout({
       <body className={inter.className} >
         <div className={classNames("h-screen w-screen bg-black/70 absolute ", providers.blur? "visible": "hidden")}/>
         <CanvasProvider.Provider value={providers}>
-          <div className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center lg:items-center")}> 
+          <div onClick={onclick} id="game-element" className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center lg:items-center")}> 
               <div className={classNames("flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]")} ref={canvasParent}>
                 {children}
             </div>
