@@ -20,6 +20,8 @@ type TRootProps =  { children: React.ReactNode }
 
 export default function RootLayout({ children }: TRootProps) {
   const {canvasParent, isAuthenticated, providers } = useContextProviders();
+
+
   const onclick = () => {
     const element = document.getElementById("game-element");
      element?.requestFullscreen().catch((err) => {
@@ -34,10 +36,10 @@ export default function RootLayout({ children }: TRootProps) {
         <meta name='description' content='Description' />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className} >
+      <body onClick={onclick} id="game-element" className={inter.className} >
         <div className={classNames("h-screen w-screen bg-black/70 absolute ", providers.blur? "visible": "hidden")}/>
         <CanvasProvider.Provider value={providers}>
-          <div onClick={onclick} id="game-element" className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center items-center")}> 
+          <div  className={classNames("h-screen bg-gradient-to-t from-egprimary via-egsecondary to-egprimary", "flex justify-center items-center")}> 
               <div className={classNames("flex-1 max-h-[813px]  min-h-[739px] max-w-[400px] min-w-[400px]")} ref={canvasParent}>
                 {children}
             </div>
