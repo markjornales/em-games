@@ -20,13 +20,6 @@ type TRootProps =  { children: React.ReactNode }
 
 export default function RootLayout({ children }: TRootProps) {
   const {canvasParent, isAuthenticated, providers } = useContextProviders();
-  
-  React.useEffect(() => {
-    // console.log(document)
-     
-  },[]);
-
-
   const onclick = () => {
     const element = document.getElementById("game-element");
      element?.requestFullscreen().catch((err) => {
