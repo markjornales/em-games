@@ -4,7 +4,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva";
-import Goldencoin from './Goldencoin';
+import Goldencoin, { TCoinname } from './Goldencoin';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
 const poppins = Poppins({
@@ -12,7 +12,7 @@ const poppins = Poppins({
     weight: "500"
 });
 type TMatchScratch  = {
-    combination: boolean[][]
+    combination: TCoinname[][]
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -28,10 +28,10 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.32;
+    const x1 = WIDTH*.26;
     const y1 = HEIGHT*.2;
-    const x2 = WIDTH*.69;
-    const y2 = HEIGHT*.55
+    const x2 = WIDTH*.72;
+    const y2 = HEIGHT*.5
     
     const {
         canvas, 
@@ -52,7 +52,7 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
 
     const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
 
-    React.useEffect(() => {
+    React.useEffect(() => { 
         if(isScratchDone){ 
             setModalshow(true);
             scratchdone(true);
@@ -70,23 +70,26 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
             setFastScratch(true) 
         }
     }));
-
-    const handleCombinations = React.useMemo(() => {
-        return combination.map((data, indexRow) => 
-            data.map((values, indexColumn) =>  
-            <Group 
-                key={indexColumn+ indexRow}
-                opacity={values? 1: 0.3}
-                x={WIDTH*(.27 + (0.155 *indexColumn))} 
-                y={HEIGHT*(.22 + (0.112 * indexRow))} >
+    const handleCombinations = React.useMemo(() => 
+         combination.map((data, indexRow) =>{ 
+            return data.map((values, indexColumn) =>  {
+                return <Group 
+                        // opacity={isnull? 1: values? 1: 0.9}
+                        key={indexColumn+ indexRow} 
+                        x={WIDTH*(.27 + (0.155 *indexColumn))} 
+                        y={HEIGHT*(.22 + (0.112 * indexRow))}
+                        rotation={-90} 
+                        offsetX={WIDTH*.14} 
+                    >
                 <Goldencoin
+                    coinname={values}
                     imageHeight={WIDTH*.145}
                     imageWidth={WIDTH*.145}
                 /> 
             </Group>
-            )
-        )
-    }, [combination]);
+            })
+        })
+    , [combination]);
     
     return (
         <Group>
@@ -101,8 +104,8 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />    
-
+                    />    
+                 
                 <Group y={HEIGHT*.02} x={WIDTH*.15}>
                     <Rect 
                         fill="white"
