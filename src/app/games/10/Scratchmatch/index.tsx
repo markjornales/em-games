@@ -47,6 +47,7 @@ function Scratchmatch() {
             } 
         }
       } 
+      
       return results 
     },[isCardScratch.combi]);
 

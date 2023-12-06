@@ -4,7 +4,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
-import Luckydragon from './Luckydragon';
+import Luckydragon, { TLuckydragon } from './Luckydragon';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google'; 
 const poppins = Poppins({
@@ -12,7 +12,7 @@ const poppins = Poppins({
     weight: "500"
 });
 type TLuckydragonScratch  = {
-    combination: boolean[][]
+    combination: TLuckydragon[][]
     
     reference: string; 
     scratchdone: (done: boolean) => void;
@@ -79,10 +79,9 @@ const LuckydragonScratch = React.forwardRef<TLuckydragonScratchRef, TLuckydragon
             <Group 
                 key={indexRow + indexColumn} 
                 x={WIDTH*(.27 + (0.16 * indexColumn))} 
-                y={HEIGHT*(.29 + (0.15 * indexRow))}
-                opacity={values? 1 : 0.3}
+                y={HEIGHT*(.29 + (0.15 * indexRow))} 
             >
-                <Luckydragon imageHeight={WIDTH*.19} imageWidth={WIDTH*.19}/>
+                <Luckydragon imageHeight={WIDTH*.19} luckydragon={values} imageWidth={WIDTH*.19}/>
             </Group>     
             )
         )

@@ -73,8 +73,7 @@ const MatchScratch = React.forwardRef<TMatchScratchRef, TMatchScratch>((props, r
     const handleCombinations = React.useMemo(() => 
          combination.map((data, indexRow) =>{ 
             return data.map((values, indexColumn) =>  {
-                return <Group 
-                        // opacity={isnull? 1: values? 1: 0.9}
+                return <Group  
                         key={indexColumn+ indexRow} 
                         x={WIDTH*(.27 + (0.155 *indexColumn))} 
                         y={HEIGHT*(.22 + (0.112 * indexRow))}
