@@ -4,7 +4,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
-import Dollar from './Dollar';
+import Dollar, { TCoinname } from './Dollar';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
 const poppins = Poppins({
@@ -12,7 +12,7 @@ const poppins = Poppins({
     weight: "500"
 });
 type TLuckybuddhaScratch  = {
-    combination: boolean[][]
+    combination: TCoinname[][]
     reference: string; 
     scratchdone: (done: boolean) => void; 
 }
@@ -80,6 +80,7 @@ const LuckybuddhaScratch = React.forwardRef<TLuckybuddhaScratchRef, TLuckybuddha
                 x={WIDTH*(.268 + (0.17 * indexColumn))} 
                 y={HEIGHT*(.072 + (0.127 * indexRow))}>
                 <Dollar
+                coinname={values}
                     imageHeight={WIDTH*.15}
                     imageWidth={WIDTH*.15}
                 />
