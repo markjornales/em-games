@@ -1,15 +1,15 @@
-import CButton from '@/components/CButton'
-import React from 'react'
-import { Group } from 'react-konva'
-import StakesScratch from './StakesScratch'
-import dynamic from 'next/dynamic';
 import { afterScratchAuth, authentications } from '@/api/API';
-import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
-import { useSearchParams } from 'next/navigation';  
+import CButton from '@/components/CButton';
+import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
+import { GridBooleansCards, MatchPrizeClass } from '@/hooks/methods';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
+import { Group } from 'react-konva';
+import StakesScratch from './StakesScratch';
+import { TStakesname } from './Stakes';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
-
 function Stakessteeds() {
   const scratchCardRef = React.useRef<any>()
   const { setPlayed } = React.useContext(CanvasContext);     
@@ -18,13 +18,15 @@ function Stakessteeds() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
-  const combination = React.useMemo(() => 
-    new GridBooleansCards({ 
-      columns: 3, 
-      combi: isCardScratch.combi, 
-      rows: 4
-  }).getValues(),
- [isCardScratch.combi]);
+  const combination = React.useMemo(() =>{
+    const keyPrizes:TStakesname[] = ['5', '10',"20", '50', '100', '500', '1k', '2k', '20k', '200k'] 
+    const match = new MatchPrizeClass<TStakesname>({
+        combi: isCardScratch.combi, 
+        keyPrizes,
+      }, {column: 4, rows: 3})
+      console.log(match.get())
+      return match.get() 
+  },[isCardScratch.combi]);
 
 
  const handleButtonMain = () => {

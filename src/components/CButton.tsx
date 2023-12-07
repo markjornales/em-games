@@ -34,7 +34,7 @@ function CButton(props: TCButton) {
     const handleBackButton = () => {
       setClickBack(false); 
       const urlredirect = process.env.NEXT_PUBLIC_MAIN_PAGE!
-        router.push(`${urlredirect}/${url_path}.php`); 
+        router.push(`${urlredirect}/${url_path}`); 
     }
 
     const handlePointerUp = () => {

@@ -4,9 +4,10 @@ import React from 'react'
 import { Group } from 'react-konva'
 import DiceScratch from './DiceScratch'
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext'
-import { BingoBonanzaClass } from '@/hooks/methods'
+import { BingoBonanzaClass, MatchPrizeClass } from '@/hooks/methods'
 import { afterScratchAuth, authentications } from '@/api/API'
 import { useSearchParams } from 'next/navigation'
+import { TDiceImageName } from './DiceImage'
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
@@ -19,23 +20,12 @@ function DiceRush20() {
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
   const combination = React.useMemo(() => {
-    const prizeLegend = [ 
-      {0: 3, 1: 0, 2:0, 3:0, 4:0, 5:0},
-      {0: 0, 1: 3, 2:0, 3:0, 4:0, 5:0},
-      {0: 0, 1: 0, 2:3, 3:0, 4:0, 5:0},
-      {0: 0, 1: 0, 2:0, 3:3, 4:0, 5:0},
-      {0: 0, 1: 0, 2:0, 3:0, 4:3, 5:0},
-      {0: 0, 1: 0, 2:0, 3:0, 4:0, 5:3},
-      {0: 1, 1: 1, 2:1, 3:0, 4:0, 5:0},
-      {0: 0, 1: 0, 2:0, 3:1, 4:1, 5:1},
-    ];
-    const bingobonanza = new BingoBonanzaClass({
-      combi: isCardScratch.combi, 
-      cols: 2, 
-      rows: 3,
-      prizeLegend
-    });
-    return bingobonanza.getValues();
+    const keyPrizes:TDiceImageName[] = ['5', '10',"20", '50', '100',"500", '1k', '2k', '20k', '200k'] 
+    const match = new MatchPrizeClass<TDiceImageName>({
+        combi: isCardScratch.combi, 
+        keyPrizes,
+      }, {column: 2, rows: 3}) 
+      return match.get() 
   }, [isCardScratch.combi]);
   const handleButtonMain = () => {
     setWarningShow(false);

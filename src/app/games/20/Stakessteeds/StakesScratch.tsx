@@ -4,7 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Stakes from './Stakes';
+import Stakes, { TStakesname } from './Stakes';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google'; 
 
@@ -14,7 +14,7 @@ const poppins = Poppins({
 });
 
 type TStakesScratch = {
-    combination: boolean[][];
+    combination: TStakesname[][];
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -81,7 +81,7 @@ const StakesScratch = React.forwardRef<TStakesRef, TStakesScratch>((props, ref) 
             x={WIDTH*(.38 + (0.14 * indexColumn)) } 
             y={HEIGHT*(.14 + (0.11 * indexRow))} 
             key={indexRow + indexColumn}>
-            <Stakes imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
+            <Stakes stakesname={values} imageHeight={WIDTH*.18} imageWidth={WIDTH*.15}/>
         </Group>
         )
     )

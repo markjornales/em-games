@@ -6,13 +6,13 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Group, Image, Rect, Text } from 'react-konva';
-import DiceImage from './DiceImage';
+import DiceImage, { TDiceImageName } from './DiceImage';
 const poppins = Poppins({
     weight: "500",
     subsets: ["latin"]
 }) 
 type TDiceScratchProps = {
-    combination: (number|undefined)[][];
+    combination: TDiceImageName[][];
     scratchdone: (done: boolean) => void;
     referenceno: string;
 }
@@ -73,9 +73,7 @@ const DiceScratch = React.forwardRef<TDiceScratchRef, TDiceScratchProps>((props,
         return combination.map((dataArray, indexRow) => 
             dataArray.map((values, indexColumn) => 
                 <DiceImage
-                    key={indexRow + indexColumn}
-                    dheight={HEIGHT}
-                    dwidth={WIDTH}
+                    key={indexRow + indexColumn} 
                     imageHeight={WIDTH*.2}
                     imageWidth={WIDTH*.2}
                     y={WIDTH*(.88 + (0.21 * indexRow))}
