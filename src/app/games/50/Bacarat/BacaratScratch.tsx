@@ -4,7 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Bacarat from './Bacarat';
+import Bacarat, { TBaracatName } from './Bacarat';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
 
@@ -14,7 +14,7 @@ const poppins = Poppins({
 })
 
 type TBacaratScratch = {
-    combination: boolean[][];
+    combination: TBaracatName[][];
     reference: string;  
     scratchdone: (done: boolean) => void; 
 }
@@ -33,7 +33,7 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
     const x1 = WIDTH*.36;
     const y1 = HEIGHT*.04;
     const x2 = WIDTH*.81;
-    const y2 = HEIGHT*.48
+    const y2 = HEIGHT*.45
     
     
     const {
@@ -53,7 +53,7 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 20});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -81,7 +81,11 @@ const BacaratScratch = React.forwardRef<TBacaratRef, TBacaratScratch>((props, re
             x={WIDTH*(.39 + (0.22 * indexColumn)) } 
             y={HEIGHT*(.04 + (0.11 * indexRow))} 
             key={indexRow + indexColumn}>
-            <Bacarat imageHeight={WIDTH*.18} imageWidth={WIDTH*.2}/>
+            <Bacarat 
+                baracatname={values} 
+                imageHeight={WIDTH*.18}
+                imageWidth={WIDTH*.2}
+            />
         </Group>
         )
     ),[combination]);

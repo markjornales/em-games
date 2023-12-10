@@ -4,9 +4,10 @@ import { Group } from 'react-konva'
 import BacaratScratch from './BacaratScratch'
 import dynamic from 'next/dynamic';
 import { afterScratchAuth, authentications } from '@/api/API';
-import { GridBooleansCards } from '@/hooks/methods';
+import { GridBooleansCards, MatchPrizeClass } from '@/hooks/methods';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';
 import { useSearchParams } from 'next/navigation';
+import { TBaracatName } from './Bacarat';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
@@ -18,12 +19,14 @@ function Bacarat() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
-  const combination = React.useMemo(() => 
-    new GridBooleansCards({ 
-      columns: 4, 
+  const combination = React.useMemo(() => {
+    const keyPrizes:TBaracatName[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"] 
+    const match = new MatchPrizeClass<TBaracatName>({
       combi: isCardScratch.combi, 
-      rows: 2 
-  }).getValues(),
+      keyPrizes,
+    }, {column: 2, rows: 4})  
+    return match.get() 
+  },
  [isCardScratch.combi]);
 
 
