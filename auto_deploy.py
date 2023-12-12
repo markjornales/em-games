@@ -28,6 +28,7 @@ if __name__ == "__main__":
     validate_input = re.search("[0-9]", select_deployment)
     if validate_input:
         input_text = int(select_deployment)
+        print("Please Wait a few minutes ...")
         match input_text:
             case 0:
                 emperor_gaming()
