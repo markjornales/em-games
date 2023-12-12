@@ -24,7 +24,7 @@ const routelist: TGameComponents = {
     "spotcash": <Spotcash/>,
     "stakessteeds": <Stakessteeds/>,
     "superball": <Superball/>,
-    "easytwo" : <Easytwo/>
+    "digitlottery" : <Easytwo/>
 }
 
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({

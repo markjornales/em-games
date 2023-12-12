@@ -23,7 +23,7 @@ const routelist: TGameComponents = {
     "luckyjack": <LuckyJack/>,
     "bangkokthailand": <ThailandBangkok/>,
     "superball": <SuperBall/>,
-    "easytwo" : <Easytwo/>,
+    "digitlottery" : <Easytwo/>,
 };
  
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({
