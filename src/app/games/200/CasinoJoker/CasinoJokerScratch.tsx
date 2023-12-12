@@ -4,7 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert';
-import Joker from './Joker';
+import Joker, { TCasinoName } from './Joker';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';
 
@@ -14,7 +14,7 @@ const poppins = Poppins({
 });
 
 type TCasinoJokerScratch = {
-    combination: boolean[][];
+    combination: TCasinoName[][];
     scratchdone: (done: boolean) => void; 
     reference: string;
 }
@@ -73,26 +73,32 @@ const CasinoJokerScratch = React.forwardRef<TCasinoJokerRef, TCasinoJokerScratch
         setModalshow(false);
     }
     
+
+    const CasinoComponent = React.useCallback(() => <>
+        {combination.map((data, indexRow) => 
+            data.map((value, indexColumn) => 
+                <Group 
+                    key={indexColumn+ indexRow}
+                    opacity={value? 1: 0.3}
+                    y={HEIGHT*(.545 + (0.113 * indexRow))} 
+                    x={WIDTH*(.39 + (0.28 * indexColumn))}>
+                    <Joker
+                        dHeight={HEIGHT}
+                        dWidth={WIDTH}
+                        imageHeight={WIDTH*.17}
+                        imageWidth={WIDTH*.23}
+                        name={value}
+                    />
+                </Group>
+            )
+        )}
+    </>, [combination])
+
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#ececec"width={width*.859} height={HEIGHT}/>
-                {combination.map((data, indexRow) => 
-                    data.map((value, indexColumn) => 
-                        <Group 
-                            key={indexColumn+ indexRow}
-                            opacity={value? 1: 0.3}
-                            y={HEIGHT*(.545 + (0.113 * indexRow))} 
-                            x={WIDTH*(.39 + (0.28 * indexColumn))}>
-                            <Joker
-                                dHeight={HEIGHT}
-                                dWidth={WIDTH}
-                                imageHeight={WIDTH*.17}
-                                imageWidth={WIDTH*.23}
-                            />
-                        </Group>
-                    )
-                )}
+                {canvas && <CasinoComponent/>}
                 <Image
                     ref={imageRef}
                     image={canvas} 
