@@ -1,13 +1,14 @@
+import re
 from colorama import Fore, Style
 from paramiko import SSHClient
-import re
 from dotenv import load_dotenv
 from os import getenv
+
 load_dotenv()
 
-def ssh_config (host: str, key_file: str):
+def ssh_config (host: str, key_file: str, username="root"):
     client.load_system_host_keys()
-    client.connect(getenv(host), username="root", key_filename=f"./ssh/{key_file}", port=22)
+    client.connect(getenv(host), username=username, key_filename=f"./ssh/{key_file}", port=22)
     stdin, stdout, stderr = client.exec_command("cd /var/www/em-games && python3 deploy.py")
     print(stdout.read().decode("utf-8"))
     stdout.close() 
