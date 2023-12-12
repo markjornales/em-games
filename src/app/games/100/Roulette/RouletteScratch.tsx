@@ -4,7 +4,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva";    
-import Roulette from './Roulette';
+import Roulette, { TRouletteName } from './Roulette';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google'; 
 
@@ -14,7 +14,7 @@ const poppins = Poppins({
 });
 
 type TRouletteScratch  = {
-    combination: boolean[][];
+    combination: TRouletteName[][];
      reference: string; 
      scratchdone: (done: boolean) => void;
 }
@@ -74,26 +74,28 @@ const RouletteScratch = React.forwardRef<TRouletteScratchRef, TRouletteScratch>(
         }
     }));
     
-    const rouletteCombi = React.useMemo(() => combination.map((data, indexRow) => 
-        data.map((values, indexColumn) =>  
+    const RouletteCombi = React.useCallback(() => combination.map((data, indexRow) =><>
+        {data.map((values, indexColumn) =>  
         <Group 
             key={indexRow + indexColumn}
             opacity={values? 1: 0.4}
             x={WIDTH*(.238 + (0.194 * indexColumn))} 
             y={HEIGHT*(.052 + (0.119 * indexRow))}>
             <Roulette
-            imageHeight={WIDTH*.20}
-            imageWidth={WIDTH*.18}
+                imageHeight={WIDTH*.20}
+                imageWidth={WIDTH*.18}
+                rouletteName={values}
             />
         </Group>
-        )
+        )}
+        </>
     ),[combination])
 
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && rouletteCombi}
+                {canvas && <RouletteCombi/>}
                 <Image
                     ref={imageRef}
                     image={canvas} 

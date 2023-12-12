@@ -5,8 +5,9 @@ import RouletteScratch from './RouletteScratch';
 import dynamic from 'next/dynamic';
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
+import { GridBooleansCards, MatchPrizeClass } from '@/hooks/methods';         
 import { useSearchParams } from 'next/navigation';  
+import { TRouletteName } from './Roulette';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
  
@@ -20,11 +21,14 @@ function Roulette() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!; 
-  const combination = React.useMemo(() => new GridBooleansCards({ 
-      columns: 3, 
+  const combination = React.useMemo(() =>{
+    const keyPrizes:TRouletteName[] = ["20", "50", "100", "1k", "10k", "100k", "1m"]
+    const match = new MatchPrizeClass<TRouletteName>({
       combi: isCardScratch.combi, 
-      rows: 3 
-  }).getValues(),
+      keyPrizes,
+    }, {column: 3, rows: 3})  
+    return match.get() 
+  },
   [isCardScratch.combi]);
 
   const handleButtonMain = () => { 

@@ -4,7 +4,7 @@ import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva";
-import Burjkhalifaasset from './Burjkhalifaasset';
+import Burjkhalifaasset, { TBurjname } from './Burjkhalifaasset';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';   //eto
 
@@ -13,7 +13,7 @@ const poppins = Poppins({
     weight: "500"
 });
 type TBurjkhalifaScratch  = {
-    combination: boolean[][];
+    combination: TBurjname[][];
     reference: string;  
     scratchdone: (done: boolean) => void; 
 }
@@ -70,25 +70,30 @@ const BurjkhalifaScratch = React.forwardRef<TBurjkhalifaScratchRef, TBurjkhalifa
             setFastScratch(true) 
         }
     }));
+
+    const BurjComponents = React.useCallback(() => <>
+        {combination.map((data, indexRow) => 
+                data.map((values, indexColumn) =>  
+                <Group 
+                    opacity={values? 1: 0.4}
+                    y={HEIGHT*(.185 + (0.126 * indexRow))}
+                    x={WIDTH*(.24 + (0.168 * indexColumn))} 
+                    key={indexRow + indexColumn}>
+                    <Burjkhalifaasset
+                        burjname={values}
+                        imageHeight={WIDTH*.23}
+                        imageWidth={WIDTH*.18}
+                    />
+                </Group>
+                )
+        )}
+    </>,[combination])
     
     return (
         <Group>
             <Group x={(width-WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && combination.map((data, indexRow) => 
-                    data.map((values, indexColumn) =>  
-                    <Group 
-                        opacity={values? 1: 0.4}
-                        y={HEIGHT*(.185 + (0.126 * indexRow))}
-                        x={WIDTH*(.24 + (0.168 * indexColumn))} 
-                        key={indexRow + indexColumn}>
-                        <Burjkhalifaasset
-                            imageHeight={WIDTH*.23}
-                            imageWidth={WIDTH*.18}
-                        />
-                    </Group>
-                    )
-                )}
+                {canvas && <BurjComponents/>}
                 <Image
                     ref={imageRef}
                     image={canvas} 
