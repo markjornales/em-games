@@ -4,36 +4,36 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Tarsier from './Tarsier';
+import Easy from './Easy';
 import useFastScratch from '@/hooks/useFastScratch';
-import { Poppins } from 'next/font/google';   //eto
- 
+import { Poppins } from 'next/font/google'; 
+
 const poppins = Poppins({
     subsets: ["latin"],
     weight: "500"
-}); 
+});
 
-type TBoholScratch = {
-    combination: boolean[][];  
-    reference: string;     
-    scratchdone: (done: boolean) => void; 
+type TEasyScratch = {
+    combination: boolean[][]
+    reference: string;
+    scratchdone: (done: boolean) => void;
 }
-type TBoholRef = {
+type TEasyRef = {
     isScratchDone: boolean;
     reset: () => void
 }   
 
-const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => {  
-    const { combination, reference, scratchdone,} = props;    
+const EasyScratch = React.forwardRef<TEasyRef, TEasyScratch>((props, ref) => {
+    const { combination, reference , scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
     const { height, width } = isCanvasSize;
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.39;
-    const y1 = HEIGHT*.40;
-    const x2 = WIDTH*.90;
-    const y2 = HEIGHT*.81
+    const x1 = WIDTH*.53;
+    const y1 = HEIGHT*.12;
+    const x2 = WIDTH*.93;
+    const y2 = HEIGHT*.45
     
     const {
         canvas, 
@@ -41,7 +41,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
         setScratchDone,
          setStagePointerPos
     } = useScratchMethod({HEIGHT, WIDTH, x1, y1, scratchArea: {height: y2-y1, width: x2-x1}, 
-        imageSrc: "/images/5/bohol/front.png"});
+        imageSrc: "/images/50/easytwo/front.png"});
     
 
     const {
@@ -52,7 +52,7 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({ setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 17});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 18});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -74,18 +74,18 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
     }));
 
     const handleCombinations = React.useMemo(() => {
-        return combination.map((data, indexrow) => 
-            data.map((values, indexcolumn) => 
+        return combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
             <Group 
-                opacity={values? 1: 0.4}
-                key={indexrow + indexcolumn} 
-                x={WIDTH*(.4 + (0.153 * indexcolumn))} 
-                y={HEIGHT*(.454 + (0.108 * indexrow))}>
-                <Tarsier imageHeight={WIDTH*.16} imageWidth={WIDTH*.16}/>
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.43 + (0.165 * indexColumn)) } 
+                y={HEIGHT*(.18 + (0.1 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Easy imageHeight={WIDTH*.15} imageWidth={WIDTH*.15}/>
             </Group>
             )
         )
-    },[combination])
+    }, [combination])
     
     return (
         <Group>
@@ -100,28 +100,27 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
                     onPointerUp={handleMouseUp}
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
-                />    
-             
-                <Group y={HEIGHT*.9} x={WIDTH*.03}>
+                />   
+                
+                 <Group y={HEIGHT*.01} x={WIDTH*.18}>
                     <Rect 
                         fill="white"
-                        width={WIDTH*.95}
-                        height={WIDTH*.15}
+                        width={WIDTH*.8}
+                        height={WIDTH*.12}
                     />
                     <Text 
                         text={reference} 
-                        width={WIDTH*.95} 
-                        height={WIDTH*.15}
+                        width={WIDTH*.8} 
+                        height={WIDTH*.12}
                         align="center"
                         verticalAlign="middle"
                         fontFamily={poppins.style.fontFamily}
-                        fontSize={WIDTH*.07}
+                        fontSize={WIDTH*.06}
                     />
-                </Group> 
+                </Group>
 
-                
             </Group>
-            <PopupAlert  
+            <PopupAlert
                 visible={isModalShow}
                 height={height}
                 width={width}
@@ -133,6 +132,6 @@ const BoholScratch = React.forwardRef<TBoholRef, TBoholScratch>((props, ref) => 
     );
 });
 
-BoholScratch.displayName = "BoholScratch"
+EasyScratch.displayName = "EasyScratch"
 
-export default BoholScratch;
+export default EasyScratch;

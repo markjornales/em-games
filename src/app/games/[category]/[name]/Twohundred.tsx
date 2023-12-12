@@ -10,6 +10,7 @@ const CasinoJoker = dynamic(() => import("@/app/games/200/CasinoJoker"));
 const LuckyJack = dynamic(() => import("@/app/games/200/LuckyJack"));
 const ThailandBangkok = dynamic(() => import("@/app/games/200/ThailandBangkok"));
 const SuperBall = dynamic(() => import("@/app/games/200/SuperBall"));
+const Easytwo = dynamic(() => import("@/app/games/200/Easytwo200"));
  
 
 const routelist: TGameComponents = {
@@ -21,7 +22,8 @@ const routelist: TGameComponents = {
     "casinojoker": <CasinoJoker/>,
     "luckyjack": <LuckyJack/>,
     "bangkokthailand": <ThailandBangkok/>,
-    "superball": <SuperBall/>
+    "superball": <SuperBall/>,
+    "easytwo" : <Easytwo/>,
 };
  
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({

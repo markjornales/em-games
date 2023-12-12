@@ -10,6 +10,7 @@ const Pocker = dynamic(() => import("@/app/games/100/Pocker"));
 const Roulette = dynamic(() => import("@/app/games/100/Roulette"));
 const Spotcash = dynamic(() => import("@/app/games/100/Spotcash"));
 const Superball = dynamic(() => import("@/app/games/100/Superball"));
+const Easytwo = dynamic(() => import("@/app/games/100/Easytwo100"));
 
 type TRoutelist = {
     [key: string]: JSX.Element;
@@ -25,6 +26,7 @@ const routelist: TRoutelist = {
     "roulette": <Roulette/>,
     "spotcash": <Spotcash/>,
     "superball": <Superball/>,
+    "easytwo" : <Easytwo/>,
 }
 
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({

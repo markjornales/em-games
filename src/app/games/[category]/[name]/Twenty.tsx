@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { TGameComponents } from "./page";
 
+
 const LottoGame20 = dynamic(() => import("@/app/games/20/LottoGame20"));
 const DiceRush20 = dynamic(() => import("@/app/games/20/DiceRush20"));
 const FlipJack20 = dynamic(() => import("@/app/games/20/FlipJack20"));
@@ -11,6 +12,7 @@ const Mangobonanza = dynamic(() => import("@/app/games/20/Mangobonanza"));
 const Spotcash = dynamic(() => import("@/app/games/20/Spotcash"));
 const Stakessteeds = dynamic(() => import("@/app/games/20/Stakessteeds"));
 const Superball = dynamic(() => import("@/app/games/20/Superball"));
+const Easytwo = dynamic(() => import("@/app/games/20/Easytwo20"));
 
 const routelist: TGameComponents = {
     "lottogame": <LottoGame20/>,
@@ -22,6 +24,7 @@ const routelist: TGameComponents = {
     "spotcash": <Spotcash/>,
     "stakessteeds": <Stakessteeds/>,
     "superball": <Superball/>,
+    "easytwo" : <Easytwo/>
 }
 
 export default Object.assign({}, ...Object.keys(routelist).map((values) => ({
