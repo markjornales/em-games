@@ -6,7 +6,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Group, Image, Rect, Text } from 'react-konva';
-import DiceImage from './DiceImage';
+import DiceImage, { TDicename } from './DiceImage';
 
 const poppins = Poppins({
     weight: "500",
@@ -14,7 +14,7 @@ const poppins = Poppins({
 })
 
 type TDiceRollerScratchProps = {
-    combinations: (number|undefined)[][];
+    combinations:  TDicename[][];
     reference: string; 
     scratchdone: (done: boolean) => void;
 }
@@ -48,7 +48,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
         imageRef
     } = useScratchMotion({x1, x2, y1, y2, isScratchDone, setStagePointerPos});
 
-    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 16});
+    const { setFastScratch } = useFastScratch({setStagePointerPos, positions: {x1, x2, y1, y2}, speed: 20});
 
     React.useEffect(() => {
         if(isScratchDone){ 
@@ -68,7 +68,7 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
             setFastScratch(true) 
         }
     }));
-    const showResults = React.useMemo(() => 
+    const ShowResults = React.useCallback(() => <>{
         combinations.map((data, indexRows) => 
             data.map((dicenumber, indexColumn) => 
                 <DiceImage 
@@ -78,17 +78,18 @@ const DiceRollerScratch = React.forwardRef<TDiceRollerScratchRef, TDiceRollerScr
                     imageWidth={WIDTH*.18}
                     imageHeight={WIDTH*.24}
                     y={HEIGHT*(.49 + (0.13 * indexRows))}
-                    x={WIDTH*(.113 + (0.223 * indexColumn))}
-                    indexDices={dicenumber} 
+                    x={WIDTH*(.113 + (0.223 * indexColumn))} 
+                    diceName={dicenumber}
                 /> 
             )
-    ),[combinations]);
+    )}</> 
+    ,[combinations]);
 
     return (
     <Group>
         <Group  x={(width- WIDTH)/2} y={(height-height*.8)/2}>
             <Rect cornerRadius={10} fill="white" width={width*.859} height={HEIGHT*.998}/>
-            {canvas && showResults}
+            {canvas && <ShowResults/>}
             <Image
                 ref={imageRef}
                 image={canvas} 

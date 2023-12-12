@@ -5,8 +5,9 @@ import CasinoScratch from './CasinoScratch'
 import dynamic from 'next/dynamic'; 
 import { afterScratchAuth, authentications } from '@/api/API';
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
+import { GridBooleansCards, MatchPrizeClass } from '@/hooks/methods';         
 import { useSearchParams } from 'next/navigation';   
+import { TCasinoname } from './Casino';
 
 const WarningModal = dynamic(() => import("@/components/WarningModal"));
 
@@ -18,9 +19,14 @@ function Casino() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
-  const combinations = React.useMemo(() => 
-      new GridBooleansCards({ columns: 3, combi: isCardScratch.combi, rows: 3}).getValues(), 
-    [isCardScratch.combi]);
+  const combinations = React.useMemo(() => {
+    const keyPrizes:TCasinoname[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"] 
+    const match = new MatchPrizeClass<TCasinoname>({
+      combi: isCardScratch.combi, 
+      keyPrizes,
+    }, {column: 3, rows: 3})  
+    return match.get() 
+  },[isCardScratch.combi]);
 
   const handleButtonMain = () => {
     setWarningShow(false);

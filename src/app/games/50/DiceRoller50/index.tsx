@@ -4,10 +4,11 @@ import React from 'react'
 import { Group } from 'react-konva'
 import DiceRollerScratch from './DiceRollerScratch'
 import dynamic from 'next/dynamic';
-import { DiceRollerClass } from '@/hooks/methods'
+import { DiceRollerClass, MatchPrizeClass } from '@/hooks/methods'
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext'
 import { useSearchParams } from 'next/navigation'
 import { afterScratchAuth, authentications } from '@/api/API'
+import { TDicename } from './DiceImage'
 
 
 const WarningModal = dynamic(() => import("@/components/WarningModal")); 
@@ -21,8 +22,12 @@ function DiceRoller50() {
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!; 
   const combinations = React.useMemo(() => {
-    const diceroller = new DiceRollerClass({combi: isCardScratch.combi});
-    return diceroller.getValues();
+    const keyPrizes:TDicename[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"] 
+    const match = new MatchPrizeClass<TDicename>({
+      combi: isCardScratch.combi, 
+      keyPrizes,
+    }, {column: 3, rows: 3})  
+    return match.get() 
   },[isCardScratch.combi]);
 
   

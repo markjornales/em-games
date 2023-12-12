@@ -4,7 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Casino from './Casino';
+import Casino, { TCasinoname } from './Casino';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google';   
  
@@ -14,7 +14,7 @@ const poppins = Poppins({
 }); 
 
 type TCasinoScratch = {
-    combination: boolean[][]  
+    combination: TCasinoname[][]  
      reference: string;  
      scratchdone: (done: boolean) => void; 
 }
@@ -73,24 +73,27 @@ const CasinoScratch = React.forwardRef<TCasinoRef, TCasinoScratch>((props, ref) 
         }
     }));
 
-    const handleCasinoShow = React.useMemo(() => combination.map((data, indexRow) => 
-        data.map((values, indexColumn) => 
-        <Group 
-            opacity={values ? 1: 0.4}
-            x={WIDTH*(.33 + (0.16 * indexColumn)) } 
-            y={HEIGHT*(.08 + (0.131 * indexRow))} 
-            key={indexRow + indexColumn}>
-            <Casino imageHeight={WIDTH*.16} imageWidth={WIDTH*.13}/>
-        </Group>
-        )
-    ), [combination]);
+    const HandleCasinoShow = React.useCallback(() => <>
+        {combination.map((data, indexRow) => 
+            data.map((values, indexColumn) => 
+            <Group 
+                opacity={values ? 1: 0.4}
+                x={WIDTH*(.22 + (0.17 * indexColumn)) } 
+                y={HEIGHT*(.05 + (0.131 * indexRow))} 
+                key={indexRow + indexColumn}>
+                <Casino imageHeight={WIDTH*.25} casinoname={values} imageWidth={WIDTH*.3}/>
+            </Group>
+            )
+        )}
+    </>  
+    , [combination]);
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && handleCasinoShow} 
-                <Image
+                {canvas && <HandleCasinoShow/>} 
+                <Image 
                     ref={imageRef}
                     image={canvas} 
                     cornerRadius={10}
