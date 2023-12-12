@@ -5,16 +5,9 @@ from dotenv import load_dotenv
 from os import getenv
 load_dotenv()
 
-def emperor_gaming ():
+def ssh_config (host: str, key_file: str):
     client.load_system_host_keys()
-    client.connect(getenv("SSH_EMPEROR_PUBLIC_IP"), username="root", key_filename="./ssh/emperor.pem", port=22)
-    stdin, stdout, stderr = client.exec_command("cd /var/www/em-games && python3 deploy.py")
-    print(stdout.read().decode("utf-8"))
-    stdout.close() 
-    
-def stella_gaming (): 
-    client.load_system_host_keys()
-    client.connect(getenv("SSH_STELLA_PUBLIC_IP"), username="root", key_filename="./ssh/stella-scratch.pem", port=22)
+    client.connect(getenv(host), username="root", key_filename=f"./ssh/{key_file}", port=22)
     stdin, stdout, stderr = client.exec_command("cd /var/www/em-games && python3 deploy.py")
     print(stdout.read().decode("utf-8"))
     stdout.close() 
@@ -31,9 +24,9 @@ if __name__ == "__main__":
         print("Please Wait a few minutes ...")
         match input_text:
             case 0:
-                emperor_gaming()
+                ssh_config(host="SSH_EMPEROR_PUBLIC_IP", key_file="emperor.pem")
             case 1:
-                stella_gaming()
+                ssh_config(host="SSH_STELLA_PUBLIC_IP", key_file="stella-scratch.pem")
             case default:
                 print("Not exists list deployment")
     else:
