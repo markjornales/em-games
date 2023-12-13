@@ -18,10 +18,11 @@ function FruitBlast100() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() => new FruitBlashClass({  
      combi: isCardScratch.combi,  
  }).getValue(),
- [isCardScratch.combi]);
+ [isCardScratch.combi, is_reset]);
 
 
  const handleButtonMain = () => {
@@ -39,6 +40,7 @@ function FruitBlast100() {
      })
      .then(() => {
          scratchCardRef.current.reset();
+         set_reset((e) => !e) 
      }); 
      }  
  }

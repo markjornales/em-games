@@ -1,7 +1,7 @@
 import { afterScratchAuth, authentications } from '@/api/API';
 import CButton from '@/components/CButton'
 import { CanvasContext, CanvasProvider } from '@/components/CanvasContext';     
-import { GridBooleansCards } from '@/hooks/methods';         
+import { EasyTwoDigitMethod, GridBooleansCards } from '@/hooks/methods';         
 import { useSearchParams } from 'next/navigation';  
 import React from 'react'
 import { Group } from 'react-konva'
@@ -19,13 +19,14 @@ function Easytwo100() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!;  
-    const combination = React.useMemo(() => 
-      new GridBooleansCards({ 
-        columns: 3, 
-        combi: isCardScratch.combi, 
-        rows: 3
-    }).getValues(),
-    [isCardScratch.combi]);
+    const [is_reset, set_reset] = React.useState<boolean>(false);
+    const combination = React.useMemo(() => {
+        const colorLists = ["green", "pink", "black", "darkpink", "red"]
+        const prizeLists = ["20", "50", "100", "1K", "10K", "100K", "1M"]
+        const methodEasy = new EasyTwoDigitMethod({colorLists, combi: isCardScratch.combi, prizeLists})
+        return methodEasy.get()
+    },
+    [isCardScratch.combi, is_reset]);
 
 
     const handleButtonMain = () => {
@@ -43,6 +44,7 @@ function Easytwo100() {
         })
         .then(() => {
             scratchCardRef.current.reset();
+            set_reset((e) => !e) 
         }); 
         }  
     }

@@ -18,6 +18,7 @@ function Stakessteeds() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() =>{
     const keyPrizes:TStakesname[] = ['5', '10',"20", '50', '100', '500', '1k', '2k', '20k', '200k'] 
     const match = new MatchPrizeClass<TStakesname>({
@@ -26,7 +27,7 @@ function Stakessteeds() {
       }, {column: 4, rows: 3})
       console.log(match.get())
       return match.get() 
-  },[isCardScratch.combi]);
+  },[isCardScratch.combi, is_reset]);
 
 
  const handleButtonMain = () => {
@@ -44,6 +45,7 @@ function Stakessteeds() {
      })
      .then(() => {
          scratchCardRef.current.reset();
+         set_reset((e) => !e) 
      }); 
      }  
  }

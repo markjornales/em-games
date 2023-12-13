@@ -17,6 +17,7 @@ function LuckyJack() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!; 
+    
     const combinations = new GridBooleansCards({ 
       rows: 2,
       columns: 3, 

@@ -18,10 +18,11 @@ function Bingo() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() => {
     const bingobonanza = new BingoBonanzaClass({ cols: 2, rows: 3, combi: isCardScratch.combi});
     return bingobonanza.getValues();
-  }, [isCardScratch.combi]);
+  }, [isCardScratch.combi, is_reset]);
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
@@ -37,6 +38,7 @@ function Bingo() {
       })
       .then(() => {
         scratchCardRef.current.reset();
+        set_reset((e) => !e) 
       });
     }  
   }

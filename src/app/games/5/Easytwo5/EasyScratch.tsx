@@ -4,7 +4,7 @@ import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
 import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
-import Easy from './Easy';
+import Easy, { TColors } from './Easy';
 import useFastScratch from '@/hooks/useFastScratch';
 import { Poppins } from 'next/font/google'; 
 
@@ -14,7 +14,10 @@ const poppins = Poppins({
 });
 
 type TEasyScratch = {
-    combination: boolean[][]
+    combination: {
+        winning_number: any[],
+        rand_number: any[][]
+    }
     reference: string;
     scratchdone: (done: boolean) => void;
 }
@@ -23,6 +26,12 @@ type TEasyRef = {
     reset: () => void
 }   
 
+/**
+ * prize winner 
+ * 5, 10, 20, 50, 100, 500, 5,000, 50,000
+ * ['5', '10', '20', '50', '100', '500', '5k', '50k']
+ */
+
 const EasyScratch = React.forwardRef<TEasyRef, TEasyScratch>((props, ref) => {
     const { combination, reference , scratchdone } = props;
     const { isCanvasSize } = React.useContext(CanvasProvider);
@@ -30,10 +39,10 @@ const EasyScratch = React.forwardRef<TEasyRef, TEasyScratch>((props, ref) => {
     const [isModalShow, setModalshow] = React.useState<boolean>(false);
     const HEIGHT = height*.75;
     const WIDTH = width*.86;
-    const x1 = WIDTH*.53;
+    const x1 = WIDTH*.5;
     const y1 = HEIGHT*.12;
-    const x2 = WIDTH*.93;
-    const y2 = HEIGHT*.45
+    const x2 = WIDTH*.96;
+    const y2 = HEIGHT*.62
     
     const {
         canvas, 
@@ -73,25 +82,76 @@ const EasyScratch = React.forwardRef<TEasyRef, TEasyScratch>((props, ref) => {
         }
     }));
 
-    const handleCombinations = React.useMemo(() => {
-        return combination.map((data, indexRow) => 
-            data.map((values, indexColumn) => 
-            <Group 
-                opacity={values ? 1: 0.4}
-                x={WIDTH*(.43 + (0.165 * indexColumn)) } 
-                y={HEIGHT*(.18 + (0.1 * indexRow))} 
-                key={indexRow + indexColumn}>
-                <Easy imageHeight={WIDTH*.15} imageWidth={WIDTH*.15}/>
-            </Group>
-            )
-        )
-    }, [combination])
+
+    const EasyYourNumber = React.useCallback(() => {
+        return (<>
+            {combination.rand_number.map((colVal, col) => 
+                    colVal.map((v, row) => 
+                    <Group 
+                        key={row + col}
+                        rotation={-90} 
+                        offsetX={WIDTH*.15} 
+                        y={HEIGHT*(.107 + (0.095 * col))} 
+                        x={WIDTH*(.54 + (0.19 * row))}>
+                        <Easy 
+                            imageHeight={WIDTH*.16}
+                            imageWidth={WIDTH*.156}
+                            colors={v[1]}
+                        />
+                        <Text 
+                            y={4}
+                            align="center"
+                            text={`₱${v[0]}`}
+                            fill="white"
+                            stroke="black"
+                            strokeWidth={0.5}
+                            shadowColor="black"
+                            shadowBlur={3}
+                            shadowOffsetY={1}
+                            verticalAlign="middle"
+                            width={WIDTH*.16}
+                            height={WIDTH*.156}
+                            fontFamily={poppins.style.fontFamily}
+                            fontSize={(WIDTH*.15) *.3}
+                        />
+                    </Group>
+                ))}
+        </>)        
+    }, [combination.rand_number])
+
+    const WinningNumber = React.useCallback(() => {
+        return (<>
+        {combination.winning_number.map((v, i) =>
+            <Group rotation={-90} offsetX={WIDTH*.15} y={HEIGHT*.542} x={WIDTH*(.53 + (0.22 * i))} key={i}>
+                <Easy imageHeight={WIDTH*.195} imageWidth={WIDTH*.2} colors={v[1]}/>
+                <Text 
+                    y={3}
+                    align="center"
+                    text={`₱${v[0]}`}
+                    fill="white"
+                    stroke="black"
+                    strokeWidth={0.5}
+                    shadowColor="black"
+                    shadowBlur={3}
+                    shadowOffsetY={1}
+                    verticalAlign="middle"
+                    width={WIDTH*.2}
+                    height={WIDTH*.195}
+                    fontFamily={poppins.style.fontFamily}
+                    fontSize={(WIDTH*.2) *.3}
+                />
+            </Group>)
+        }
+        </>)
+    }, [combination.winning_number])
+
     
     return (
         <Group>
             <Group x={(width- WIDTH)/2} y={(height-height*.8)/2}>
                 <Rect cornerRadius={10} fill="#f0f0f1"width={width*.859} height={HEIGHT}/>
-                {canvas && handleCombinations}
+                <EasyYourNumber/>
+                <WinningNumber/>
                 <Image
                     ref={imageRef}
                     image={canvas} 
@@ -101,7 +161,6 @@ const EasyScratch = React.forwardRef<TEasyRef, TEasyScratch>((props, ref) => {
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 />   
-                
                  <Group y={HEIGHT*.01} x={WIDTH*.18}>
                     <Rect 
                         fill="white"

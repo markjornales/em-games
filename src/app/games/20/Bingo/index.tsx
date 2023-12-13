@@ -17,7 +17,8 @@ function Bingo() {
   const  { setAuthenticated, setCardScratch, isCardScratch } = React.useContext(CanvasProvider);    
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
-  const gid = searchparams.get("gid")!;  
+  const gid = searchparams.get("gid")!; 
+  const [is_reset, set_reset] = React.useState<boolean>(false); 
   const combination = React.useMemo(() => {
     const prizeLegend = [
       {b: 1, i:0, n: 0, g: 0, o: 0},
@@ -38,7 +39,7 @@ function Bingo() {
       prizeLegend
     });
     return bingobonanza.getValues();
-  }, [isCardScratch.combi]);
+  }, [isCardScratch.combi, is_reset]);
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
@@ -54,6 +55,7 @@ function Bingo() {
       })
       .then(() => {
         scratchCardRef.current.reset();
+        set_reset((e) => !e) 
       });
     }  
   }

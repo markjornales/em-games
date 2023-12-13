@@ -19,6 +19,7 @@ function Bacarat() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() => {
     const keyPrizes:TBaracatName[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"] 
     const match = new MatchPrizeClass<TBaracatName>({
@@ -27,7 +28,7 @@ function Bacarat() {
     }, {column: 2, rows: 4})  
     return match.get() 
   },
- [isCardScratch.combi]);
+ [isCardScratch.combi, is_reset]);
 
 
  const handleButtonMain = () => {
@@ -45,6 +46,7 @@ function Bacarat() {
      })
      .then(() => {
          scratchCardRef.current.reset();
+         set_reset((e) => !e) 
      }); 
      }  
  }

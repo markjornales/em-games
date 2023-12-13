@@ -19,6 +19,7 @@ function DiceRush20() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false); 
   const combination = React.useMemo(() => {
     const keyPrizes:TDiceImageName[] = ['5', '10',"20", '50', '100',"500", '1k', '2k', '20k', '200k'] 
     const match = new MatchPrizeClass<TDiceImageName>({
@@ -26,7 +27,7 @@ function DiceRush20() {
         keyPrizes,
       }, {column: 2, rows: 3}) 
       return match.get() 
-  }, [isCardScratch.combi]);
+  }, [isCardScratch.combi, is_reset]);
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
@@ -42,6 +43,7 @@ function DiceRush20() {
       })
       .then(() => {
         scratchCardRef.current.reset();
+        set_reset((e) => !e) 
       });
     }  
   }

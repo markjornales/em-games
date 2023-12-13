@@ -17,6 +17,7 @@ function Mangobonanza() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() => {
     const prizeLegend = [
       {apple: 1, melon: 0, orange: 0, grape: 0, mango: 0},
@@ -37,7 +38,7 @@ function Mangobonanza() {
       prizeLegend
     });
     return bingobonanza.getValues();
-  }, [isCardScratch.combi]);
+  }, [isCardScratch.combi, is_reset]);
   const handleButtonMain = () => {
     setWarningShow(false);
     if(!scratchCardRef.current.isScratchDone) {
@@ -53,6 +54,7 @@ function Mangobonanza() {
       })
       .then(() => {
         scratchCardRef.current.reset();
+        set_reset((e) => !e) 
       });
     }  
   }

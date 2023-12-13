@@ -21,6 +21,7 @@ function Roulette() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!; 
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combination = React.useMemo(() =>{
     const keyPrizes:TRouletteName[] = ["20", "50", "100", "1k", "10k", "100k", "1m"]
     const match = new MatchPrizeClass<TRouletteName>({
@@ -29,7 +30,7 @@ function Roulette() {
     }, {column: 3, rows: 3})  
     return match.get() 
   },
-  [isCardScratch.combi]);
+  [isCardScratch.combi, is_reset]);
 
   const handleButtonMain = () => { 
     setWarningShow(false); 
@@ -46,6 +47,7 @@ function Roulette() {
     })
     .then(() => {
         scratchCardRef.current.reset();
+        set_reset((e) => !e) 
     });
     } 
   }

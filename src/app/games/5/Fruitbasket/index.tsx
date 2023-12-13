@@ -19,6 +19,7 @@ function Fruitbasket() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!;  
+    const [is_reset, set_reset] = React.useState<boolean>(false);
     const combination = React.useMemo(() => { 
       const prizeLegend = [
         {strawberry: 1, avocado: 0, cherry: 0, banana: 0, apple: 0}, 
@@ -37,7 +38,7 @@ function Fruitbasket() {
         prizeLegend
       });
       return bingobonanza.getValues();
-    }, [isCardScratch.combi]);
+    }, [isCardScratch.combi, is_reset]);
     const handleButtonMain = () => {
       setWarningShow(false);
       if(!scratchCardRef.current.isScratchDone) {
@@ -53,6 +54,7 @@ function Fruitbasket() {
         })
         .then(() => {
           scratchCardRef.current.reset();
+          set_reset((e) => !e)
         });
       }  
     }

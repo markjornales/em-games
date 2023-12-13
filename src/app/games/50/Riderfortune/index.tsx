@@ -19,12 +19,12 @@ function Riderfortune() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!;  
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combinations = React.useMemo(() => {
-    const keyPrizes:TRadirNameProp[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"] 
-    // for prizess
+    const keyPrizes:TRadirNameProp[] = ["5", "10","20", "50", '100',"200", "500", "1k", "5k", "50k", "500k"]  
     const match = new MatchPrizeClass<TRadirNameProp>({combi: isCardScratch.combi, keyPrizes,}, {column: 3, rows: 4})  
       return match.get() 
-    },[isCardScratch.combi]);
+    },[isCardScratch.combi, is_reset]);
 
   const handleButtonMain = () => {
     setWarningShow(false);
@@ -41,6 +41,7 @@ function Riderfortune() {
       })
       .then(() => {
           scratchCardRef.current.reset();
+          set_reset((e) => !e) 
       }); 
       }  
   }

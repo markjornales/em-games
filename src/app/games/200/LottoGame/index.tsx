@@ -17,10 +17,11 @@ function MainGames() {
   const searchparams = useSearchParams(); 
   const search = searchparams.get("q")!;
   const gid = searchparams.get("gid")!; 
+  const [is_reset, set_reset] = React.useState<boolean>(false);
   const combinations = React.useMemo(() => 
       new GridBooleansCards({ rows: 5, columns: 4, combi: isCardScratch.combi, })
       .getValues(), 
-  [isCardScratch.combi]);
+  [isCardScratch.combi, is_reset]);
 
   const handleButtonMain = () => {
       setWarningShow(false);
@@ -37,6 +38,7 @@ function MainGames() {
           })
           .then(() => {
               scratchCardRef.current.reset();
+              set_reset((e) => !e) 
           });
       } 
   }

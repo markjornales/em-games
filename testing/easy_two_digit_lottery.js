@@ -1,7 +1,7 @@
-let combi = "0";
+let combi = "11";
 let combi_number = (combi.match(/1/g) || []).length;
-let color_list = ["red", "blue", "green", "pink", "yellow"];
-let prize_list = ["5", "10", "20", "50", "100", "500", "5k", "50k"];
+let color_list = ["green", "pink", "black", "darkpink", "red"]
+let prize_list = ['5', '10', '50', '100', '500', '1K', '10K', '100k']
 let winning_table = {
   "winning_number": [],
   "rand_number": []
@@ -44,4 +44,5 @@ if (combi_number > 0) {
 }
 
 console.log(winning_table);
-console.log(winning_table["rand_number"]) 
+console.log(winning_table["rand_number"])
+console.log(duplicate_color)

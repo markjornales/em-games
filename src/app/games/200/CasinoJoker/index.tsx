@@ -20,6 +20,7 @@ function CasinoJoker() {
     const searchparams = useSearchParams(); 
     const search = searchparams.get("q")!;
     const gid = searchparams.get("gid")!;  
+    const [is_reset, set_reset] = React.useState<boolean>(false);
     const combinations = React.useMemo(() =>{
       const keyPrizes:TCasinoName[] = ["50", "100", "200","500", "1k", "2k", "20k", "200k", "2m"]
       const match = new MatchPrizeClass<TCasinoName>({
@@ -27,7 +28,7 @@ function CasinoJoker() {
         keyPrizes,
       }, {column: 2, rows: 3})  
       return match.get() 
-    },[isCardScratch.combi]);
+    },[isCardScratch.combi, is_reset]);
   
 
     const handleButtonMain = () => { 
@@ -45,6 +46,7 @@ function CasinoJoker() {
             })
             .then(() => {
                 scratchCardRef.current.reset();
+                set_reset((e) => !e) 
             });
         }  
     }
