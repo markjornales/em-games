@@ -2,12 +2,17 @@ import { CanvasProvider } from '@/components/CanvasContext';
 import useScratchMethod from '@/hooks/useScratchMethod';
 import useScratchMotion from '@/hooks/useScratchMotion';
 import React from "react";
-import { Group, Image, Rect } from "react-konva"; 
+import { Group, Image, Rect, Text } from "react-konva"; 
 import PopupAlert from '@/components/PopupAlert'; 
 import JackSpade from './JackSpade';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
 
 
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 type TLuckyJackScratch = {
     combination: boolean[][];
     scratchdone: (done: boolean) => void; 
@@ -101,6 +106,19 @@ const LuckyJackScratch = React.forwardRef<TLuckyJackRef, TLuckyJackScratch>((pro
                     onPointerMove={handleMouseMove}
                     onPointerLeave={handleOnPointerLeave}
                 /> 
+                 <Group x={(WIDTH-WIDTH*.58)/2} y={(HEIGHT*.977)-WIDTH*.1}>
+                    <Rect fill="white" width={WIDTH*.67} height={WIDTH*.09}/>
+                    <Text
+                        width={WIDTH*.68}
+                        height={WIDTH*.10}
+                        text={reference}
+                        align="center"
+                        letterSpacing={3}
+                        verticalAlign="middle"
+                        fontFamily={poppins.style.fontFamily}
+                        fontSize={WIDTH*.05}
+                    />
+                </Group>
             </Group>
             <PopupAlert  
                 visible={isModalShow}

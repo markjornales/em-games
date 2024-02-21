@@ -6,6 +6,12 @@ import { Group, Image, Rect, Text} from 'react-konva'
 import Fruits from './Fruits';
 import PopupAlert from '@/components/PopupAlert';
 import useFastScratch from '@/hooks/useFastScratch';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    weight: "500"
+});
 
 type TCombination = "strawberry" | "avocado" | "cherry" | "banana" | "apple" | undefined
 type TFruitBasketScratchProps = {
@@ -105,13 +111,26 @@ const FruitBasketScratch = React.forwardRef<TFruitBasketScratchRef, TFruitBasket
                 onPointerMove={handleMouseMove}
                 onPointerLeave={handleOnPointerLeave}
                 /> 
+             <Group x={(WIDTH-WIDTH*.9)/2} y={(HEIGHT*.97)-WIDTH*.1}>
+                <Rect fill="white" width={WIDTH*.9} height={WIDTH*.13}/>
+                <Text
+                    width={WIDTH*.9}
+                    height={WIDTH*.12}
+                    text={reference}
+                    align="center"
+                    letterSpacing={3}
+                    verticalAlign="middle"
+                    fontFamily={poppins.style.fontFamily}
+                    fontSize={WIDTH*.07}
+                />
+            </Group>
         </Group>
         <PopupAlert 
             visible={isModalShow}
             height={height}
             width={width}
             onTap={() => {
-                setModalshow(false);
+              setModalshow(false);
             }}
         />
     </Group>

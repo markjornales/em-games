@@ -40,7 +40,10 @@ function useScratchMotion(props: TScratchMotion) {
             const position = imageRef.current?.getRelativePointerPosition()!; 
             if(scratchScope(position)){
                 setStagePointerPos((initstage) => {
-                    initstage[initstage.length - 1]?.lineTo.push({x: Math.ceil(position.x), y: Math.ceil(position.y)})
+                    initstage[initstage.length - 1]?.lineTo.push({
+                        x: Math.ceil(position.x), 
+                        y: Math.ceil(position.y)
+                    })
                     return [...initstage];
                 });  
             } 
