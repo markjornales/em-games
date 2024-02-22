@@ -6,7 +6,7 @@ from os import getenv
 
 load_dotenv()
 
-def ssh_config (host: str, key_file: str, username="root"):
+def ssh_config (host: str, key_file: str, username="joseph"):
     client.load_system_host_keys()
     client.connect(getenv(host), username=username, key_filename=f"./ssh/{key_file}", port=22)
     stdin, stdout, stderr = client.exec_command("cd /var/www/em-games && python3 deploy.py")
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         print("Please Wait a few minutes ...")
         match input_text:
             case 0:
-                ssh_config(host="SSH_EMPEROR_PUBLIC_IP", key_file="emperor.pem")
+                ssh_config(host="SSH_EMPEROR_PUBLIC_IP", key_file="emperor-scratch.pem")
             case 1:
                 ssh_config(host="SSH_STELLA_PUBLIC_IP", key_file="stella-scratch.pem")
             case default:
